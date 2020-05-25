@@ -40,10 +40,12 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_info(char *args) {
+
   char *arg = strtok(NULL, " ");
-  if(strcmp(arg, "r")) {
+
+  if(strcmp(arg, "r") == 0) {
     isa_reg_display();
-  }else if(strcmp(arg, "w")) {
+  }else if(strcmp(arg, "w") == 0) {
     printf("watchpoint");
   }
   return 0;
