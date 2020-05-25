@@ -41,9 +41,11 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args) {
   char *arg = strtok(NULL, " ");
-  uint64_t n = atoi(arg); /* TODO: how to convert the string to uint64_t */ 
-  if(n) cpu_exec(n); 
-  else cpu_exec(1); /* the default value of n is 1 */ 
+  uint64_t n = 1; /* the default value of n is 1 */ 
+  if(arg) n = atoi(arg); /* TODO: how to convert the string to uint64_t */ 
+  
+  cpu_exec(n); 
+
   return 0;
 }
 
