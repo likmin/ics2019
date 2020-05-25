@@ -41,8 +41,12 @@ void reg_test() {
 }
 
 void isa_reg_display() {
-  printf("EAX = 0x%02X, ECX = %#X, EDX = %#X, EBX = %#X\n", cpu.eax, cpu.ecx, cpu.edx, cpu.ebx);
-  printf("ESP = %#X, EBP = %#X, ESI = %#X, EDI = %#X\n", cpu.esp, cpu.ebp, cpu.esi, cpu.edi);
+  int i = 0;
+  for(i = 0; i < 8; i++) {
+    printf("%s = 0x%08X\t", regsl[i], cpu.gpr[i]._32);
+    if((i + 1) % 4 == 0) printf("\n");
+  }
+  printf("\n pc = 0x%08x\n",cpu.pc);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
