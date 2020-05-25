@@ -41,7 +41,8 @@ void reg_test() {
 }
 
 void isa_reg_display() {
-  printf("hello world\n");
+  printf("EAX = %#X, ECX = %#X, EDX = %#X, EBX = %#X\n", cpu.eax, cpu.ecx, cpu.edx, cpu.ebx);
+  printf("ESP = %#X, EBP = %#X, ESI = %#X, EDI = %#X\n", cpu.esp, cpu.ebp, cpu.esi, cpu.edi);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
