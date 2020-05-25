@@ -8,6 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+void isa_reg_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -38,6 +39,16 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_info(char *args) {
+  char *arg = strtok(args, " ");
+  if(strcmp(arg, "r")) {
+    isa_reg_display();
+  }else if(strcmp(arg, "w")) {
+    printf("watchpoint");
+  }
+  return 0;
+}
+
 static struct {
   char *name;
   char *description;
@@ -48,6 +59,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
+
+  {"info", "info r: print the state of register; info w: print the infomation of watchpoint", cmd_info },
 
 };
 
@@ -62,6 +75,7 @@ static int cmd_help(char *args) {
     /* no argument given */
     for (i = 0; i < NR_CMD; i ++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
+
     }
   }
   else {
@@ -69,9 +83,12 @@ static int cmd_help(char *args) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
+
       }
+
     }
     printf("Unknown command '%s'\n", arg);
+
   }
   return 0;
 }
