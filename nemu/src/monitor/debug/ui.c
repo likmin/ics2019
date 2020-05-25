@@ -39,6 +39,14 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args) {
+  char *arg = strtok(NULL, " ");
+  uint64_t n = atoi(arg); /* TODO: how to convert the string to uint64_t */ 
+  if(n) cpu_exec(n); 
+  else cpu_exec(1); /* the default value of n is 1 */ 
+  return 0;
+}
+
 static int cmd_info(char *args) {
 
   char *arg = strtok(NULL, " ");
@@ -63,6 +71,7 @@ static struct {
   /* TODO: Add more commands */
 
   {"info", "info r: print the state of register; info w: print the infomation of watchpoint", cmd_info },
+  {"si", "si n: Pausing the program after n step, the default n = 1",cmd_si},
 
 };
 
