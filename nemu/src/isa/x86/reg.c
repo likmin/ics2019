@@ -41,7 +41,7 @@ void reg_test() {
 }
 
 void isa_reg_display() {
-  printf("EAX = %#X, ECX = %#X, EDX = %#X, EBX = %#X\n", cpu.eax, cpu.ecx, cpu.edx, cpu.ebx);
+  printf("EAX = %X, ECX = %#X, EDX = %#X, EBX = %#X\n", cpu.eax, cpu.ecx, cpu.edx, cpu.ebx);
   printf("ESP = %#X, EBP = %#X, ESI = %#X, EDI = %#X\n", cpu.esp, cpu.ebp, cpu.esi, cpu.edi);
 }
 
