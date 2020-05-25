@@ -46,7 +46,7 @@ static int cmd_info(char *args) {
   if(strcmp(arg, "r") == 0) {
     isa_reg_display();
   }else if(strcmp(arg, "w") == 0) {
-    printf("watchpoint");
+    printf("watchpoint"); // TODO: complete this function
   }
   return 0;
 }
