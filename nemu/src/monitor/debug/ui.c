@@ -9,6 +9,7 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display();
+uint32_t paddr_read(paddr_t addr, int len);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -42,8 +43,12 @@ static int cmd_help(char *args);
 static int cmd_si(char *args) {
   char *arg = strtok(NULL, " ");
   uint64_t n = 1; /* the default value of n is 1 */ 
-  if(arg) n = strtoull(arg, NULL, 10); /* TODO: how to convert the string to uint64_t */ 
-  
+  if(arg) n = strtoull(arg, NULL, 10);  
+  /*
+   * strtoull(str, endptr,base)
+   * interpret the string to unsigned long long int, which is also named uint64_t
+   * 
+   */
   cpu_exec(n); 
 
   return 0;
@@ -65,16 +70,21 @@ static int cmd_info(char *args) {
 /*static int cmd_p(char *args) {
   
 }
+*/
 
 static int cmd_x(char *args) {
  char *argN = strtok(NULL, " ");
  char *argEXPR = strtok(NULL, " "); 
 
  int N = atoi(argN);
- int EXPR = 
+ uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
+
+ int i;
+ for(i = EXPR; i < EXPR + N; i++)
+ printf("%d", paddr_read(EXPR, i));
  return 0; 
 }
-*/
+
 static struct {
   char *name;
   char *description;
@@ -88,7 +98,7 @@ static struct {
 
   {"info", "info r: print the state of register; info w: print the infomation of watchpoint", cmd_info },
   {"si", "si n: Pausing the program after n step, the default n = 1",cmd_si},
-
+  {"x", "scan the memory from $EXPR to $EXPR + N", cmd_x},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
