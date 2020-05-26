@@ -42,7 +42,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args) {
   char *arg = strtok(NULL, " ");
   uint64_t n = 1; /* the default value of n is 1 */ 
-  if(arg) n = atoi(arg); /* TODO: how to convert the string to uint64_t */ 
+  if(arg) n = strtoull(arg, NULL, 10); /* TODO: how to convert the string to uint64_t */ 
   
   cpu_exec(n); 
 
@@ -61,6 +61,20 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+
+/*static int cmd_p(char *args) {
+  
+}
+
+static int cmd_x(char *args) {
+ char *argN = strtok(NULL, " ");
+ char *argEXPR = strtok(NULL, " "); 
+
+ int N = atoi(argN);
+ int EXPR = 
+ return 0; 
+}
+*/
 static struct {
   char *name;
   char *description;
