@@ -81,7 +81,7 @@ static int cmd_x(char *args) {
 
  int i;
  for(i = EXPR; i < EXPR + N; i++)
- printf("%d", paddr_read(EXPR, i));
+ printf("%d\n", paddr_read(EXPR, i));
  return 0; 
 }
 
