@@ -80,8 +80,10 @@ static int cmd_x(char *args) {
  uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
 
  int i;
+ printf("paddr = \t\t data = \t \n");
  for(i = EXPR; i < EXPR + N; i++)
- printf("%d\n", paddr_read(EXPR, i));
+	printf("paddr = 0x%08x \t data = 0x%0xx \n", EXPR, paddr_read(EXPR, i));
+ 
  return 0; 
 }
 
