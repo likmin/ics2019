@@ -31,7 +31,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
 
   /* TODO: why is \\- nor \- */
- // {"\\[0-9]+\\", TK_NUM},
+  {"/[0-9]+/", TK_NUM},
   {"\\-", '-'},			// sub
   {"\\*", '*'},			// mul
   {"\\/", '/'},			// div
