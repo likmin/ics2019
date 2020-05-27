@@ -10,11 +10,10 @@ enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
-  TK_NUM,	
- // '+'
-  //, '-', '*', '/',
-  // '(', ')'  
-  
+  TK_DNUM, TK_HNUM,
+  TK_REG,
+  TK_NEQ,
+  TK_AND,
 };
 
 static struct rule {
@@ -30,13 +29,19 @@ static struct rule {
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
 
-  /* TODO: why is \\- nor \- */
-  {"/[0-9]+/", TK_NUM},
+  /* TODO: why is \\- nor \- ? '\' is Escape String */
+  {"/\b[0-9]+\b/", TK_DNUM}, // decimal-number
+  {"\b0[xX][0-9a-fA-F]+\b",TK_HNUM}, // hexadecimal-number
   {"\\-", '-'},			// sub
   {"\\*", '*'},			// mul
   {"\\/", '/'},			// div
   {"\\(", '('},			//
-  {"\\)", ')'}			//
+  {"\\)", ')'},			//
+  {"!=", TK_NEQ},		// not equal
+  {"&&", TK_AND}.		// &&
+  
+  /* how to express pointer '*' */
+
   
 
 };
@@ -67,6 +72,7 @@ typedef struct token {
   char str[32];
 } Token;
 
+/* tell the compiler that tokens is useful, there won't be warning even no used it*/
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
@@ -94,6 +100,17 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
+		  case '+': tokens[nr_token].str = "+"; break;   
+		  case '-': tokens[nr_token].str = "-"; break; 
+		  case '*': tokens[nr_token].str = "*"; break;
+		  case '/': tokens[nr_token].str = "/"; break;
+		  case TK_NUM: 
+						char tmp[32]; 
+						strcmp(substr_start, tmp, substr_len); 
+						tokens[nr_token].str = tmp;
+						break;
+
+		  case TK_NOTYPE: continue;
           default: TODO();
         }
 
