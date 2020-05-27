@@ -78,9 +78,9 @@ static int cmd_x(char *args) {
 
  int N = atoi(argN);
  uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
-
+												 /* TODO: get the value of Expression instead of a value */
  int i;
- printf("\tpaddr \t\t data  \t \n");
+ printf("\tpaddr \t data  \t \n");
  for(i = EXPR; i < EXPR + N; i++)
 	printf(" 0x%08x \t 0x%08x \n", EXPR + i, paddr_read(EXPR, i));
  
