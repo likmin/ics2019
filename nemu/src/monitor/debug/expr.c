@@ -7,13 +7,17 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256,
+  TK_PLUS,
+  TK_EQ,
 
   /* TODO: Add more token types */
+  
   TK_DNUM, TK_HNUM,
   TK_REG,
   TK_NEQ,
   TK_AND,
+  TK_POINTER,
 };
 
 static struct rule {
@@ -30,18 +34,19 @@ static struct rule {
   {"==", TK_EQ},        // equal
 
   /* TODO: why is \\- nor \- ? '\' is Escape String */
+  {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
   {"/\b[0-9]+\b/", TK_DNUM}, // decimal-number
   {"\b0[xX][0-9a-fA-F]+\b",TK_HNUM}, // hexadecimal-number
-  {"\\-", '-'},			// sub
+  {"-", '-'},			// sub
   {"\\*", '*'},			// mul
   {"\\/", '/'},			// div
-  {"\\(", '('},			//
+  {"\\(", '('},			// 
   {"\\)", ')'},			//
   {"!=", TK_NEQ},		// not equal
-  {"&&", TK_AND}.		// &&
+  {"&&", TK_AND},		// &&
   
   /* how to express pointer '*' */
-
+  {"^\\*", TK_POINTER},	
   
 
 };
@@ -100,15 +105,29 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-		  case '+': tokens[nr_token].str = "+"; break;   
-		  case '-': tokens[nr_token].str = "-"; break; 
-		  case '*': tokens[nr_token].str = "*"; break;
-		  case '/': tokens[nr_token].str = "/"; break;
-		  case TK_NUM: 
-						char tmp[32]; 
-						strcmp(substr_start, tmp, substr_len); 
-						tokens[nr_token].str = tmp;
-						break;
+		  case '+':
+		  case '-':
+		  case '*':
+		  case '/':
+		  case '&':
+		  case '(':
+		  case ')': 
+				//tokens[nr_token].str = rules[i].regex; 
+				//tokens[nr_token].type = rules[i].token_type; 
+				//nr_token++;
+				//break;
+ 
+		  case TK_EQ:
+		  case TK_REG:
+		  case TK_DNUM:
+		  case TK_HNUM:
+		  case TK_NEQ:
+		  case TK_AND:
+		  case TK_POINTER: 
+				strncpy(tokens[nr_token].str,substr_start, substr_len); 
+				tokens[nr_token].type = rules[i].token_type; 
+				nr_token++;
+				break;
 
 		  case TK_NOTYPE: continue;
           default: TODO();
