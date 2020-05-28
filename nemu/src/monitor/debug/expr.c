@@ -35,6 +35,7 @@ static struct rule {
 
   /* TODO: why is \\- nor \- ? '\' is Escape String */
   {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
+
   {"\\b[0-9]+\\b", TK_DNUM}, // decimal-number
   {"0[xX][0-9a-fA-F]+", TK_HNUM}, // hexadecimal-number
   
@@ -119,7 +120,7 @@ static bool make_token(char *e) {
 				//break;
 		 */
 		  case TK_EQ:
-	//    case TK_REG:
+	      case TK_REG:
 		  case TK_DNUM:
 		  case TK_HNUM:
 		//  case TK_NEQ:
