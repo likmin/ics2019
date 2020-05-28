@@ -44,9 +44,9 @@ static struct rule {
   {"\\/", '/'},			// div
   /*{"\\(", '('},			// 
   {"\\)", ')'},			//
-  {"!=", TK_NEQ},		// not equal
+ */ {"!=", TK_NEQ},		// not equal
   {"&&", TK_AND},		// &&
-  */
+  
   /* how to express pointer '*' */
  /* {"^\\*", TK_POINTER},	
   */
@@ -123,8 +123,8 @@ static bool make_token(char *e) {
 	      case TK_REG:
 		  case TK_DNUM:
 		  case TK_HNUM:
-		//  case TK_NEQ:
-		 // case TK_AND:
+		  case TK_NEQ:
+		  case TK_AND:
 		 // case TK_POINTER: 
 				strncpy(tokens[nr_token].str,substr_start, substr_len); 
 				tokens[nr_token].type = rules[i].token_type; 
