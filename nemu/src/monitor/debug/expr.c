@@ -152,6 +152,12 @@ uint32_t expr(char *e, bool *success) {
     return 0;
   }
 
+ *success = true; 
+ int i;
+ for (i = 0; i < 32; i++) {
+	printf("%d %s %d\n", i, tokens[i].str, tokens[i].type);	 
+ }
+  
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
 

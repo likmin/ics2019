@@ -67,10 +67,12 @@ static int cmd_info(char *args) {
 }
 
 
-/*static int cmd_p(char *args) {
-  
+static int cmd_p(char *args) {
+  bool success;
+  expr(args, &success);
+  return 0;  
 }
-*/
+
 
 static int cmd_x(char *args) {
  char *argN = strtok(NULL, " ");
@@ -101,6 +103,7 @@ static struct {
   {"info", "info r: print the state of register; info w: print the infomation of watchpoint", cmd_info },
   {"si", "si n: Pausing the program after n step, the default n = 1",cmd_si},
   {"x", "scan the memory from $EXPR to $EXPR + N", cmd_x},
+  {"p", "p EXPR",cmd_p},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
