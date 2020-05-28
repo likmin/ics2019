@@ -48,7 +48,7 @@ static struct rule {
   {"&&", TK_AND},		// &&
   
   /* how to express pointer '*' */
-//  {"^\\*", TK_POINTER},	
+//  {"^\\*", TK_POINTER}, /* TODO: try to implement it!*/	
   
 };
 
