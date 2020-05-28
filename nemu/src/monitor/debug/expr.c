@@ -36,7 +36,7 @@ static struct rule {
   /* TODO: why is \\- nor \- ? '\' is Escape String */
  // {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
   {"[0-9]+", TK_DNUM}, // decimal-number
-  {"0[xX][0-9a-fA-F]+",TK_HNUM}, // hexadecimal-number
+  {"0[x|X][0-9a-fA-F]+",TK_HNUM}, // hexadecimal-number
   
   {"-", '-'},			// sub
   {"\\*", '*'},			// mul
