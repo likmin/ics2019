@@ -157,7 +157,7 @@ uint32_t expr(char *e, bool *success) {
  int i;
  for (i = 0; i < 32; i++) {
 	printf("%s %d, ", tokens[i].str, tokens[i].type);	 
-	if(i % 8 == 0) printf("\n");
+	if((i + 1) % 8 == 0) printf("\n");
  }
   
   /* TODO: Insert codes to evaluate the expression. */
