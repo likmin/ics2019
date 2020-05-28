@@ -37,10 +37,11 @@ static struct rule {
 /*  {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
   {"/\b[0-9]+\b/", TK_DNUM}, // decimal-number
   {"\b0[xX][0-9a-fA-F]+\b",TK_HNUM}, // hexadecimal-number
+  */
   {"-", '-'},			// sub
   {"\\*", '*'},			// mul
   {"\\/", '/'},			// div
-  {"\\(", '('},			// 
+  /*{"\\(", '('},			// 
   {"\\)", ')'},			//
   {"!=", TK_NEQ},		// not equal
   {"&&", TK_AND},		// &&
@@ -106,10 +107,10 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
 		  case '+':
-		/*  case '-':
+		  case '-':
 		  case '*':
 		  case '/':
-		  case '&':
+		/*  case '&':
 		  case '(':
 		  case ')': 
 				//tokens[nr_token].str = rules[i].regex; 
