@@ -34,7 +34,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
 
   /* TODO: why is \\- nor \- ? '\' is Escape String */
-  {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
+/*  {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
   {"/\b[0-9]+\b/", TK_DNUM}, // decimal-number
   {"\b0[xX][0-9a-fA-F]+\b",TK_HNUM}, // hexadecimal-number
   {"-", '-'},			// sub
@@ -44,11 +44,10 @@ static struct rule {
   {"\\)", ')'},			//
   {"!=", TK_NEQ},		// not equal
   {"&&", TK_AND},		// &&
-  
+  */
   /* how to express pointer '*' */
-  {"^\\*", TK_POINTER},	
-  
-
+ /* {"^\\*", TK_POINTER},	
+  */
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -89,6 +88,7 @@ static bool make_token(char *e) {
   nr_token = 0;
 
   while (e[position] != '\0') {
+
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
@@ -106,7 +106,7 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
 		  case '+':
-		  case '-':
+		/*  case '-':
 		  case '*':
 		  case '/':
 		  case '&':
@@ -116,9 +116,9 @@ static bool make_token(char *e) {
 				//tokens[nr_token].type = rules[i].token_type; 
 				//nr_token++;
 				//break;
- 
+		 */
 		  case TK_EQ:
-		  case TK_REG:
+		/*  case TK_REG:
 		  case TK_DNUM:
 		  case TK_HNUM:
 		  case TK_NEQ:
@@ -128,7 +128,7 @@ static bool make_token(char *e) {
 				tokens[nr_token].type = rules[i].token_type; 
 				nr_token++;
 				break;
-
+*/
 		  case TK_NOTYPE: continue;
           default: TODO();
         }
