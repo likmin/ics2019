@@ -90,8 +90,10 @@ static bool make_token(char *e) {
   nr_token = 0;
   /* begin to make token, you should flush the tokens, or next time if may going wrong */
   int j;
-  for (j = 0;j < NR_REGEX; j ++) 
+  for (j = 0;j < NR_REGEX; j ++) {
 	  memset(tokens[j].str, '\0', 32);
+	  tokens[j].type = 0; 
+  }
 
   while (e[position] != '\0') {
 
