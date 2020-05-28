@@ -119,17 +119,17 @@ static bool make_token(char *e) {
 				//break;
 		 */
 		  case TK_EQ:
-		/*  case TK_REG:
+	//    case TK_REG:
 		  case TK_DNUM:
 		  case TK_HNUM:
-		  case TK_NEQ:
-		  case TK_AND:
-		  case TK_POINTER: 
+		//  case TK_NEQ:
+		 // case TK_AND:
+		 // case TK_POINTER: 
 				strncpy(tokens[nr_token].str,substr_start, substr_len); 
 				tokens[nr_token].type = rules[i].token_type; 
 				nr_token++;
 				break;
-*/
+
 		  case TK_NOTYPE: continue;
           default: TODO();
         }
