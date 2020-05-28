@@ -69,6 +69,7 @@ static int cmd_info(char *args) {
 
 static int cmd_p(char *args) {
   bool success;
+  printf("[p expr] args = %s \n",args);
   expr(args, &success);
   return 0;  
 }
