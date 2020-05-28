@@ -48,8 +48,8 @@ static struct rule {
   {"&&", TK_AND},		// &&
   
   /* how to express pointer '*' */
- /* {"^\\*", TK_POINTER},	
-  */
+//  {"^\\*", TK_POINTER},	
+  
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -114,6 +114,14 @@ static bool make_token(char *e) {
 
 		if (rules[i].token_type == TK_NOTYPE) break;
         switch (rules[i].token_type) {
+		  case TK_DNUM:
+		  case TK_HNUM:
+				if(substr_len > 32) {
+					printf("ERROR! the length of num in this expr is longer than 32bit\n");
+					assert(0);
+						
+				}
+
 		  case '+':
 		  case '-':
 		  case '*':
@@ -123,11 +131,9 @@ static bool make_token(char *e) {
 		  
 		  case TK_EQ:
 	      case TK_REG:
-		  case TK_DNUM:
-		  case TK_HNUM:
 		  case TK_NEQ:
 		  case TK_AND:
-		 // case TK_POINTER: 
+//		  case TK_POINTER: /* TODO: inplement it*/
 				strncpy(tokens[nr_token].str,substr_start, substr_len); 
 				tokens[nr_token].type = rules[i].token_type; 
 				nr_token++;
