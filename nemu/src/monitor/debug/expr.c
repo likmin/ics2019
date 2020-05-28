@@ -34,7 +34,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
 
   /* TODO: why is \\- nor \- ? '\' is Escape String */
- // {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
+  {"^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]", TK_REG}, // regex for x86 register
   {"\\b[0-9]+\\b", TK_DNUM}, // decimal-number
   {"0[xX][0-9a-fA-F]+", TK_HNUM}, // hexadecimal-number
   
