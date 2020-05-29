@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <regex.h>
 
+#include <stdlib.h>
 enum {
   TK_NOTYPE = 256,
   TK_PLUS,
@@ -155,6 +156,47 @@ static bool make_token(char *e) {
 
   return true;
 }
+bool check_parenteses(uint32_t p, uint32_t q) {
+	
+	return 	p < q; 
+}
+
+/*
+ * p is start position of the sub-expression
+ * q is end position of the sub-expression
+ */
+
+uint32_t eval(uint32_t p, uint32_t q) {
+	
+	if (p > q) {
+	
+		/* Bad expression */
+		printf("Bad expression!");
+		assert(0);
+
+	} else if (p == q) {
+		
+		/* Single token.
+		 * For now this token should be a number.
+		 * Return the value of the number.
+		 */
+
+		 uint32_t value = strtoul(tokens[p].str, NULL, 10);
+		 return value;
+
+	} else if (check_parenteses(p, q) == true) {
+	
+		return eval(p + 1, q - 1);
+	
+	} else {
+		
+		printf("check_parenteses error!");
+		
+	}
+	
+	return 0;
+}
+
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -172,5 +214,7 @@ uint32_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   // TODO();
 
+  uint32_t result = eval(0, nr_token);
+  printf("result = %d\n", result);
   return 0;
 }
