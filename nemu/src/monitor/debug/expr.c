@@ -160,7 +160,7 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 	int flag = 0;
 	
 	while(p < q) {
-		printf("[check_parenteses] p = %u,, q = %u\n", p,q);
+		printf("[check_parenteses] p = %u, q = %u,flag = %d\n", p,q,flag);
 		if(strcmp(tokens[p].str,"(") == 0) {
 			p++;
 			flag++;	
