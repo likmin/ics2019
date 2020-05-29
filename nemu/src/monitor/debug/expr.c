@@ -167,7 +167,8 @@ bool check_parenteses(uint32_t p, uint32_t q) {
  */
 
 uint32_t eval(uint32_t p, uint32_t q) {
-	
+
+	printf("p = %u, q = %u\n", p, q);	
 	if (p > q) {
 	
 		/* Bad expression */
