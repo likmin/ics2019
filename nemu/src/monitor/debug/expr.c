@@ -157,8 +157,20 @@ static bool make_token(char *e) {
   return true;
 }
 bool check_parenteses(uint32_t p, uint32_t q) {
+	int flag = 0;
 	
-	return 	p < q; 
+	while(p < q) {
+		if(strcmp(tokens[p].str,"(") == 0) {
+			p++;
+			flag++;	
+		} else if(strcmp(tokens[p].str,")") == 0) {
+			p++;
+			flag--;
+			if(flag < 0) return false;
+		}
+	}	
+
+	return flag==0;
 }
 
 /*
