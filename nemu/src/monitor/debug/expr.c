@@ -168,7 +168,7 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 			p++;
 			flag--;
 			if(flag < 0) return false;
-		}
+		} else p++;
 	}	
 
 	return flag==0;
