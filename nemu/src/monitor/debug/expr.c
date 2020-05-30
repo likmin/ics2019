@@ -175,12 +175,27 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 	return flag==0;
 }
 
+uint32_t getOpPosition(uint32_t p, uint32_t q) {
+	
+
+	assert(p > q);
+
+	uint32_t i = p;
+	for (i = p; i < q; i++) 
+		if(strcmp(tokens[i].str, "+") == 0 ||strcmp(tokens[i].str, "-") == 0 ||
+		   strcmp(tokens[i].str, "*") == 0 ||strcmp(tokens[i].str, "/") == 0 ) break;
+
+	return i;
+		
+}
+
 /*
  * p is start position of the sub-expression
  * q is end position of the sub-expression
  */
 
 uint32_t eval(uint32_t p, uint32_t q) {
+	
 
 	printf("p = %u, q = %u\n", p, q);	
 	if (p > q) {
@@ -204,8 +219,20 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		return eval(p + 1, q - 1);
 	
 	} else {
+	
+		int op = getOpPosition(p, q);
+		uint32_t val1 = eval(p, op - 1);
+		uint32_t val2 = eval(op + 1, q);
 		
-		printf("check_parenteses error!");
+		switch (tokens[op].type) {
+			case '+': return val1 + val2;
+		//	case "-": return val1 - val2;
+		//	case "*": return val1 * val2;
+		//	case "/": return val1 / val2;
+			default: assert(0);
+				
+		}
+	//	printf("check_parenteses error!");
 		
 	}
 	
