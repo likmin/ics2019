@@ -226,9 +226,9 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		
 		switch (tokens[op].type) {
 			case '+': return val1 + val2;
-		//	case "-": return val1 - val2;
-		//	case "*": return val1 * val2;
-		//	case "/": return val1 / val2;
+			case '-': return val1 - val2;
+		 	case '*': return val1 * val2;
+		 	case '/': return val1 / val2;
 			default: assert(0);
 				
 		}
