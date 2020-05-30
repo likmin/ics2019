@@ -180,7 +180,7 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	
 
-	assert(p > q);
+	assert(p <= q);
 
 	uint32_t i = p;
 	for (i = p; i < q; i++) 
