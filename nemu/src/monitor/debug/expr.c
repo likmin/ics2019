@@ -224,6 +224,10 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op + 1, q);
 		
+		#ifdef DEBUG
+			printf("[eval debug]op = %s, val1 = %u, val2 = %u\n", tokens[op].str, val1, val2);
+		#endif 
+		
 		switch (tokens[op].type) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
