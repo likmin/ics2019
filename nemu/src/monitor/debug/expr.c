@@ -222,7 +222,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	
 	} else {
 	
-		int op = getOpPosition(p, q);
+		int op = getOpPosition(p, q); /* get the position of the op in the subexpression */
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op + 1, q);
 		
@@ -236,13 +236,11 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			default: assert(0);
 				
 		}
-	//	printf("check_parenteses error!");
 		
 	}
 	
 	return 0;
 }
-
 
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
