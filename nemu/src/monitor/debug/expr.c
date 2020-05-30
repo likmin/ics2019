@@ -261,5 +261,5 @@ uint32_t expr(char *e, bool *success) {
 
   uint32_t result = eval(0, nr_token-1);
   printf("result = %u\n", result);
-  return 0;
+  return result;
 }

@@ -5,16 +5,30 @@
 #include <assert.h>
 #include <string.h>
 
+char *getnum() {
+	srand(time(NULL));
+	uint32_t num = 	rand();
+	char *Num;
+	utoa(num, Num);
+	return Num;
+}
 // this should be enough
 static char buf[65536];
 static inline void gen_rand_expr() {
-  buf[0] = '\0';
+  
+  switch (rand() % 3) {
+	case 0: getnum();
+	case 1: 
+	default:  
+  
+  }
 }
 
 static char code_buf[65536];
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
+"bool flag;"
 "  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
@@ -45,7 +59,8 @@ int main(int argc, char *argv[]) {
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    int fsn = fscanf(fp, "%d", &result);
+    printf("fsn = %d\n", fsn);
     pclose(fp);
 
     printf("%u %s\n", result, buf);
