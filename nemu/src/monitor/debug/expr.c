@@ -200,7 +200,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	
 
 
-	printf("[eval] p = %u, q = %u\n", p, q);	
+	printf("[eval]p = %u, q = %u\n", p, q);	
 	if (p > q) {
 	
 		/* Bad expression */
@@ -260,6 +260,6 @@ uint32_t expr(char *e, bool *success) {
   // TODO();
 
   uint32_t result = eval(0, nr_token-1);
-  printf("result = %d\n", result);
+  printf("result = %u\n", result);
   return 0;
 }
