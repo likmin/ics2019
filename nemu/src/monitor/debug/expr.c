@@ -193,7 +193,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	uint32_t op = p;
 	int pnum = 0;
 
-	for (i = p + 1; i < q; i++) 
+	for (i = p; i < q; i++) 
 	{
 		printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);							
 		if(strcmp(tokens[i].str, "(") == 0) pnum++;
