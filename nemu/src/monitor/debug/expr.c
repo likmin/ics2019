@@ -194,7 +194,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	int pnum = 0;
 	if(strcmp(tokens[p].str, "(") == 0) pnum++;
 
-	for (i = p; i < q; i++) 
+	for (i = p + 1; i < q; i++) 
 	{
 	printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);	
 		if(pnum != 0) 
