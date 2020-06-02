@@ -174,7 +174,7 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 			flag--;
 			if(flag < 0) return false;
 		} else p++;
-		printf("[check_parenteses] p = %u, q = %u,flag = %d\n", p,q,flag);
+	//	printf("[check_parenteses] p = %u, q = %u,flag = %d\n", p,q,flag);
 	}	
 
 	return flag==0;
@@ -204,6 +204,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 
 
 	printf("[eval]p = %u, q = %u\n", p, q);	
+
 	if (p > q) {
 	
 		/* Bad expression */
@@ -238,7 +239,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		 return value;
 
 	} else if (check_parenteses(p, q) == true) {
-	
+		printf("check parenteses is true, p = %u, q = %u\n", p, q);	
 		return eval(p + 1, q - 1);
 	
 	} else {
