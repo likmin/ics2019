@@ -211,7 +211,8 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		printf("Bad expression!");
 		assert(0);
 
-	} else if (p == q) {
+	}
+	 if (p == q) {
 		
 		/* Single token.
 		 * For now this token should be a number.
@@ -234,8 +235,6 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		
 		 //if (tokens[p].type == TK_DEREF)
 			 
-
-
 		 return value;
 
 	} else if (check_parenteses(p, q) == true) {
@@ -245,6 +244,9 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	} else {
 	
 		int op = getOpPosition(p, q); /* get the position of the op in the subexpression */
+		
+		printf("get op position = %u, op = %s\n",op, tokens[op].str);
+
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op + 1, q);
 		
