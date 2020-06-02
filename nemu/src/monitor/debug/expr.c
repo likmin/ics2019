@@ -205,7 +205,9 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 		}
 		
 		if(strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
-	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ) 
+	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ||
+		   tokens[i].type == TK_DEREF /* pointer */
+		   ) 
 		{
 			op = i; 
 			break;
@@ -268,8 +270,11 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		int op = getOpPosition(p, q); /* get the position of the op in the subexpression */
 		
 		printf("get op position = %u, op = %s\n",op, tokens[op].str);
-
-		uint32_t val1 = eval(p, op - 1);
+		
+		uint32_t val1 = 0;
+		if(tokens[op].type != TK_DEREF) /* if the op is not a pointer, then calculate the value of the left expression */
+			val1 = eval(p, op - 1);
+		
 		uint32_t val2 = eval(op + 1, q);
 		
 		printf("[eval debug]op = %s, val1 = %u, val2 = %u\n", tokens[op].str, val1, val2);
@@ -279,6 +284,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			case '-': return val1 - val2;
 		 	case '*': return val1 * val2;
 		 	case '/': return val1 / val2; /* TODO: what about val2 is zero? */
+			case TK_DEREF: return val2;
 			default: assert(0);
 				
 		}
