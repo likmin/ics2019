@@ -192,26 +192,22 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	uint32_t i = p;
 	uint32_t op = p;
 	int pnum = 0;
-	if(strcmp(tokens[p].str, "(") == 0) pnum++;
 
 	for (i = p + 1; i < q; i++) 
 	{
-		printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);	
-		if(pnum != 0) 
-		{						
-			if(strcmp(tokens[i].str, "(") == 0) pnum++;
-			else if(strcmp(tokens[i].str, ")") == 0) pnum--;
-			continue;
-		}
+		printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);							
+		if(strcmp(tokens[i].str, "(") == 0) pnum++;
+	    if(strcmp(tokens[i].str, ")") == 0) pnum--;
 		
-		if(strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
-	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ||
-		   tokens[i].type == TK_DEREF /* pointer */
-		   ) 
-		{
-			op = i; 
-			break;
-		}
+		
+		if (pnum == 0)
+			if (strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
+				strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ||
+		        tokens[i].type == TK_DEREF /* pointer */ ) 
+			{
+				op = i; 
+				break;
+			}
 		
 	}
 	return op;
