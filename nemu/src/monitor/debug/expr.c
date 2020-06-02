@@ -190,22 +190,28 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	 *       get the '+' position,nor the '*' position.
 	 */
 	uint32_t i = p;
+	uint op = p;
 	int pnum = 0;
 	if(strcmp(tokens[p].str, "(") == 0) pnum++;
 
 	for (i = p; i < q; i++) 
 	{	
-		if(pnum != 0) {						
+		if(pnum != 0) 
+		{						
 			if(strcmp(tokens[i].str, "(") == 0) pnum++;
 			else if(strcmp(tokens[i].str, ")") == 0) pnum--;
 			continue;
 		}
 		
 		if(strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
-	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ) break;
+	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ) 
+		{
+			op = i; 
+			break;
+		}
 		
 	}
-	return i;
+	return op;
 		
 }
 
