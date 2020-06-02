@@ -162,7 +162,7 @@ static bool make_token(char *e) {
 bool check_parenteses(uint32_t p, uint32_t q) {
 	int flag = 0;
 
-	if (strcmp(tokens[p].str,"(") != 0 ) return false;	
+	if (strcmp(tokens[p].str,"(") || strcmp(tokens[q].str,")")) return false;	
 
 	while(p <= q) {
 		//printf("[check_parenteses] p = %u, q = %u,flag = %d\n", p,q,flag);
