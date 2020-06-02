@@ -220,11 +220,18 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		 uint32_t value = 0;
 		 if (tokens[p].type == TK_DNUM)
 			 value = strtoul(tokens[p].str, NULL, 10);
-		 else if (tokens[p].type == TK_DNUM) 
+		 
+		 if (tokens[p].type == TK_DNUM) 
 			 value = strtoul(tokens[p].str, NULL, 16);
-		 else if (tokens[p].type == TK_REG)  
-			 value = isa_reg_str2val(tokens[p].str, NULL);
-		 //else if (tokens[p].type == TK_DEREF)
+		 
+		 if (tokens[p].type == TK_REG) {
+			int i;
+			for (i = 0; i< strlen(tokens[p].str); i++) tokens[p].str[i] = tokens[p].str[i+1];
+			bool success = true;
+		    value = isa_reg_str2val(tokens[p].str, &success);
+		 }
+		
+		 //if (tokens[p].type == TK_DEREF)
 			 
 
 

@@ -51,15 +51,17 @@ void isa_reg_display() {
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
 	*success = true;
+
 	int i;
-	if(s[1] == 'e') {
-		for (i = 0; i < 8; i++) if (strcmp(regsl[i],s) == 0) break;
+
+	if(s[0] == 'e') {
+		for (i = 0; i < 8; i++) if (strcmp(regsl[i], s) == 0) break;
 		return reg_l(i);
-	} else if (s[2] == 'x' || s[2] == 'p') {
-		for (i = 0; i < 8; i++) if (strcmp(regsw[i],s) == 0) break;
+	} else if (s[1] == 'x' || s[1] == 'p') {
+		for (i = 0; i < 8; i++) if (strcmp(regsw[i], s) == 0) break;
 		return reg_w(i);
-	} else if (s[2] == 'l' || s[2] == 'h') {
-		for (i = 0; i < 8; i++) if (strcmp(regsb[i],s) == 0) break;
+	} else if (s[1] == 'l' || s[1] == 'h') {
+		for (i = 0; i < 8; i++) if (strcmp(regsb[i], s) == 0) break;
 		return reg_b(i);
 	} else *success = false;
   return 0;
