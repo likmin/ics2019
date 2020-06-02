@@ -196,7 +196,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 
 	for (i = p + 1; i < q; i++) 
 	{
-	printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);	
+		printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);	
 		if(pnum != 0) 
 		{						
 			if(strcmp(tokens[i].str, "(") == 0) pnum++;
@@ -312,10 +312,7 @@ uint32_t expr(char *e, bool *success) {
 
  *success = true; 
  int i;
- for (i = 0; i < 32; i++) {
-	printf("%s %d, ", tokens[i].str, tokens[i].type);	 
-	if((i + 1) % 8 == 0) printf("\n");
- }
+ 
   
   /* TODO: Insert codes to evaluate the expression. */
   // TODO();
@@ -326,7 +323,11 @@ uint32_t expr(char *e, bool *success) {
 		tokens[i].type = TK_DEREF; 
 	}	  
   }
-
+  
+  for (i = 0; i < 32; i++) {
+	printf("%s %d, ", tokens[i].str, tokens[i].type);	 
+	if((i + 1) % 8 == 0) printf("\n");
+  }
   uint32_t result = eval(0, nr_token-1);
   printf("result = %u\n", result);
   return result;
