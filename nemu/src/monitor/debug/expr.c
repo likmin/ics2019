@@ -7,6 +7,9 @@
 #include <regex.h>
 
 #include <stdlib.h>
+
+uint32_t isa_reg_str2val(const char *s,bool *success);
+
 enum {
   TK_NOTYPE = 256,
   TK_PLUS,
@@ -18,7 +21,7 @@ enum {
   TK_REG,
   TK_NEQ,
   TK_AND,
-  TK_POINTER,
+  TK_DEREF,
 };
 
 static struct rule {
@@ -49,7 +52,7 @@ static struct rule {
   {"&&", TK_AND},		// &&
   
   /* how to express pointer '*' */
-//  {"^\\*", TK_POINTER}, /* TODO: try to implement it!*/	
+  // {"\\*", TK_POINTER}, /* TODO: try to implement it!: try to predecode it before eval it.*/	
   
 };
 
@@ -214,7 +217,17 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		 * Return the value of the number.
 		 */
 
-		 uint32_t value = strtoul(tokens[p].str, NULL, 10);
+		 uint32_t value = 0;
+		 if (tokens[p].type == TK_DNUM)
+			 value = strtoul(tokens[p].str, NULL, 10);
+		 else if (tokens[p].type == TK_DNUM) 
+			 value = strtoul(tokens[p].str, NULL, 16);
+		 else if (tokens[p].type == TK_REG)  
+			 value = isa_reg_str2val(tokens[p].str, NULL);
+		 //else if (tokens[p].type == TK_DEREF)
+			 
+
+
 		 return value;
 
 	} else if (check_parenteses(p, q) == true) {
@@ -233,7 +246,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			case '+': return val1 + val2;
 			case '-': return val1 - val2;
 		 	case '*': return val1 * val2;
-		 	case '/': return val1 / val2;
+		 	case '/': return val1 / val2; /* TODO: what about val2 is zero? */
 			default: assert(0);
 				
 		}
@@ -243,6 +256,16 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	return 0;
 }
 
+bool certain_type(int type) {
+	
+	switch(type) {
+		case '+':
+		case '-':
+		case '*':
+		case '/': return true; 
+		default : return false;
+	}
+}
 uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
@@ -258,6 +281,13 @@ uint32_t expr(char *e, bool *success) {
   
   /* TODO: Insert codes to evaluate the expression. */
   // TODO();
+
+  /* find the DEREF */
+  for (i = 0; i < nr_token; i++) {
+	if (tokens[i].type == '*' && (i == 0 || certain_type(tokens[i-1].type))) {
+		tokens[i].type = TK_DEREF; 
+	}	  
+  }
 
   uint32_t result = eval(0, nr_token-1);
   printf("result = %u\n", result);
