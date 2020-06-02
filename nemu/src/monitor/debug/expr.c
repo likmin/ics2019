@@ -193,7 +193,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	int pnum = 0;
 	if(strcmp(tokens[p].str, "(") == 0) pnum++;
 
-	for (i = p; i < q; i++) 
+	for (i = p; i < q;) 
 	{	
 		if(pnum != 0) {						
 			if(strcmp(tokens[i].str, "(") == 0) pnum++;
@@ -203,7 +203,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 		
 		if(strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
 	       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ) break;
-			
+		i++;
 	}
 	return i;
 		
