@@ -221,7 +221,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		 if (tokens[p].type == TK_DNUM)
 			 value = strtoul(tokens[p].str, NULL, 10);
 		 
-		 if (tokens[p].type == TK_DNUM) 
+		 if (tokens[p].type == TK_HNUM) 
 			 value = strtoul(tokens[p].str, NULL, 16);
 		 
 		 if (tokens[p].type == TK_REG) {
