@@ -184,12 +184,24 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 	
 
 	assert(p <= q);
-
+	/*
+	 * TODO: you need to check the parenteses, or you will get the wrong position.
+	 *		 for example, (1 + 2) * 3. if you don't check the parenteses, you will
+	 *       get the '+' position,nor the '*' position.
+	 */
 	uint32_t i = p;
-	for (i = p; i < q; i++) 
-		if(strcmp(tokens[i].str, "+") == 0 ||strcmp(tokens[i].str, "-") == 0 ||
-		   strcmp(tokens[i].str, "*") == 0 ||strcmp(tokens[i].str, "/") == 0 ) break;
+	int pnum = 0;
+	if(strcmp(tokens[p].str, "(") == 0) pnum++;
 
+	for (i = p; i < q; i++) 
+		if(pnum != 0) {						
+			if(strcmp(tokens[p].str, "(") == 0) pnum++;
+			else if(strcmp(tokens[p].str, ")") == 0) pnum--;
+		} else if(pnum == 0){
+			if(strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
+		       strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ) break;
+		}	
+	
 	return i;
 		
 }
