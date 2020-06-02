@@ -163,8 +163,8 @@ bool check_parenteses(uint32_t p, uint32_t q) {
 	int flag = 0;
 
 	if (strcmp(tokens[p].str,"(") || strcmp(tokens[q].str,")")) return false;	
-
-	while(p <= q) {
+	p++;
+	while(p < q) { /* left and right have checked*/
 		//printf("[check_parenteses] p = %u, q = %u,flag = %d\n", p,q,flag);
 		if(strcmp(tokens[p].str,"(") == 0) {
 			p++;
