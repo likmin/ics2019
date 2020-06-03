@@ -79,7 +79,15 @@ static int cmd_x(char *args) {
  char *argN = strtok(NULL, " ");
  char *argEXPR = strtok(NULL, " "); 
 
+ if(argN == NULL || argEXPR == NULL) {
+	printf("[x] args error!\n the format of x is the following:\n");
+	cmd_help("x");
+ }
+
  int N = atoi(argN);
+
+ 
+
  uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
 												 /* TODO: get the value of Expression instead of a value */
  int i;
@@ -112,7 +120,7 @@ static struct {
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
-  int i;
+ int i;
 
   if (arg == NULL) {
     /* no argument given */

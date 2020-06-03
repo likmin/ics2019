@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 uint32_t isa_reg_str2val(const char *s,bool *success);
+uint32_t paddr_read(paddr_t addr, int len);
 
 enum {
   TK_NOTYPE = 256,
@@ -280,7 +281,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			case '-': return val1 - val2;
 		 	case '*': return val1 * val2;
 		 	case '/': return val1 / val2; /* TODO: what about val2 is zero? */
-			case TK_DEREF: return val2;
+			case TK_DEREF: return paddr_read(val2,1);
 			default: assert(0);
 				
 		}
