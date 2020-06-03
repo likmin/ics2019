@@ -204,7 +204,8 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 		if (pnum == 0)
 			if (strcmp(tokens[i].str, "+") == 0 || strcmp(tokens[i].str, "-") == 0 ||
 				strcmp(tokens[i].str, "*") == 0 || strcmp(tokens[i].str, "/") == 0 ||
-		        tokens[i].type == TK_DEREF /* pointer */ ) 
+		        tokens[i].type == TK_DEREF|| /* pointer */ 
+				tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ ||  tokens[i].type == TK_AND) 
 			{
 				op = i; 
 				break;
