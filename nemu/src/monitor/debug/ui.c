@@ -81,7 +81,7 @@ static int cmd_x(char *args) {
 
  if(argN == NULL || argEXPR == NULL) {
 	printf("[x] args error!\n the format of x is the following:\n");
-	cmd_help("help x");
+	cmd_help("x x");
 	return 0;
  }
 
