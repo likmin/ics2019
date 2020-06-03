@@ -81,7 +81,7 @@ static int cmd_x(char *args) {
 
  if(argN == NULL || argEXPR == NULL) {
 	printf("[x] args error!\n the format of x is the following:\n");
-	cmd_help("x");
+	cmd_help(" x");
 	return 0;
  }
 
@@ -121,8 +121,8 @@ static struct {
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
- int i;
-
+  int i;
+ 
   if (arg == NULL) {
     /* no argument given */
     for (i = 0; i < NR_CMD; i ++) {
@@ -135,7 +135,6 @@ static int cmd_help(char *args) {
       if (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
-
       }
 
     }
