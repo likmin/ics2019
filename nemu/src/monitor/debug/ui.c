@@ -82,6 +82,7 @@ static int cmd_x(char *args) {
  if(argN == NULL || argEXPR == NULL) {
 	printf("[x] args error!\n the format of x is the following:\n");
 	cmd_help("x");
+	return -1;
  }
 
  int N = atoi(argN);
