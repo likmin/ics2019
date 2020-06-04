@@ -8,7 +8,8 @@ typedef struct watchpoint {
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
-
+  
+  struct watchpoint *prev; /* the previous Watchpoint  */
 
 } WP;
 
