@@ -108,7 +108,7 @@ static int cmd_d(char *args) {
 
 	int N = atoi(argN);
 	if (N < 0 || N > 32) {
-		printf("args N is to large!, the range of N is 0 to %d\n", 32);
+		printf("%d is to large!, the range of N is 0 to %d\n", N, 32);
 		return 0;
 	}
 
