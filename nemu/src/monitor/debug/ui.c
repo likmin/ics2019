@@ -104,6 +104,7 @@ static int cmd_d(char *args) {
 	char *argN = strtok(NULL, " ");// get the 'N'
 	if(argN == NULL) {
 		printf("please input the arg-N\n");
+		return 0;
 	} 
 
 	int N = atoi(argN);
