@@ -9,9 +9,9 @@ typedef struct watchpoint {
 
   /* TODO: Add more members if necessary */
   
-  struct watchpoint *prev; /* the previous Watchpoint  */
+  // struct watchpoint *prev; /* the previous Watchpoint  */
 
-  char what[32];
+  char EXPR[32];
 
   int Old_value, New_value;
    

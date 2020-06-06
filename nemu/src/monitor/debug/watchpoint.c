@@ -8,14 +8,10 @@ static WP *head = NULL, *free_ = NULL;
 
 void init_wp_pool() {
   int i;
-  wp_pool[0].prev = NULL;
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = &wp_pool[i + 1];
   }
-
-  for (i = 1; i< NR_WP; i++)
-	wp_pool[i].prev = &wp_pool[i-1];
   
   wp_pool[NR_WP - 1].next = NULL;
 
@@ -26,20 +22,21 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 /* given the No, if there exit in the watchpoint, return pointer wp
-   @param	N	-	No
-   @return	WP*
+ * @param	N	-	No
+ * @return	WP*
  */
 
 WP* find_wp(int N) {
-	int i;
+
 	WP *wp = head;
 	
 	if (wp == NULL) {
 		printf("No watchpoints. \n");
 		return false;	
 	}
+
 	
-	for (i = 0; i < N; i ++) {
+	while(wp) {	
 		if(wp->NO == N) break;
 		else wp = wp->next;
 	}
@@ -47,37 +44,59 @@ WP* find_wp(int N) {
 	return wp;
 }
 
-WP* new_wp() {
+WP* find_pre_wp(WP *wp) {
+	WP* pre_wp = head;
+	
+	while(pre_wp) {
+		if (pre_wp->next == wp) break;
+		else pre_wp = pre_wp->next;	
+	}
+	return pre_wp;
+
+}
+
+WP* new_wp(char *EXPR) {
+
 	if (free_ == NULL) { /* there is no free wp */
-		assert(0);
+		printf("there is no free wp!\n");
+		return NULL;
 	}
 
 	WP* node = free_;
 	free_ = free_->next;
+
+	/*insert the EXPR to it*/
+	strcpy(node->EXPR, EXPR);
+
+	node->next = head;
+	head = node;
 	return node;
+
 }
 
 bool free_wp(int N) {
 	
 	/* find the pointer to N */
 	WP *wp = find_wp(N);
-
+	
+	WP *pre_wp = find_pre_wp(wp);
+		
 	if (wp == NULL) {
 		printf("There is no %d watchpoint. \n", N);
 		return false;
 	}
 
 	/* delete the wp from the list */
-	wp->prev->next = wp->next;
-	wp->next->prev = wp->prev;
+	if (wp == head) {
+		head = NULL;
+	} else {
+		pre_wp->next = wp->next;
+	}
 
 	/* insert to free_ */
-	wp->next = free_;
-	free_->prev = wp;
-
+		wp->next =  free_;
 	/* move the free_ to wp */
-
-	free_ = wp;
+		free_ = wp;
 	
 	printf("NO %d watchpoint has been deleted\n", N);
 	return true; /* delete successfully */
@@ -91,8 +110,8 @@ void watchpoint_display(int N) {
 		return;
 	} 
 
-	printf("Num \t What\n"); // TODO: complete this function 
-	printf("%d\t%s\n", wp->NO, wp->what);
+	printf("Num \t EXPR\n"); // TODO: complete this function 
+	printf("%d\t%s\n", wp->NO, wp->EXPR);
 
 }
 
@@ -104,9 +123,9 @@ void watchpoint_all_display() {
 		return;
 	} 
 
-	printf("Num \t What\n"); // TODO: complete this function
+	printf("Num \t EXPR\n"); // TODO: complete this function
 	
 	while (wp) 	
-		printf("%d\t%s\n", wp->NO, wp->what);
+		printf("%d\t%s\n", wp->NO, wp->EXPR);
 	
 }

@@ -15,6 +15,7 @@ uint32_t paddr_read(paddr_t addr, int len);
 void watchpoint_all_display();
 void watchpoint_display(int N);
 bool free_wp(int N);
+WP* new_wp(char *EXPR);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -127,6 +128,19 @@ static int cmd_d(char *args) {
 	return 0;	
 
 }
+
+static int cmd_w(char *args) {
+	
+	char *EXPR = strtok(NULL, " "); // get the EXPR	
+	WP *wp = new_wp(EXPR);
+	if(wp != NULL) 
+		printf("watchpoint %d: %s\n", wp->NO, wp->EXPR);
+	else 
+		printf("Cannot creat watchpoint: %s", EXPR);
+
+	return 0;
+	
+}
 static struct {
   char *name;
   char *description;
@@ -143,6 +157,7 @@ static struct {
   {"x", "scan the memory from $EXPR to $EXPR + N", cmd_x},
   {"p", "p EXPR",cmd_p},
   {"d", "d N", cmd_d},
+  {"w", "w EXPR, stop the program when the EXPR changed", cmd_w},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
