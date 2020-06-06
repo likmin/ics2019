@@ -86,8 +86,10 @@ bool free_wp(int N) {
 void watchpoint_display(int N) {
 
 	WP *wp = find_wp(N);
-	if (wp == NULL) 
+	if (wp == NULL) {
 		printf("No breakpoint number %d\n", N);
+		return;
+	} 
 
 	printf("Num \t What\n"); // TODO: complete this function 
 	printf("%d\t%s\n", wp->NO, wp->what);
@@ -97,8 +99,10 @@ void watchpoint_display(int N) {
 void watchpoint_all_display() {
 	
 	WP *wp = head;
-	if (wp == NULL) 
+	if (wp == NULL) {	
 		printf("No watchpoints\n");	
+		return;
+	} 
 
 	printf("Num \t What\n"); // TODO: complete this function
 	
