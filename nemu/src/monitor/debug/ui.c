@@ -61,7 +61,7 @@ static int cmd_info(char *args) {
   if(strcmp(arg, "r") == 0) {
     isa_reg_display();
   }else if(strcmp(arg, "w") == 0) {
-    printf("watchpoint"); // TODO: complete this function
+    printf("Num \t Type \t Disp Enb Address \t What\n"); // TODO: complete this function
   }
   return 0;
 }
@@ -99,6 +99,23 @@ static int cmd_x(char *args) {
  return 0; 
 }
 
+static int cmd_d(char *args) {
+
+	char *argN = strtok(NULL, " ");// get the 'N'
+	if(argN == NULL) {
+		printf("please input the arg-N\n");
+	} 
+
+	int N = atoi(argN);
+	if (N < 0 || N > 32) {
+		printf("args N is to large!, the range of N is 0 to %d", 32);
+		return 0;
+	}
+
+  return 0;	
+
+	
+}
 static struct {
   char *name;
   char *description;
@@ -114,6 +131,7 @@ static struct {
   {"si", "si n: Pausing the program after n step, the default n = 1",cmd_si},
   {"x", "scan the memory from $EXPR to $EXPR + N", cmd_x},
   {"p", "p EXPR",cmd_p},
+  {"d", "d N", cmd_d},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
