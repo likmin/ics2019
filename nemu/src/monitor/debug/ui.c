@@ -14,7 +14,7 @@ uint32_t paddr_read(paddr_t addr, int len);
 
 void watchpoint_all_display();
 void watchpoint_display(int N);
-bool free_up(int N);
+bool free_wp(int N);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -120,7 +120,7 @@ static int cmd_d(char *args) {
 
    //	printf("%d\n", N);
   
-	if(!free_up(N)) {
+	if(!free_wp(N)) {
 		printf("No watchpoints number %d\n", N);	
 	}
 
