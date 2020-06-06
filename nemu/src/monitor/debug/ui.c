@@ -11,6 +11,10 @@ void cpu_exec(uint64_t);
 void isa_reg_display();
 uint32_t paddr_read(paddr_t addr, int len);
 
+
+void watchpoint_all_display();
+void watchpoint_display(int N);
+bool free_up(int N);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -61,7 +65,7 @@ static int cmd_info(char *args) {
   if(strcmp(arg, "r") == 0) {
     isa_reg_display();
   }else if(strcmp(arg, "w") == 0) {
-    printf("Num \t Type \t Disp Enb Address \t What\n"); // TODO: complete this function
+	watchpoint_all_display();
   }
   return 0;
 }
@@ -107,16 +111,21 @@ static int cmd_d(char *args) {
 		return 0;
 	} 
 
-	int N = atoi(argN);
+	
+	int N = atoi(argN); /*same to sscanf(argN, "%d", &N)*/
 	if (N < 0 || N > 32) {
 		printf("%d is to large!, the range of N is 0 to %d\n", N, 32);
 		return 0;
 	}
 
-	printf("%d", N);
-  return 0;	
+   //	printf("%d\n", N);
+  
+	if(!free_up(N)) {
+		printf("No watchpoints number %d\n", N);	
+	}
 
-	
+	return 0;	
+
 }
 static struct {
   char *name;

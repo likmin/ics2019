@@ -25,6 +25,28 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
+/* given the No, if there exit in the watchpoint, return pointer wp
+   @param	N	-	No
+   @return	WP*
+ */
+
+WP* find_wp(int N) {
+	int i;
+	WP *wp = head;
+	
+	if (wp == NULL) {
+		printf("No watchpoints. \n");
+		return false;	
+	}
+	
+	for (i = 0; i < N; i ++) {
+		if(wp->NO == N) break;
+		else wp = wp->next;
+	}
+
+	return wp;
+}
+
 WP* new_wp() {
 	if (free_ == NULL) { /* there is no free wp */
 		assert(0);
@@ -35,13 +57,14 @@ WP* new_wp() {
 	return node;
 }
 
-void free_wp(WP *wp) {
-	if (head == NULL) {
-		assert(0);
-	}
+bool free_wp(int N) {
+	
+	/* find the pointer to N */
+	WP *wp = find_wp(N);
 
 	if (wp == NULL) {
-		assert(0);	
+		printf("There is no %d watchpoint. \n", N);
+		return false;
 	}
 
 	/* delete the wp from the list */
@@ -55,6 +78,31 @@ void free_wp(WP *wp) {
 	/* move the free_ to wp */
 
 	free_ = wp;
+	
+	printf("NO %d watchpoint has been deleted\n", N);
+	return true; /* delete successfully */
+}
 
+void watchpoint_display(int N) {
 
+	WP *wp = find_wp(N);
+	if (wp == NULL) 
+		printf("No breakpoint number %d\n", N);
+
+	printf("Num \t What\n"); // TODO: complete this function 
+	printf("%d\t%s\n", wp->NO, wp->what);
+
+}
+
+void watchpoint_all_display() {
+	
+	WP *wp = head;
+	if (wp == NULL) 
+		printf("No watchpoints\n");	
+
+	printf("Num \t What\n"); // TODO: complete this function
+	
+	while (wp) 	
+		printf("%d\t%s\n", wp->NO, wp->what);
+	
 }
