@@ -125,7 +125,8 @@ void watchpoint_all_display() {
 
 	printf("Num \t EXPR\n"); // TODO: complete this function
 	
-	while (wp) 	
+	while (wp) {		
 		printf("%d\t%s\n", wp->NO, wp->EXPR);
-	
+		wp = wp->next;
+	}
 }
