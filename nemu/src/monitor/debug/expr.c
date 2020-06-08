@@ -287,6 +287,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			case TK_EQ:		return val1 == val2 ? 1 : 0;
 			case TK_NEQ:    return val1 != val2 ? 1 : 0;
 			case TK_AND:	return val1 && val2 ? 1 : 0;
+			case TK_NEG:	return -val2;
 			default: assert(0);
 				
 		}
@@ -337,7 +338,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 	
 	if (tokens[i].type == '-' && (i == 0 || certain_type_for_neg(tokens[i-1].type))) {
-		tokens[i].type = TK_REG; 
+		tokens[i].type = TK_NEG; 
 	}	  
   }
   
