@@ -271,7 +271,8 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		printf("get op position = %u, op = %s\n",op, tokens[op].str);
 		
 		uint32_t val1 = 0;
-		if(tokens[op].type != TK_DEREF) /* if the op is not a pointer, then calculate the value of the left expression */
+		if(tokens[op].type != TK_DEREF &&  /* if the op is not a pointer, then calculate the value of the left expression */
+		   tokens[op].type != TK_NEG)	   /* if the op is not a negative */
 			val1 = eval(p, op - 1);
 		
 		uint32_t val2 = eval(op + 1, q);
