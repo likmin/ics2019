@@ -23,6 +23,7 @@ enum {
   TK_NEQ,
   TK_AND,
   TK_DEREF,
+  TK_NEG,
 };
 
 static struct rule {
@@ -295,13 +296,24 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	return 0;
 }
 
-bool certain_type(int type) {
+bool certain_type_for_deref(int type) {
 	
 	switch(type) {
 		case '+':
 		case '-':
 		case '*':
 		case '/': return true; 
+		default : return false;
+	}
+}
+
+bool certain_type_for_neg(int type) {
+	switch(type) {
+		case '+':
+		case '-':
+		case '*':
+		case '/': 
+		case '(': return true; 
 		default : return false;
 	}
 }
@@ -320,8 +332,12 @@ uint32_t expr(char *e, bool *success) {
 
   /* find the DEREF */
   for (i = 0; i < nr_token; i++) {
-	if (tokens[i].type == '*' && (i == 0 || certain_type(tokens[i-1].type))) {
+	if (tokens[i].type == '*' && (i == 0 || certain_type_for_deref(tokens[i-1].type))) {
 		tokens[i].type = TK_DEREF; 
+	}
+	
+	if (tokens[i].type == '-' && (i == 0 || certain_type_for_neg(tokens[i-1].type))) {
+		tokens[i].type = TK_REG; 
 	}	  
   }
   
