@@ -62,6 +62,13 @@ WP* new_wp(char *EXPR) {
 		return NULL;
 	}
 
+	bool success = true;
+	expr(EXPR, &success);
+	if (success == false) {
+		printf("No symbol \"%s\" in current context. \n", EXPR);
+		return NULL;	
+	}
+
 	WP* node = free_;
 	free_ = free_->next;
 
@@ -137,9 +144,33 @@ bool watchpoint_monitor(){
 	if (wp == NULL) { /* if there is no watchpoint,return false */
 		return false;
 	} else {
-		printf("yes there exist watchpoint!\n");
-		return true;		
-	}	
+		bool success = true;
+
+		int New_value = expr(wp->EXPR, &success);
+	
+		 /* if the EXPR can calculate and 
+		  * the EXPR has changed,printf the watch point  
+		  */
+	
+		if (success && New_value != wp->New_value) {			
+			/* print the watchpoint infomation */
+
+			printf("watchpoint No.%d\n", wp->NO);	
+			printf("watchpoint EXPR:\t%s\n", wp->EXPR);
+			printf("watchpoint Old_value:\t%d\n", wp->Old_value);
+			printf("watchpoint New_value:\t%d\n", wp->New_value);
+
+			/* update the old_value and the new_value */
+
+			wp->Old_value = wp->New_value;
+			wp->New_value = New_value;
+			return true;			
+		}
+		
+		return false;
+
+	}
+		
 }
 
 
