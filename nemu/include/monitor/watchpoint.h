@@ -17,4 +17,5 @@ typedef struct watchpoint {
    
 } WP;
 
+bool watchpoint_monitor();
 #endif

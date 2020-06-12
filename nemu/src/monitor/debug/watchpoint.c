@@ -130,3 +130,19 @@ void watchpoint_all_display() {
 		wp = wp->next;
 	}
 }
+
+bool watchpoint_monitor(){
+	
+	WP *wp = head;
+	if (wp == NULL) { /* if there is no watchpoint,return false */
+		return false;
+	} else {
+		printf("yes there exist watchpoint!\n");
+		return true;		
+	}	
+}
+
+
+
+
+
