@@ -62,4 +62,10 @@ static inline const char* reg_name(int index, int width) {
   }
 }
 
+#define REG_REGEX "^\\$e*[acdb][x|l|h]|^\\$e*[sb][p|h]|^\\$e*[sd][i|h]|^\\$pc"
 #endif
+
+
+
+
+
