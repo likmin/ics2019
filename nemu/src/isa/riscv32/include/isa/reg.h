@@ -27,4 +27,7 @@ static inline const char* reg_name(int index, int width) {
   return regsl[index];
 }
 
+#define REG_REGEX "^\\$0$|^\\$ra$|^\\$[sgt]p$|^\\$t[0-6]$|^\\$s[0-9]$|^\\$s1[01]$|^\\$a[0-7]$|^\\$pc$"  
+
+
 #endif

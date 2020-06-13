@@ -10,11 +10,16 @@ const char *regsl[] = {
 void isa_reg_display() {
   int i;
   for (i = 0; i < 32; i++) {
-    printf("%s = %#X\t", regsl[i], regl(i));
-    if (i % 8 != 0) printf(", ") else printf("\n")
+    printf("%s = %#X\t", regsl[i], reg_l(i));
+    if (i % 8 != 0) printf(", "); else printf("\n");
   }
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
+  *success = true;
+  
+  
+  if(s[0] == '0') 
+		return reg_l(0);
   return 0;
 }
