@@ -11,7 +11,7 @@ void isa_reg_display() {
   int i;
   for (i = 0; i < 32; i++) {
     printf("%s = %#X\t", regsl[i], reg_l(i));
-    if (i % 8 != 0) printf(", "); else printf("\n");
+    if ((i + 1) % 8 != 0) printf(", "); else printf("\n");
   }
 }
 
