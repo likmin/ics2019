@@ -158,7 +158,7 @@ bool watchpoint_monitor(){
 			printf("watchpoint No.%d\n", wp->NO);	
 			printf("watchpoint EXPR:\t%s\n", wp->EXPR);
 			printf("watchpoint Old_value:\t%d\n", wp->Old_value);
-			printf("watchpoint New_value:\t%d\n", wp->New_value);
+			printf("watchpoint New_value:\t%d\n", New_value);
 
 			/* update the old_value and the new_value */
 
