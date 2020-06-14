@@ -197,7 +197,7 @@ uint32_t getOpPosition(uint32_t p, uint32_t q) {
 
 	for (i = p; i < q; i++) 
 	{
-		printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);							
+	//	printf("[getOpPosition] i = %u, tokens[%u].str = %s, pnum = %d\n", i,i,tokens[i].str,pnum);							
 		if(strcmp(tokens[i].str, "(") == 0) pnum++;
 	    if(strcmp(tokens[i].str, ")") == 0) pnum--;
 		
@@ -226,7 +226,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	
 
 
-	printf("[eval]p = %u, q = %u\n", p, q);	
+	//printf("[eval]p = %u, q = %u\n", p, q);	
 
 	if (p > q) {
 	
@@ -277,7 +277,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		
 		uint32_t val2 = eval(op + 1, q);
 		
-		printf("[eval debug]op = %s, val1 = %u, val2 = %u\n", tokens[op].str, val1, val2);
+	//	printf("[eval debug]op = %s, val1 = %u, val2 = %u\n", tokens[op].str, val1, val2);
 		
 		switch (tokens[op].type) {
 			case '+': return val1 + val2;
