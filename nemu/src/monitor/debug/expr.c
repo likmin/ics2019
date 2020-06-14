@@ -268,7 +268,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 	
 		int op = getOpPosition(p, q); /* get the position of the op in the subexpression */
 		
-		printf("get op position = %u, op = %s\n",op, tokens[op].str);
+	//	printf("get op position = %u, op = %s\n",op, tokens[op].str);
 		
 		uint32_t val1 = 0;
 		if(tokens[op].type != TK_DEREF &&  /* if the op is not a pointer, then calculate the value of the left expression */
