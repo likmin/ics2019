@@ -342,11 +342,13 @@ uint32_t expr(char *e, bool *success) {
 		tokens[i].type = TK_NEG; 
 	}	  
   }
-  
+ /* print the tokens  
   for (i = 0; i < 32; i++) {
 	printf("%s %d, ", tokens[i].str, tokens[i].type);	 
 	if((i + 1) % 8 == 0) printf("\n");
   }
+  */
+
   uint32_t result = eval(0, nr_token-1);
   printf("result = %u\n", result);
   return result;
