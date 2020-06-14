@@ -136,7 +136,7 @@ static int cmd_w(char *args) {
 	if(wp != NULL) 
 		printf("watchpoint %d: %s\n", wp->NO, wp->EXPR);
 	else 
-		printf("Cannot creat watchpoint: %s", EXPR);
+		printf("Cannot creat watchpoint: %s\n", EXPR);
 
 	return 0;
 	
