@@ -20,15 +20,16 @@ void isa_reg_display() {
 uint32_t isa_reg_str2val(const char *s, bool *success) {
   *success = true;
   
+  if(strcmp("pc",s) == 0) return cpu.pc;
   
-  if(s[0] == '0') {
+  if(s[0] == '0') 
 	return reg_l(0);
-  } else {
-	int i;
-	for (i = 1; i < 32; i++) 
-		if(strcmp(regsl[i], s) == 0) break;	
-	return reg_l(i);
-  } 
+
+  int i;
+  for (i = 1; i < 32; i++)
+	  if(strcmp(regsl[i], s) == 0) break;	
+
+  if(i < 32) return reg_l(i);
 
   *success = false;
   return 0;
