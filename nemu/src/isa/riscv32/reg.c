@@ -13,6 +13,8 @@ void isa_reg_display() {
     printf("%s = %#X\t", regsl[i], reg_l(i));
     if ((i + 1) % 8 != 0) printf(", "); else printf("\n");
   }
+
+  printf("pc = %#X\n", cpu.pc);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
