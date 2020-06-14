@@ -105,7 +105,7 @@ static int cmd_x(char *args) {
  int i;
  printf("\tpaddr \t data  \t \n");
  for(i = EXPR; i < EXPR + N; i++)
-	printf(" 0x%08x \t 0x%08x \n", EXPR + (i>>2), paddr_read(EXPR, i>>2));
+	printf(" 0x%08x \t 0x%08x \n", EXPR + i, paddr_read(EXPR, i));
  
  return 0; 
 }
