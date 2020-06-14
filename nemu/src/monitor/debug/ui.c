@@ -131,7 +131,7 @@ static int cmd_d(char *args) {
 
 static int cmd_w(char *args) {
 	
-	char *EXPR = strtok(NULL, " "); // get the EXPR	
+	char *EXPR = args; 
 	WP *wp = new_wp(EXPR);
 	if(wp != NULL) 
 		printf("watchpoint %d: %s\n", wp->NO, wp->EXPR);
