@@ -94,8 +94,14 @@ static int cmd_x(char *args) {
 
  
 
- uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
+ //uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
 												 /* TODO: get the value of Expression instead of a value */
+ bool success;
+ uint32_t EXPR = expr(argEXPR, &success);
+ if(!success) {
+	printf("EXPR = %s is error!\n",argEXPR);
+	return 0;
+ }
  int i;
  printf("\tpaddr \t data  \t \n");
  for(i = EXPR; i < EXPR + N; i++)
