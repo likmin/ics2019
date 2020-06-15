@@ -27,7 +27,7 @@ static inline void invoke_callback(io_callback_t c, uint32_t offset, int len, bo
 }
 
 uint32_t map_read(paddr_t addr, int len, IOMap *map) {
-  printf("[map_read] len = %d\n", len);
+//  printf("[map_read] len = %d\n", len);
   assert(len >= 1 && len <= 4);
   check_bound(map, addr);
   uint32_t offset = addr - map->low;
