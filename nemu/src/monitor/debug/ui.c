@@ -90,22 +90,22 @@ static int cmd_x(char *args) {
 	return 0;
  }
 
- int N = atoi(argN);
+ int N = atoi(argN); 
 
- 
-
- //uint32_t EXPR = strtoul(argEXPR + 2, NULL, 16); /* plus 2 is to remove '0x' before the EXPR */
-												 /* TODO: get the value of Expression instead of a value */
  bool success;
  uint32_t EXPR = expr(argEXPR, &success);
+
  if(!success) {
 	printf("EXPR = %s is error!\n",argEXPR);
 	return 0;
  }
+
  int i;
  printf("\tpaddr \t data  \t \n");
- for(i = EXPR; i < EXPR + N; i++)
-	printf(" 0x%08x \t 0x%08x \n", EXPR + i, paddr_read(EXPR, i));
+ for(i = 0; i < N; i++) {
+	printf(" 0x%08x \t 0x%08x \n", EXPR, paddr_read(EXPR, 4)); /* len = 4  */
+	EXPR += 4;
+ }
  
  return 0; 
 }
