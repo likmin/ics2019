@@ -284,7 +284,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 			case '-': return val1 - val2;
 		 	case '*': return val1 * val2;
 		 	case '/': return val1 / val2; /* TODO: what about val2 is zero? */
-			case TK_DEREF:	return paddr_read(val2,1);
+			case TK_DEREF:	return paddr_read(val2,4);
 			case TK_EQ:		return val1 == val2 ? 1 : 0;
 			case TK_NEQ:    return val1 != val2 ? 1 : 0;
 			case TK_AND:	return val1 && val2 ? 1 : 0;
