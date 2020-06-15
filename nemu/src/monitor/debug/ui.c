@@ -76,7 +76,7 @@ static int cmd_p(char *args) {
   bool success;
 //  printf("[p expr] args = %s \n",args);
   uint32_t result = expr(args, &success);
-  printf("result = %u\n", result);
+  printf("result = 0x%x %u\n", result, result);
   return 0;  
 }
 
