@@ -55,5 +55,10 @@ make_DHelper(st) {
 /* more decode function*/
 
 make_DHelper(B) {
-  decode_op_r(id_src, decinfo.isa.instr.rs1, true);	
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);	 
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);	 
+
+  int32_t simm = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
+				 (decinfo.isa.instr.imm10_5 << 10)| (decinfo.isa.instr.imm4_1);
+  decode_op_i() /* TODO: what's the type of simm?*/
 }
