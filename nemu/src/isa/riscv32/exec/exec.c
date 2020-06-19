@@ -20,10 +20,15 @@ static make_EHelper(store) {
 }
 
 static OpcodeEntry opcode_table [32] = {
+  /* Introduction: IDEX is located in 'nemu/include/cpu/exec.h'
+				   IDEX(ld,load) -> IDEXW(ld, load, 0) -> {decode_ld, exec_load, 0}
+				   this is used to define the decode function, exection function 
+				   and the width of operand.
+   */
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ EMPTY, EMPTY, EX(nemu_trap), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  /* b11 */ IDEX(B, branch), EMPTY, EX(nemu_trap), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {

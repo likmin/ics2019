@@ -4,7 +4,7 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
-static inline make_DopHelper(i) {
+static inline make_DopHelper(i) { /*static inline void decode_op_i (...) */
   op->type = OP_TYPE_IMM;
   op->imm = val;
   rtl_li(&op->val, op->imm);
@@ -22,7 +22,7 @@ static inline make_DopHelper(r) {
   print_Dop(op->str, OP_STR_SIZE, "%s", reg_name(op->reg, 4));
 }
 
-make_DHelper(U) {
+make_DHelper(U) { /* void decode_U (vaddr_t *pc)  */
   decode_op_i(id_src, decinfo.isa.instr.imm31_12 << 12, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 
@@ -50,4 +50,10 @@ make_DHelper(st) {
   rtl_add(&id_src->addr, &id_src->val, &id_src2->val);
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
+}
+
+/* more decode function*/
+
+make_DHelper(B) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);	
 }
