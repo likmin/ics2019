@@ -12,7 +12,7 @@ make_EHelper(ld) { /* void exec_ld(vaddr_t *pc) */
    * if id_dest->reg is not zero, then write the 's0' to destination reg
    */
   rtl_sr(id_dest->reg, &s0, 4);
-
+  
   switch (decinfo.width) {
     case 4: print_asm_template2(lw); break;
     case 2: print_asm_template2(lhu); break;

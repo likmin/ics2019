@@ -16,6 +16,13 @@ static inline make_DopHelper(r) { /* static inline void decode_op_r (...)  */
   op->type = OP_TYPE_REG;
   op->reg = val;
   if (load_val) {
+    /* read the reg value from reg_l to 'op->val'
+     * rtl_lr(&op->val, op->reg, 4);
+     *
+     * if r != 0  rtl_mv(dest, &reg_l[r]) -> rtl_li(dest, imm) -> *dest = imm
+     * else       rtl_li(dest, 0) -> *dest = 0
+     *      
+     */
     rtl_lr(&op->val, op->reg, 4);
   }
 
@@ -84,7 +91,7 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
   
   decode_op_i(id_src, simm, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
-
+  
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
 }
 
