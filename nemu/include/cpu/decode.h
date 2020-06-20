@@ -31,7 +31,7 @@ typedef struct {
   bool is_jmp;
   vaddr_t jmp_pc;
   Operand src, dest, src2;
-  struct ISADecodeInfo isa;
+  struct ISADecodeInfo isa; /* only include instr*/
 } DecodeInfo;
 
 void operand_write(Operand *, rtlreg_t *);

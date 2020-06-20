@@ -2,6 +2,7 @@
 #define __RISCV32_DECODE_H__
 
 typedef union {
+  /* R-type */
   struct {
     uint32_t opcode1_0 : 2;
     uint32_t opcode6_2 : 5;
@@ -11,16 +12,22 @@ typedef union {
     uint32_t rs2       : 5;
     uint32_t funct7    : 7;
   };
+
+  /* I-type */
   struct {
     uint32_t pad0      :20;
     int32_t  simm11_0  :12;
   };
+
+  /* S-type */
   struct {
     uint32_t pad1      : 7;
     uint32_t imm4_0    : 5;
     uint32_t pad2      :13;
     int32_t  simm11_5  : 7;
   };
+
+  /* B-type */
   struct {
     uint32_t pad3      : 7;
     uint32_t imm11     : 1;
@@ -29,10 +36,14 @@ typedef union {
     uint32_t imm10_5   : 6;
     int32_t  simm12    : 1;
   };
+
+  /* U-type */
   struct {
     uint32_t pad5      :12;
     uint32_t imm31_12  :20;
   };
+
+  /* J-type */
   struct {
     uint32_t pad6      :12;
     uint32_t imm19_12  : 8;
