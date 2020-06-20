@@ -131,7 +131,9 @@ void isa_exec(vaddr_t *pc) {
   /* Instruction decode and execute */
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
-/* the process of instruction execute:
+
+/* 
+ * the process of instruction execute:
  * for example, lw
  * 1.isa_exec: 
  *    1.1 fetch instr to decinfo.isa.instr.val
@@ -141,5 +143,4 @@ void isa_exec(vaddr_t *pc) {
  *      1.2.2 In 'exec_load', idex, try to decode funct3, but load only need to give the width
  *        1.2.2.1 according to the load_table, there is no need to decode
  *        1.2.2.2 according to the load_table, try to execute 'exec_ld' which is located in 'ldst.c' to execute 'ld'.
- *
  */
