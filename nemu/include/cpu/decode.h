@@ -19,6 +19,9 @@ typedef struct {
     int32_t simm;
   };
   rtlreg_t val;
+  /* TODO: What's the effect of 'str'? 
+   * 
+   */
   char str[OP_STR_SIZE];
 } Operand;
 
@@ -31,7 +34,7 @@ typedef struct {
   bool is_jmp;
   vaddr_t jmp_pc;
   Operand src, dest, src2;
-  struct ISADecodeInfo isa; /* only include instr*/
+  struct ISADecodeInfo isa; /* only include one meta --- 'instr' */
 } DecodeInfo;
 
 void operand_write(Operand *, rtlreg_t *);

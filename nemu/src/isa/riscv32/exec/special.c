@@ -14,6 +14,11 @@ make_EHelper(inv) {
 
   display_inv_msg(cpu.pc);
 
+  /* rtl_exit -> interpret_rtl_exit 
+   * change the cpu.state to NEMU_ABORT,
+   * set the halt_pc to cpu.pc
+   * and set the halt_ret is -1
+   */
   rtl_exit(NEMU_ABORT, cpu.pc, -1);
 
   print_asm("invalid opcode");

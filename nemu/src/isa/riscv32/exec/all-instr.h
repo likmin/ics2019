@@ -1,5 +1,5 @@
 #include "cpu/exec.h"
-
+/* all support instruction */
 make_EHelper(lui);
 
 make_EHelper(ld);

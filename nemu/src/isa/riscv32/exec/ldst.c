@@ -1,7 +1,16 @@
 #include "cpu/exec.h"
 
-make_EHelper(ld) {
+make_EHelper(ld) { /* void exec_ld(vaddr_t *pc) */
+  /*
+   * rtl_lm -> interpret_rtl_lm
+   * s0 is a reg in 'nemu/src/cpu.c'
+   */
   rtl_lm(&s0, &id_src->addr, decinfo.width);
+
+  /*
+   * rtl_sr -> rtl_mv
+   * if id_dest->reg is not zero, then write the 's0' to destination reg
+   */
   rtl_sr(id_dest->reg, &s0, 4);
 
   switch (decinfo.width) {
@@ -12,7 +21,11 @@ make_EHelper(ld) {
   }
 }
 
-make_EHelper(st) {
+make_EHelper(st) { /* void exec_st(vaddr_t *pc) */
+
+  /*
+   * rtl_sm -> interpret_rtl_sm -> vaddr_write()
+   */
   rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
 
   switch (decinfo.width) {

@@ -12,7 +12,7 @@ static inline make_DopHelper(i) { /* static inline void decode_op_i (...) */
   print_Dop(op->str, OP_STR_SIZE, "%d", op->imm);
 }
 
-static inline make_DopHelper(r) {
+static inline make_DopHelper(r) { /* static inline void decode_op_r (...)  */
   op->type = OP_TYPE_REG;
   op->reg = val;
   if (load_val) {
@@ -78,15 +78,15 @@ make_DHelper(U) { /* void decode_U (vaddr_t *pc), use to decode U-type instructi
 }
 
 
-// make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instruction  */
-//   int32_t simm = (decinfo.isa.instr.simm20 << 20) |  (decinfo.isa.instr.simm19_12 << 12) |
-//                   (decinfo.isa.instr.simm11_ << 11)|   (decinfo.isa.instr.simm10_1 << 1);   
+make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instruction  */
+  int32_t simm =  (decinfo.isa.instr.simm20 << 20) |  (decinfo.isa.instr.simm19_12 << 12) |
+                  (decinfo.isa.instr.simm11_ << 11)|  (decinfo.isa.instr.simm10_1 << 1);   
   
-//   decode_op_i(id_src, simm, true);
-//   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  decode_op_i(id_src, simm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 
-//   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
-// }
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
+}
 
 
 
