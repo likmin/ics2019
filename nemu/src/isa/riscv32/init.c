@@ -4,8 +4,8 @@
 // this is not consistent with uint8_t
 // but it is ok since we do not access the array directly
 const uint32_t isa_default_img [] = {
-  0x00009117,
-  //0x800002b7,  // lui t0,0x80000
+  //0x00009117,
+  0x800002b7,  // lui t0,0x80000
   0x0002a023,  // sw  zero,0(t0)
   0x0002a503,  // lw  a0,0(t0)
   0x0000006b,  // nemu_trap
