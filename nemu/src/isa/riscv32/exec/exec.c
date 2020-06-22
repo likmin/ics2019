@@ -28,7 +28,8 @@ static OpcodeEntry load_table [8] = {
    *  {decode, execute, width}
    *    
    */
-    EXW(lb, 1), EXW(lh, 2), EXW(ld, 4), EMPTY, EXW(lbu, 1), EXW(lhu, 2), EMPTY, EMPTY
+  //EXW(lb, 1), EXW(lh, 2), EXW(ld, 4), EMPTY, EXW(lbu, 1), EXW(lhu, 2), EMPTY, EMPTY
+  EMPTY, EMPTY, EXW(ld, 4),  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
 static make_EHelper(load) { /* static void exec_load (vaddr_t *pc)*/
@@ -63,7 +64,9 @@ static make_EHelper(load) { /* static void exec_load (vaddr_t *pc)*/
  *  sw    010
  */
 static OpcodeEntry store_table [8] = {
-  EXW(sb, 1), EXW(sh, 2), EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+  // EXW(sb, 1), EXW(sh, 2), 
+  EMPTY, EMPTY,
+  EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
 static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
@@ -83,9 +86,10 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  * - ori  , 110;
  * - andi , 111;
  */
-static OpcodeEntry imm_table [8] = {
-  EXW(addi, 4), EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
-};
+
+// static OpcodeEntry imm_table [8] = {
+//   EXW(addi, 4), EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
+// };
 
 static make_EHelper(imm) { /* static void exec_store(vaddr_t *pc) */
   decinfo.width = store_table[decinfo.isa.instr.funct3].width;
@@ -121,7 +125,7 @@ static OpcodeEntry opcode_table [32] = {
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(ld, imm), IDEX(U, auipc), EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ EMPTY, IDEX(J, jalr), EX(nemu_trap), EMPTY, IDEX(J, jal), EMPTY, EMPTY, EMPTY,
+  /* b11 */ EMPTY, /*IDEX(J, jalr)*/EMPTY, EX(nemu_trap), EMPTY, /*IDEX(J, jal)*/EMPTY, EMPTY, EMPTY, EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {

@@ -29,6 +29,15 @@ static inline make_DopHelper(r) { /* static inline void decode_op_r (...)  */
   print_Dop(op->str, OP_STR_SIZE, "%s", reg_name(op->reg, 4));
 }
 
+static inline make_DopHelper(m) {
+  op->type = OP_TYPE_MEM; /*TODO: It maybe not right!*/
+  op->addr = val;
+
+  rtl_li(&op->val, op->addr);
+
+  print_Dop(op->str, OP_STR_SIZE, "0x%x", op->addr);
+}
+
 /*
  * There are six types of instruction in RISCV：
  *  - R-type
@@ -61,6 +70,7 @@ make_DHelper(ld) { /* void decode_ld (vaddr_t *pc), use to decode I-type instruc
 make_DHelper(st) { /*void decode_st (vaddr_t *pc), use to decode S-type instruction*/
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   int32_t simm = (decinfo.isa.instr.simm11_5 << 5) | decinfo.isa.instr.imm4_0;
+
   decode_op_i(id_src2, simm, true);
 
   print_Dop(id_src->str, OP_STR_SIZE, "%d(%s)", id_src2->val, reg_name(id_src->reg, 4));
@@ -86,8 +96,10 @@ make_DHelper(U) { /* void decode_U (vaddr_t *pc), use to decode U-type instructi
 
 
 make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instruction  */
-  int32_t simm =  (decinfo.isa.instr.simm20 << 20) |  (decinfo.isa.instr.simm19_12 << 12) |
-                  (decinfo.isa.instr.simm11_ << 11)|  (decinfo.isa.instr.simm10_1 << 1);   
+  int32_t simm =  (decinfo.isa.instr.simm20 << 20) |  (decinfo.isa.instr.imm19_12 << 12) |
+                  (decinfo.isa.instr.imm11_ << 11) |  (decinfo.isa.instr.imm10_1 << 1);   
+  
+  // rtl_add(&id_src->addr, &simm, &cpu.pc);
   
   decode_op_i(id_src, simm, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
