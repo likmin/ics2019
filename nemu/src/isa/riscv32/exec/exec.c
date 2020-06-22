@@ -87,13 +87,13 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  * - andi , 111;
  */
 
-// static OpcodeEntry imm_table [8] = {
-//   EXW(addi, 4), EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
-// };
+static OpcodeEntry imm_table [8] = {
+  EXW(addi, 4), EMPTY,EMPTY, EMPTY,EMPTY, EMPTY,EMPTY, EMPTY
+  //EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
+};
 
 static make_EHelper(imm) { /* static void exec_store(vaddr_t *pc) */
-  decinfo.width = store_table[decinfo.isa.instr.funct3].width;
-  /* exec_addi(vaddr_t *pc) */
+  decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
   idex(pc, &store_table[decinfo.isa.instr.funct3]);
 }
 
