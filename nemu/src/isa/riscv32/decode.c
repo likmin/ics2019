@@ -4,6 +4,9 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
+/*
+ * 
+ */
 static inline make_DopHelper(i) { /* static inline void decode_op_i (...) */
   op->type = OP_TYPE_IMM;
   op->imm = val;

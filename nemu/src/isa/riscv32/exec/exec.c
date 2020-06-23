@@ -94,12 +94,12 @@ static OpcodeEntry imm_table [8] = {
 
 static make_EHelper(imm) { /* static void exec_store(vaddr_t *pc) */
   decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
-  idex(pc, &store_table[decinfo.isa.instr.funct3]);
+  idex(pc, &imm_table[decinfo.isa.instr.funct3]);
 }
 
 
 /*
- * opcode_table
+ * opcode_table, 译码查找表
  */
 static OpcodeEntry opcode_table [32] = {
   /* Introduction: IDEX is located in 'nemu/include/cpu/exec.h'
@@ -120,7 +120,6 @@ static OpcodeEntry opcode_table [32] = {
    * 
    *      - 
    */
-
   
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
