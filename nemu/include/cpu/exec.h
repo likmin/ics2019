@@ -11,9 +11,9 @@ typedef void (*EHelper) (vaddr_t *);
 #include "cpu/decode.h"
 
 typedef struct {
-  DHelper decode;
-  EHelper execute;
-  int width;
+  DHelper decode;  /* 译码辅助函数 */
+  EHelper execute; /* 执行辅助函数 */
+  int width;       /* 操作数宽度   */
 } OpcodeEntry;
 
 #define IDEXW(id, ex, w)   {concat(decode_, id), concat(exec_, ex), w}
