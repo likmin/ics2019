@@ -4,9 +4,6 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
-/*
- * 
- */
 static inline make_DopHelper(i) { /* static inline void decode_op_i (...) */
   op->type = OP_TYPE_IMM;
   op->imm = val;
@@ -99,12 +96,14 @@ make_DHelper(U) { /* void decode_U (vaddr_t *pc), use to decode U-type instructi
 
 
 make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instruction  */
-  int32_t simm =  (decinfo.isa.instr.simm20 << 20) |  (decinfo.isa.instr.imm19_12 << 12) |
-                  (decinfo.isa.instr.imm11_ << 11) |  (decinfo.isa.instr.imm10_1 << 1);   
+
+  int32_t simm =  (decinfo.isa.instr.simm20) |  decinfo.isa.instr.imm19_12    |
+                    decinfo.isa.instr.imm11_ |  decinfo.isa.instr.imm10_1 << 1;   
   
   // rtl_add(&id_src->addr, &simm, &cpu.pc);
-  
+  // decinfo.jmp_pc = simm + (*pc);
   decode_op_i(id_src, simm, true);
+  decode_op_r(id_src, *pc, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
