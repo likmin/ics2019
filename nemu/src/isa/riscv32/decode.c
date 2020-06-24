@@ -101,7 +101,7 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
    * The 'rtl_sext' method located in the 'neum/rtl/rtl.h' may be not apply in here,
    * for the width of simm is 20bit, which is not a multiple of 8.
    */
-  int32_t simm =  decinfo.isa.instr.simm20 | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
+  int32_t simm =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
   //simm = simm << 12;
   //simm = simm >> 12;
   printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
