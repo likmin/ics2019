@@ -6,3 +6,4 @@
 + OBJCOPY -> build/dummy-riscv32-nemu.bin
 Building riscv32-nemu
 + CC src/isa/riscv32/decode.c
++ LD build/riscv32-nemu
