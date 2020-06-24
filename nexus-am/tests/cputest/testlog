@@ -7,3 +7,4 @@
 Building riscv32-nemu
 + CC src/isa/riscv32/exec/control.c
 + CC src/isa/riscv32/decode.c
++ LD build/riscv32-nemu
