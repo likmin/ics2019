@@ -12,7 +12,7 @@ make_EHelper(jal) { /* interpret_rtl_jal(vaddr_t *pc) */
 }
 
 make_EHelper(jalr) {
-    rtl_add(&decinfo.jmp_pc, &id_src2->val, &cpu.pc);
+    rtl_add(&decinfo.jmp_pc, &id_src->val, &cpu.pc);
     t0 = cpu.pc + 4;
     rtl_sr(id_dest->reg, &t0, 4);
     interpret_rtl_j(decinfo.jmp_pc); /* interpret_rtl_jr(&decinfo.jmp_pc); */
