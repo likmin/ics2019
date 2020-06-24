@@ -153,6 +153,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
     case 3: temp = temp <<  8; *dest = temp >>  8; return; 
     case 2: temp = temp << 16; *dest = temp >> 16; return; 
     case 1: temp = temp << 24; *dest = temp >> 24; return;
+    default: assert(0);
   }  
 }
 
