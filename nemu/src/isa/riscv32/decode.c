@@ -102,8 +102,8 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
    * for the width of simm is 20bit, which is not a multiple of 8.
    */
   int32_t simm =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
-  //simm = simm << 12;
-  //simm = simm >> 12;
+  simm = simm << 12;
+  simm = simm >> 12;
   printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
   printf("[decode_J] simm = 0x%x, pc = 0x%x\n",simm, cpu.pc); 
   decode_op_i(id_src , simm, true);
@@ -117,6 +117,9 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
 
 
 make_DHelper(I) {
+  int32_t simm = decinfo.isa.instr.simm11_0;
+  simm = simm << 20;
+  simm = simm >> 20;
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
 
