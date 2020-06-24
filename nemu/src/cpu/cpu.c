@@ -15,6 +15,7 @@ void isa_exec(vaddr_t *pc);
 
 vaddr_t exec_once(void) {
   decinfo.seq_pc = cpu.pc;
+  printf("[exec_once] seq_pc = 0x%x \n", decinfo.seq_pc);
   isa_exec(&decinfo.seq_pc);
   update_pc();
 
