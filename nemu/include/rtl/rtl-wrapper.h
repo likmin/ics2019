@@ -5,9 +5,9 @@
 
 #define RTL_PREFIX interpret
 
-#define rtl_li        concat(RTL_PREFIX, _rtl_li      )
-#define rtl_mv        concat(RTL_PREFIX, _rtl_mv      )
-#define rtl_add       concat(RTL_PREFIX, _rtl_add     )
+#define rtl_li        concat(RTL_PREFIX, _rtl_li      ) /* 立即数读入 */
+#define rtl_mv        concat(RTL_PREFIX, _rtl_mv      ) /* 寄存器传输 */
+#define rtl_add       concat(RTL_PREFIX, _rtl_add     ) 
 #define rtl_sub       concat(RTL_PREFIX, _rtl_sub     )
 #define rtl_and       concat(RTL_PREFIX, _rtl_and     )
 #define rtl_or        concat(RTL_PREFIX, _rtl_or      )
@@ -27,14 +27,14 @@
 #define rtl_div64_r   concat(RTL_PREFIX, _rtl_div64_r )
 #define rtl_idiv64_q  concat(RTL_PREFIX, _rtl_idiv64_q)
 #define rtl_idiv64_r  concat(RTL_PREFIX, _rtl_idiv64_r)
-#define rtl_lm        concat(RTL_PREFIX, _rtl_lm      )
-#define rtl_sm        concat(RTL_PREFIX, _rtl_sm      )
-#define rtl_host_lm   concat(RTL_PREFIX, _rtl_host_lm )
-#define rtl_host_sm   concat(RTL_PREFIX, _rtl_host_sm )
-#define rtl_setrelop  concat(RTL_PREFIX, _rtl_setrelop)
-#define rtl_j         concat(RTL_PREFIX, _rtl_j       )
-#define rtl_jr        concat(RTL_PREFIX, _rtl_jr      )
-#define rtl_jrelop    concat(RTL_PREFIX, _rtl_jrelop  )
-#define rtl_exit      concat(RTL_PREFIX, _rtl_exit    )
+#define rtl_lm        concat(RTL_PREFIX, _rtl_lm      ) /* guest memory access */
+#define rtl_sm        concat(RTL_PREFIX, _rtl_sm      ) /* guest memory access */
+#define rtl_host_lm   concat(RTL_PREFIX, _rtl_host_lm ) /* host memory access  */
+#define rtl_host_sm   concat(RTL_PREFIX, _rtl_host_sm ) /* host memory access  */
+#define rtl_setrelop  concat(RTL_PREFIX, _rtl_setrelop) /* 关系运算 */
+#define rtl_j         concat(RTL_PREFIX, _rtl_j       ) /* 直接跳转 */
+#define rtl_jr        concat(RTL_PREFIX, _rtl_jr      ) /* 间接跳转 */
+#define rtl_jrelop    concat(RTL_PREFIX, _rtl_jrelop  ) /* 条件跳转 */
+#define rtl_exit      concat(RTL_PREFIX, _rtl_exit    ) /* 终止程序 */
 
 #endif
