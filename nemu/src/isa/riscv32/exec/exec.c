@@ -132,6 +132,7 @@ void isa_exec(vaddr_t *pc) {
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
   
   printf("opcode6_2 = %d\n", decinfo.isa.instr.opcode6_2);
+  printf("pc = 0x%x", *pc);
   /* Instruction decode and execute */
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
