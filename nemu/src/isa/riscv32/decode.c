@@ -118,10 +118,12 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
 
 make_DHelper(I) {
   int32_t simm = decinfo.isa.instr.simm11_0;
-  //simm = simm << 20;
-  //simm = simm >> 20;
-  printf("[decode_Jalr] pc   = 0x%8x\n",decinfo.isa.instr.val);
+  simm = simm << 20;
+  simm = simm >> 20;
+  printf("[decode_Jalr] pc   = 0x%8x\n", decinfo.isa.instr.val);
   printf("[decode_Jalr] simm = 0x%8x\n", decinfo.isa.instr.simm11_0);
+  printf("[decode_Jalr] rs1  = 0x%8x\n", decinfo.isa.instr.rs1);
+  
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, simm, true);
 
