@@ -6,7 +6,8 @@
 #include "rtl/rtl.h"
 
 #define make_EHelper(name) void concat(exec_, name) (vaddr_t *pc)
-typedef void (*EHelper) (vaddr_t *);
+/* 执行函数指针，定义了函数的类型 */
+typedef void (*EHelper) (vaddr_t *); 
 
 #include "cpu/decode.h"
 
