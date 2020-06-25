@@ -10,7 +10,7 @@ $(error Environment variable AM_HOME must be defined.)
 endif
 
 ## Check: Environment variable $ARCH must be in the supported list
-ARCH  ?= native
+ARCH  ?= riscv32-nemu
 ARCHS := $(basename $(notdir $(shell ls $(AM_HOME)/am/arch/*.mk)))
 ifeq ($(filter $(ARCHS), $(ARCH)), )
 $(error Invalid ARCH. Supported: $(ARCHS))
