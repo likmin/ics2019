@@ -127,6 +127,8 @@ make_DHelper(I) {
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, simm, true);
 
+  printf("[decode_Jalr] src1 = 0x%8x\n", id_src->val);
+
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.rs1);
   print_Dop(id_src2->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.simm11_0);
 
