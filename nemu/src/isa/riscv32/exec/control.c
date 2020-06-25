@@ -1,8 +1,8 @@
 #include "cpu/exec.h"
 
 make_EHelper(jal) { /* interpret_rtl_jal(vaddr_t *pc) */
-   t1 = cpu.pc + 4;
-   rtl_sr(id_dest->reg, &t1, 4);
+   t0 = cpu.pc + 4;
+   rtl_sr(id_dest->reg, &t0, 4);
    rtl_add(&decinfo.jmp_pc, &id_src->val, &cpu.pc);
    //printf("jmp_pc = 0x%x\n", decinfo.jmp_pc);
    interpret_rtl_j(decinfo.jmp_pc); 
@@ -10,9 +10,12 @@ make_EHelper(jal) { /* interpret_rtl_jal(vaddr_t *pc) */
 }
 
 make_EHelper(jalr) {
-    rtl_add(&decinfo.jmp_pc, &id_src->val, &cpu.pc);
+
     t0 = cpu.pc + 4;
     rtl_sr(id_dest->reg, &t0, 4);
+
+    rtl_add(&t1, &id_src->val, &id_src2->val);    
+    rtl_mv(&decinfo.jmp_pc, &t1);
     interpret_rtl_j(decinfo.jmp_pc); /* interpret_rtl_jr(&decinfo.jmp_pc); */
     print_asm_template2(jalr);   
 
