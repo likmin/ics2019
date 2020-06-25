@@ -32,7 +32,7 @@ static inline uint32_t instr_fetch(vaddr_t *pc, int len) {
     strcatf(log_bytebuf, "%02x ", p_instr[i]);
   }
 #endif
-  (*pc) += len;
+  (*pc) += len; // 这里更新的是decinfo.seq_pc，而不是cpu.pc
   return instr;
 }
 
