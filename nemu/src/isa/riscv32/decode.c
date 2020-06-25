@@ -104,8 +104,8 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
   int32_t simm =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
   simm = simm << 12;
   simm = simm >> 12;
-  printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
-  printf("[decode_J] simm = 0x%x, pc = 0x%x\n",simm, cpu.pc); 
+  //printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
+  //printf("[decode_J] simm = 0x%x, pc = 0x%x\n",simm, cpu.pc); 
   decode_op_i(id_src , simm, true);
  // decode_op_r(id_src2, *pc , true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
@@ -120,14 +120,14 @@ make_DHelper(I) {
   int32_t simm = decinfo.isa.instr.simm11_0;
   simm = simm << 20;
   simm = simm >> 20;
-  printf("[decode_Jalr] pc   = 0x%8x\n", decinfo.isa.instr.val);
-  printf("[decode_Jalr] simm = 0x%8x\n", decinfo.isa.instr.simm11_0);
-  printf("[decode_Jalr] rs1  = 0x%8x\n", decinfo.isa.instr.rs1);
+  //printf("[decode_Jalr] pc   = 0x%8x\n", decinfo.isa.instr.val);
+  //printf("[decode_Jalr] simm = 0x%8x\n", decinfo.isa.instr.simm11_0);
+  //printf("[decode_Jalr] rs1  = 0x%8x\n", decinfo.isa.instr.rs1);
   
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, simm, true);
 
-  printf("[decode_Jalr] src1 = 0x%8x\n", id_src->val);
+  //printf("[decode_Jalr] src1 = 0x%8x\n", id_src->val);
 
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.rs1);
   print_Dop(id_src2->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.simm11_0);
