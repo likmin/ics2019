@@ -88,7 +88,7 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  */
 
 static OpcodeEntry imm_table [8] = {
-  EXW(addi, 4), EMPTY,EMPTY, EMPTY,EMPTY, EMPTY,EMPTY, EMPTY
+  EX(addi), EMPTY,EMPTY, EMPTY,EMPTY, EMPTY,EMPTY, EMPTY
   //EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
 };
 
@@ -124,7 +124,7 @@ static OpcodeEntry opcode_table [32] = {
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ EMPTY, IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), EMPTY, EMPTY, EMPTY, EMPTY,
+  /* b11 */ IDEX(B, br), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), EMPTY, EMPTY, EMPTY, EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {

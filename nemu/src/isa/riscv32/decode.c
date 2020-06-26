@@ -1,6 +1,15 @@
 #include "cpu/decode.h"
 #include "rtl/rtl.h"
 
+/*
+ * 利用c语言中的位操作实现符号位拓展
+ */
+static inline void sext(int32_t *num, uint32_t width) {
+  assert(width >=0 && width <= 32);
+  *num = (*num) << width;
+  *num = (*num) >> width;
+}
+
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
@@ -80,8 +89,17 @@ make_DHelper(st) { /*void decode_st (vaddr_t *pc), use to decode S-type instruct
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
 }
 
-// make_DHelper(B) { /* void decode_U (vaddr_t *pc), use to decode I-type instruction  */
-// }
+make_DHelper(B) { /* void decode_B (vaddr_t *pc), use to decode B-type instruction  */
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  int32_t simm = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
+                 (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1);
+ 
+  sext(&simm, 19);
+
+  rtl_add(&decinfo.jmp_pc, &simm, &cpu.pc);
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
+}
 
 /*
  * TODO: what does the 'print_Dop' mean?
@@ -102,8 +120,10 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
    * for the width of simm is 20bit, which is not a multiple of 8.
    */
   int32_t simm =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
-  simm = simm << 12;
-  simm = simm >> 12;
+  
+  sext(&simm, 11);
+  //simm = simm << 11;
+  //simm = simm >> 11;
   //printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
   //printf("[decode_J] simm = 0x%x, pc = 0x%x\n",simm, cpu.pc); 
   decode_op_i(id_src , simm, true);

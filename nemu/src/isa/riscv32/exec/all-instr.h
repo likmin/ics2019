@@ -13,3 +13,5 @@ make_EHelper(addi);
 
 make_EHelper(jal);
 make_EHelper(jalr);
+
+make_EHelper(br);
