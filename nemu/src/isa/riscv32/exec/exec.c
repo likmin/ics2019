@@ -107,7 +107,7 @@ static OpcodeEntry opcode_table [32] = {
    *                            |   |  
    *                     IDEXW(ld, load, 0) 
    *                            |    |
-   *                     {decode_ld, exec_load, 0}
+   *        OpcodeEntry  {decode_ld, exec_load, 0}
    *
 	 *			         this is used to define the decode function, exection function 
 	 *  		         and the width of operand.
@@ -120,7 +120,7 @@ static OpcodeEntry opcode_table [32] = {
    * 
    *      - 
    */
-  
+
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
