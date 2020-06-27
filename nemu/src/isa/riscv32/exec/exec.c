@@ -80,16 +80,17 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  * imm_table, use to decode the following instruction:
  *   instr funct3
  * - addi , 000;
+ * - slli , 001;
  * - stli , 010;
  * - stliu, 011;
  * - xori , 100;
+ * - srli,srai, 101;
  * - ori  , 110;
  * - andi , 111;
  */
 
 static OpcodeEntry imm_table [8] = {
-  EX(addi), EMPTY,EMPTY, EMPTY,EMPTY, EMPTY,EMPTY, EMPTY
-  //EXW(stli, 4), EXW(stliu, 4), EXW(xori, 4), EMPTY, EXW(ori, 4), EMPTY, EXW(andi, 4)
+  EX(addi), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
 };
 
 static make_EHelper(imm) { /* static void exec_store(vaddr_t *pc) */

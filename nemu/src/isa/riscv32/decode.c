@@ -11,6 +11,29 @@ static inline void sext(rtlreg_t *temp, uint32_t width) {
   num = (num) >> width;
   *temp = num;
 }
+/*
+ * 这能是一个好想法，但是不适合于这里，因为并不是所有的符号拓展，都是对操作数。
+ * 例如，分支指令Branch。
+ */
+// #define make_ExtHelper(name) void concat(name, ext) (Operand *op, uint32_t val, uint32_t width) 
+
+// static inline make_ExtHelper(s) { /* static inline void sext(Operand *op, uint32_t val, uint32_t width) */
+//   assert(width >=0 && width <= 32);
+//   op->simm = val;
+//   op->simm = (op->simm) << width;
+//   op->simm = (op->simm) >> width;
+// }
+
+// static inline make_ExtHelper(u) { /* static inline void uext(Operand *op, uint32_t val, uint32_t width) */
+//   assert(width >= 0 && width <= 32);
+//   op->type = OP_TYPE_IMM;
+//   op->imm = val;
+//   op->imm = (op->imm) << width;
+//   op->imm = (op->imm) >> width;
+//   rtl_li(&op->val, op->imm);
+//   print_Dop(op->val, OP_STR_SIZE, "%d", op->imm);
+// }
+
 
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
@@ -39,6 +62,7 @@ static inline make_DopHelper(r) { /* static inline void decode_op_r (...)  */
 
   print_Dop(op->str, OP_STR_SIZE, "%s", reg_name(op->reg, 4));
 }
+
 
 static inline make_DopHelper(m) {
   op->type = OP_TYPE_MEM; /*TODO: It maybe not right!*/
@@ -69,7 +93,7 @@ make_DHelper(R) { /* void decode_R (vaddr_t *pc), use to decode R-type instructi
 
 make_DHelper(ld) { /* void decode_ld (vaddr_t *pc), use to decode I-type instruction */
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
-  decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
+  decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);/* TODO: 我认为这里有问题，应该是符号拓展，但是并没有 */
 
   /*
    * 操作数中存在str的意义在于，执行一条指令都会将该指令的汇编形式打印出来，根据操作数的个数，

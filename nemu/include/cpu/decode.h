@@ -20,7 +20,7 @@ typedef struct {
   };
   rtlreg_t val;
   /* TODO: What's the effect of 'str'? 
-   * 
+   * the 'str' will be use to print_asm_template. 
    */
   char str[OP_STR_SIZE];
 } Operand;
