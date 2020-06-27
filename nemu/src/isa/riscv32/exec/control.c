@@ -48,7 +48,8 @@ make_EHelper(jalr) {
 static uint32_t br_table[8] = {
     RELOP_EQ, RELOP_NE, RELOP_FALSE, RELOP_FALSE, RELOP_LT, RELOP_GE, RELOP_LTU, RELOP_GEU
 };
-
+/* TODO: remeber to print_asm_template
+ */
 make_EHelper(br) {
     rtl_jrelop(br_table[decinfo.isa.instr.funct3],
      &id_src->val, &id_src2->val, decinfo.jmp_pc);

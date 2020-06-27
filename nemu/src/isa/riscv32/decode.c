@@ -61,16 +61,25 @@ static inline make_DopHelper(m) {
  * 
  */
 
-// make_DHelper(R) { /* void decode_R (vaddr_t *pc), use to decode R-type instruction  */
-//   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
-//   decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
-//   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
-// }
+make_DHelper(R) { /* void decode_R (vaddr_t *pc), use to decode R-type instruction  */
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+}
 
 make_DHelper(ld) { /* void decode_ld (vaddr_t *pc), use to decode I-type instruction */
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
 
+  /*
+   * 操作数中存在str的意义在于，执行一条指令都会将该指令的汇编形式打印出来，根据操作数的个数，
+   * 打印指令的形式分为print_asm_template1,print_asm_template2,print_asm_template3.
+   * 
+   * 为什么在decode_op_r和decode_op_i已经调用了print_Dop，load译码这里还要调用print_Dop?
+   * 答：打印load指令会调用print_asm_template2,同时load的指令格式为
+   *     lw rd,offset(rs1)
+   * 而id_src->str只打印了rs1,所以需要加上offset，所以需要更换为offset(rs1)
+   */
   print_Dop(id_src->str, OP_STR_SIZE, "%d(%s)", id_src2->val, reg_name(id_src->reg, 4));
 
   rtl_add(&id_src->addr, &id_src->val, &id_src2->val);
