@@ -49,7 +49,7 @@ static uint32_t br_table[8] = {
     RELOP_EQ, RELOP_NE, RELOP_FALSE, RELOP_FALSE, RELOP_LT, RELOP_GE, RELOP_LTU, RELOP_GEU
 };
 
-static make_EHelper(br) {
-    interpret_rtl_jrelop(br_table[decinfo.isa.instr.funct3],
+make_EHelper(br) {
+    rtl_jrelop(br_table[decinfo.isa.instr.funct3],
      &id_src->val, &id_src2->val, decinfo.jmp_pc);
 }

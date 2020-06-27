@@ -4,10 +4,12 @@
 /*
  * 利用c语言中的位操作实现符号位拓展
  */
-static inline void sext(int32_t *num, uint32_t width) {
+static inline void sext(rtlreg_t *temp, uint32_t width) {
+  int32_t num = *temp;
   assert(width >=0 && width <= 32);
-  *num = (*num) << width;
-  *num = (*num) >> width;
+  num = (num) << width;
+  num = (num) >> width;
+  *temp = num;
 }
 
 // decode operand helper
@@ -92,13 +94,13 @@ make_DHelper(st) { /*void decode_st (vaddr_t *pc), use to decode S-type instruct
 make_DHelper(B) { /* void decode_B (vaddr_t *pc), use to decode B-type instruction  */
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
-  int32_t simm = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
-                 (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1);
+  t0 = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
+       (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1);
  
-  sext(&simm, 19);
-
-  rtl_add(&decinfo.jmp_pc, &simm, &cpu.pc);
-  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
+  sext(&t0, 19);
+  
+  rtl_add(&decinfo.jmp_pc, &t0, &cpu.pc);
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
 }
 
 /*
@@ -119,18 +121,18 @@ make_DHelper(J) { /* void decode_J (vaddr_t *pc), use to decode J-type instructi
    * The 'rtl_sext' method located in the 'neum/rtl/rtl.h' may be not apply in here,
    * for the width of simm is 20bit, which is not a multiple of 8.
    */
-  int32_t simm =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
+  t0 =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);   
   
-  sext(&simm, 11);
+  sext(&t0, 11);
   //simm = simm << 11;
   //simm = simm >> 11;
   //printf("[decode_J] jmp_pc = 0x%x\n", simm+cpu.pc);
   //printf("[decode_J] simm = 0x%x, pc = 0x%x\n",simm, cpu.pc); 
-  decode_op_i(id_src , simm, true);
+  decode_op_i(id_src , t0, true);
  // decode_op_r(id_src2, *pc , true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
-  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", simm);
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
 }
 
 
