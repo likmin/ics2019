@@ -116,7 +116,7 @@ enum {             // funct3
   R_xor     = 4 | 0 | 0 , // 100
   R_srl_sra = 4 | 0 | 1 , // 101
   R_or      = 4 | 2 | 0 , // 110
-  R_and     = 4 | 2 | 1  // 111
+  R_and     = 4 | 2 | 1   // 111
 };
 
 /*
@@ -129,52 +129,54 @@ enum {             // funct3
 static inline void arith_logic(rtlreg_t *dest, const rtlreg_t *src1, const rtlreg_t *src2) {
   switch(decinfo.isa.instr.funct3) {
     case R_add_sub: 
-                    if(decinfo.isa.instr.funct7) /*sub*/
+                    if(decinfo.isa.instr.funct7) /* sub */
                       rtl_sub(dest, src1, src2); 
                     else {
-                      rtl_add(dest, src1, src2); /*add, addi*/
-                      if(src2->type == OP_TYPE_IMM) print_asm_template2(addi); else print_asm_template3(add); 
+                      rtl_add(dest, src1, src2); /* add, addi */
+                      if(id_src2->type == OP_TYPE_IMM) print_asm_template2(addi); else print_asm_template3(add); 
                     }                         
                     break;
 
     case R_sll    : 
-                    rtl_shl(dest, src1, src2);  
-                    if(src2->type == OP_TYPE_IMM) print_asm_template2(slli); else print_asm_template3(sll); 
+                    rtl_shl(dest, src1, src2);  /* slli, sll */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slli); else print_asm_template3(sll); 
                     break;
 
     case R_slt    : 
-                    rtl_li(dest, interpret_relop(RELOP_LT, *src1, *src2));  
-                    if(src2->type == OP_TYPE_IMM) print_asm_template2(slti); else print_asm_template3(slt); 
+                    rtl_li(dest, interpret_relop(RELOP_LT, *src1, *src2));  /* slti, slt */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slti); else print_asm_template3(slt); 
                     break;
 
     case R_sltu   : 
-                    rtl_li(dest, interpret_relop(RELOP_LTU, *src1, *src2));  
-                    if(src2->type == OP_TYPE_IMM) print_asm_template2(sltui); else print_asm_template3(sltu); 
+                    rtl_li(dest, interpret_relop(RELOP_LTU, *src1, *src2));  /* sltui, sltu */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(sltui); else print_asm_template3(sltu); 
                     break;
 
     case R_xor    : 
-                    rtl_xor(dest, src1, src2); 
-                    if(src->type == OP_TYPE_IMM) print_asm_template2(xori); else print_asm_template3(xori);
+                    rtl_xor(dest, src1, src2); /* xori,xor */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(xori); else print_asm_template3(xor);
                     break; 
     case R_srl_sra:
                     if(decinfo.isa.instr.funct7) {
-                      rtl_shr(dest, src1, src2); 
-                      if(src2->type == OP_TYPE_IMM) print_asm_template2(srli); else print_asm_template3(srl); 
+                      rtl_shr(dest, src1, src2); /* srli, srl */
+                      if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srli); else print_asm_template3(srl); 
                     } else {
-                      rtl_sar(dest, src1, src2); 
-                      if(src2->type == OP_TYPE_IMM) print_asm_template2(srai); else print_asm_template3(sra); 
+                      rtl_sar(dest, src1, src2); /* srai, sra */
+                      if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srai); else print_asm_template3(sra); 
                     }                         
                     break;
     case R_or     : 
-                    rtl_or(dest, src1, src2);
-                    if(src2->type == OP_TYPE_IMM) print_asm_template2(ori); else print_asm_template3(or); 
+                    rtl_or(dest, src1, src2); /* ori, or */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(ori); else print_asm_template3(or); 
                     break;
     case R_and    :
-                    rtl_and(dest, src1, src2); 
-                    if(src2->type == OP_TYPE_IMM) print_asm_template2(andi); else print_asm_template3(and);  
+                    rtl_and(dest, src1, src2); /* andi, and */
+                    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(andi); else print_asm_template3(and);  
                     break;
   }
-  rtl_sr(id_dest->reg, &id_dest->val, 4);
+  /* write back to de destination register */
+  rtl_sr(id_dest->reg, &id_dest->val, 4); 
+
 }
 
 make_EHelper(r) {
