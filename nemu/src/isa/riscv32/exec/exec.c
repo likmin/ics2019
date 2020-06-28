@@ -29,6 +29,7 @@ static OpcodeEntry load_table [8] = {
    *    
    */
   //EXW(lb, 1), EXW(lh, 2), EXW(ld, 4), EMPTY, EXW(lbu, 1), EXW(lhu, 2), EMPTY, EMPTY
+
   EMPTY, EMPTY, EXW(ld, 4),  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
@@ -64,9 +65,7 @@ static make_EHelper(load) { /* static void exec_load (vaddr_t *pc)*/
  *  sw    010
  */
 static OpcodeEntry store_table [8] = {
-  // EXW(sb, 1), EXW(sh, 2), 
-  EMPTY, EMPTY,
-  EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+  EXW(st, 1), EXW(st, 2), EXW(st, 4), EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
 static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
