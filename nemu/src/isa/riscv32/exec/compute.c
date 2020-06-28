@@ -54,7 +54,6 @@ make_EHelper(addi) { /* void exec_addi(vaddr_t *pc),funct3 == 000*/
 make_EHelper(slli) { /*void exec_slli(vaddr_t *pc), funct3 == 001*/
   rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  // print_asm_template2(slli);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slli); else print_asm_template3(sll); 
 
 }
@@ -62,21 +61,18 @@ make_EHelper(slli) { /*void exec_slli(vaddr_t *pc), funct3 == 001*/
 make_EHelper(stli) { /*void exec_stli(vaddr_t *pc), funct3 == 010*/
   rtl_li(&id_dest->val, interpret_relop(RELOP_LT, id_src->val, id_src2->val));
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  print_asm_template2(stli);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slti); else print_asm_template3(slt); 
 }
 
 make_EHelper(stliu) { /*void exec_stliu(vaddr_t *pc), funct3 == 011*/
   rtl_li(&id_dest->val, interpret_relop(RELOP_LTU, id_src->val, id_src2->val));
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  //print_asm_template2(stliu);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(sltiu); else print_asm_template3(sltu); 
 }
 
 make_EHelper(xori) { /*void exec_xori(vaddr_t *pc), funct3 == 100*/
   rtl_xor(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  //print_asm_template2(xori);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(xori); else print_asm_template3(xor);
 }
 
@@ -84,14 +80,11 @@ make_EHelper(srli_srai) { /*void exec_srli_srai(vaddr_t *pc), funct3 == 101*/
   if(decinfo.isa.instr.funct7 == 0b0100000) { /* srai */
     rtl_sar(&id_dest->val, &id_src->val, &id_src2->val);
     rtl_sr(id_dest->reg, &id_dest->val, 4);
-    //print_asm_template2(srai);
     if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srai); else print_asm_template3(sra);
   }
   else {                                     /* srli */
     rtl_shr(&id_dest->val, &id_src->val, &id_src2->val);
     rtl_sr(id_dest->reg, &id_dest->val, 4);
-    //print_asm_template2(srli);
-     
     if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srli); else print_asm_template3(srl); 
   }
 }
@@ -99,14 +92,12 @@ make_EHelper(srli_srai) { /*void exec_srli_srai(vaddr_t *pc), funct3 == 101*/
 make_EHelper(ori) { /*void exec_ori(vaddr_t *pc), funct3 == 110*/
   rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  //print_asm_template2(ori);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(ori); else print_asm_template3(or); 
 }
 
 make_EHelper(andi) { /*void exec_ori(vaddr_t *pc), funct3 == 111*/
   rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  //print_asm_template2(andi);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(andi); else print_asm_template3(and); 
 }
 

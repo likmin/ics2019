@@ -90,7 +90,7 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  */
 
 static OpcodeEntry imm_table [8] = {
-  EX(addi), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
+  EX(addi), EX(slli), EX(slti), EX(sltiu), EX(xori), EX(srli_srai), EX(ori), EX(andi)
 };
 
 static make_EHelper(imm) { /* static void exec_imm(vaddr_t *pc) */
@@ -100,7 +100,7 @@ static make_EHelper(imm) { /* static void exec_imm(vaddr_t *pc) */
 
 
 static OpcodeEntry r_table [8] = {
-   EX(sub_add), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
+   EX(sub_add), EX(slli), EX(slti), EX(sltiu), EX(xori), EX(srli_srai), EX(ori), EX(andi)
 };
 
 static make_EHelper(r) { /* static void exec_r(vaddr_t *pc) */
