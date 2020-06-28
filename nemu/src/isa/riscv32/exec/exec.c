@@ -28,9 +28,9 @@ static OpcodeEntry load_table [8] = {
    *  {decode, execute, width}
    *    
    */
-  //EXW(lb, 1), EXW(lh, 2), EXW(ld, 4), EMPTY, EXW(lbu, 1), EXW(lhu, 2), EMPTY, EMPTY
+  EXW(ld, 1), EXW(ld, 2), EXW(ld, 4), EMPTY, EXW(ld, 1), EXW(ld, 2), EMPTY, EMPTY
 
-  EMPTY, EMPTY, EXW(ld, 4),  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
+  //EMPTY, EMPTY, EXW(ld, 4),  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
 
 static make_EHelper(load) { /* static void exec_load (vaddr_t *pc)*/
