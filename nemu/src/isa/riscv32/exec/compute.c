@@ -55,7 +55,7 @@ make_EHelper(slli) { /*void exec_slli(vaddr_t *pc), funct3 == 001*/
   rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
   if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slli); else print_asm_template3(sll); 
-
+ 
 }
 
 make_EHelper(slti) { /*void exec_stli(vaddr_t *pc), funct3 == 010*/
