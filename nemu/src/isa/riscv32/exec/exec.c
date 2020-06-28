@@ -89,15 +89,24 @@ static make_EHelper(store) { /* static void exec_store(vaddr_t *pc) */
  * - andi , 111;
  */
 
-// static OpcodeEntry imm_table [8] = {
-//   EX(addi), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
-// };
+static OpcodeEntry imm_table [8] = {
+  EX(addi), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
+};
 
-// static make_EHelper(imm) { /* static void exec_store(vaddr_t *pc) */
-//   decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
-//   idex(pc, &imm_table[decinfo.isa.instr.funct3]);
-// }
+static make_EHelper(imm) { /* static void exec_imm(vaddr_t *pc) */
+  decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
+  idex(pc, &imm_table[decinfo.isa.instr.funct3]);
+}
 
+
+static OpcodeEntry r_table [8] = {
+   EX(sub_add), EX(slli), EX(stli), EX(stliu), EX(xori), EX(stli_srai), EX(ori), EX(andi)
+};
+
+static make_EHelper(r) { /* static void exec_r(vaddr_t *pc) */
+  decinfo.width = r_table[decinfo.isa.instr.funct3].width;
+  idex(pc, &r_table[decinfo.isa.instr.funct3]);
+}
 
 /*
  * opcode_table, 译码查找表
@@ -122,7 +131,7 @@ static OpcodeEntry opcode_table [32] = {
    *      - 
    */
 
-  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, r), IDEX(U, auipc), EMPTY,EMPTY,
+  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, IDEX(R, r), IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   /* b11 */ IDEX(B, br), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), EMPTY, EMPTY, EMPTY, EMPTY,

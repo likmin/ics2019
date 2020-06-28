@@ -24,15 +24,15 @@ make_EHelper(ld);
 make_EHelper(st);
 
 /* I-type */
-// make_EHelper(addi);     /* 000 */
-// make_EHelper(slli);     /* 001 */
-// make_EHelper(slti);     /* 010 */ 
-// make_EHelper(sltiu);    /* 011 */
-// make_EHelper(xori);     /* 100 */
-// make_EHelper(srli_srai);/* 101 */
-// make_EHelper(ori);      /* 110 */
-// make_EHelper(andi);     /* 111 */
+make_EHelper(addi);     /* 000 */
+make_EHelper(slli);     /* 001 */
+make_EHelper(slti);     /* 010 */ 
+make_EHelper(sltiu);    /* 011 */
+make_EHelper(xori);     /* 100 */
+make_EHelper(srli_srai);/* 101 */
+make_EHelper(ori);      /* 110 */
+make_EHelper(andi);     /* 111 */
 
 
 /* R-type */
-make_EHelper(r);
+make_EHelper(sub_add);
