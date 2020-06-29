@@ -6,3 +6,4 @@
 + OBJCOPY -> build/hello-str-riscv32-nemu.bin
 Building riscv32-nemu
 + CC src/cpu/cpu.c
++ LD build/riscv32-nemu
