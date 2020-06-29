@@ -1,0 +1,7 @@
+# Building hello-str [riscv32-nemu] with AM_HOME {/home/likai/ics2019/nexus-am}
+# Building lib-am [riscv32-nemu]
+# Building lib-klib [riscv32-nemu]
+# Creating binary image [riscv32-nemu]
++ LD -> build/hello-str-riscv32-nemu.elf
++ OBJCOPY -> build/hello-str-riscv32-nemu.bin
+Building riscv32-nemu
