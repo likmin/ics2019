@@ -1,4 +1,4 @@
-NAME = pingpong
-SRCS = tests/pingpong.c
+NAME = access-cache
+SRCS = tests/access-cache.c
 LIBS += klib
 include /home/likai/ics2019/nexus-am/Makefile.app
