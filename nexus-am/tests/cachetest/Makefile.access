@@ -1,4 +1,0 @@
-NAME = access
-SRCS = tests/access.c
-LIBS += klib
-include /home/likai/ics2019/nexus-am/Makefile.app
