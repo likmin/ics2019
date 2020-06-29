@@ -1,0 +1,4 @@
+NAME = cache-flush
+SRCS = tests/cache-flush.c
+LIBS += klib
+include /home/likai/ics2019/nexus-am/Makefile.app
