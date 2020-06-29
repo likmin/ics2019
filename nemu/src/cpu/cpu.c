@@ -18,6 +18,6 @@ vaddr_t exec_once(void) {
   //printf("[exec_once] seq_pc = 0x%x \n", decinfo.seq_pc);
   isa_exec(&decinfo.seq_pc);
   update_pc();
-  printf("\n");
+  //printf("\n");
   return decinfo.seq_pc;
 }
