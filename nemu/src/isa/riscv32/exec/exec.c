@@ -138,11 +138,11 @@ static OpcodeEntry opcode_table [32] = {
 
 void isa_exec(vaddr_t *pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);
-  printf("[isa_exec] instr = 0x%08x\n", decinfo.isa.instr.val);
+  //printf("[isa_exec] instr = 0x%08x\n", decinfo.isa.instr.val);
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
   
-  printf("[isa_exec] opcode6_2 = %d\n", decinfo.isa.instr.opcode6_2);
-  printf("[isa_exec] pc = 0x%x\n", cpu.pc);
+  //printf("[isa_exec] opcode6_2 = %d\n", decinfo.isa.instr.opcode6_2);
+  //printf("[isa_exec] pc = 0x%x\n", cpu.pc);
   /* Instruction decode and execute */
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
