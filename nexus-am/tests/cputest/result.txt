@@ -396,3 +396,20 @@ nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x8010009c
 + LD -> build/pascal-riscv32-nemu.elf
 + OBJCOPY -> build/pascal-riscv32-nemu.bin
 Building riscv32-nemu
+[1;34m[src/monitor/monitor.c,48,load_img] The image is /home/likai/ics2019/nexus-am/tests/cputest/build/pascal-riscv32-nemu.bin[0m
+[1;34m[src/memory/memory.c,16,register_pmem] Add 'pmem' at [0x80000000, 0x87ffffff][0m
+[1;34m[src/monitor/monitor.c,20,welcome] Debug: [1;32mON[0m[0m
+[1;34m[src/monitor/monitor.c,23,welcome] If debug mode is on, A log file will be generated to record every instruction NEMU executes. This may lead to a large log file. If it is not necessary, you can turn it off in include/common.h.[0m
+[1;34m[src/monitor/monitor.c,28,welcome] Build time: 22:36:38, Jun 23 2020[0m
+Welcome to [1;41m[1;33mriscv32[0m-NEMU!
+For help, type "help"
+nemu: [1;32mHIT GOOD TRAP[0m at pc = 0x80100118
+
+[1;34m[src/monitor/cpu-exec.c,29,monitor_statistic] total guest instructions = 3163[0m
+# Building max [riscv32-nemu] with AM_HOME {/home/likai/ics2019/nexus-am}
+# Building lib-am [riscv32-nemu]
+# Building lib-klib [riscv32-nemu]
+# Creating binary image [riscv32-nemu]
++ LD -> build/max-riscv32-nemu.elf
++ OBJCOPY -> build/max-riscv32-nemu.bin
+Building riscv32-nemu
