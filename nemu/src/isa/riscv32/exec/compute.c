@@ -52,9 +52,12 @@ make_EHelper(addi) { /* void exec_addi(vaddr_t *pc),funct3 == 000*/
 }
 
 make_EHelper(slli) { /*void exec_slli(vaddr_t *pc), funct3 == 001*/
-  rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
+  /* 
+   * x[rd] = x[rs1] << shamt，这里的shamt对应的是rs2的寄存器编号
+   */
+  rtl_shl(&id_dest->val, &id_src->val, &id_src2->reg);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  if(id_src2->type == OP_TYPE_IMM) print_asm_template2(slli); else print_asm_template3(sll); 
+  print_asm_template2(slli); 
  
 }
 
@@ -77,39 +80,156 @@ make_EHelper(xori) { /*void exec_xori(vaddr_t *pc), funct3 == 100*/
 }
 
 make_EHelper(srli_srai) { /*void exec_srli_srai(vaddr_t *pc), funct3 == 101*/
-  if(decinfo.isa.instr.funct7 == 0b0100000) { /* srai */
-    rtl_sar(&id_dest->val, &id_src->val, &id_src2->val);
-    rtl_sr(id_dest->reg, &id_dest->val, 4);
-    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srai); else print_asm_template3(sra);
+  /* warning: 对于srli和srai以及slli，第二个操作数都是shamt即rs2 */ 
+  switch(decinfo.isa.instr.funct7) {
+ 
+    case 0b0000000: // srli  
+                    rtl_shr(&id_dest->val, &id_src->val, &id_src2->reg);
+                    print_asm_template2(srli); 
+                    break;
+ 
+    case 0b0100000: // srai
+                    rtl_sar(&id_dest->val, &id_src->val, &id_src2->reg);
+                    print_asm_template2(srai);
+                    break;
+
+    default       : assert(0);
   }
-  else {                                     /* srli */
-    rtl_shr(&id_dest->val, &id_src->val, &id_src2->val);
-    rtl_sr(id_dest->reg, &id_dest->val, 4);
-    if(id_src2->type == OP_TYPE_IMM) print_asm_template2(srli); else print_asm_template3(srl); 
-  }
+  
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
 }
 
 make_EHelper(ori) { /*void exec_ori(vaddr_t *pc), funct3 == 110*/
   rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  if(id_src2->type == OP_TYPE_IMM) print_asm_template2(ori); else print_asm_template3(or); 
+  print_asm_template2(ori) 
 }
 
 make_EHelper(andi) { /*void exec_ori(vaddr_t *pc), funct3 == 111*/
   rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  if(id_src2->type == OP_TYPE_IMM) print_asm_template2(andi); else print_asm_template3(and); 
+  print_asm_template2(andi);
 }
 
-make_EHelper(sub_add) {
+
+
+/* R-type */
+make_EHelper(sub_add) {           
+ 
+ 
   if(decinfo.isa.instr.funct7) {/* sub */
-    rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
-    print_asm_template3(sub);
-  } else {
-    rtl_add(&id_dest->val, &id_src->val, &id_src2->val); /* add */
-    print_asm_template3(add);
+  
+  switch(decinfo.isa.instr.funct7) {
+
+    case 0b0000000: /* add */
+                    rtl_add(&id_dest->val, &id_src->val, &id_src2->val); 
+                    print_asm_template3(add);
+                    break;
+
+    case 0b0100000: /* sub */ 
+                    rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(sub);
+                    break;
+
+    default       : assert(0);
+  } 
+
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(sll) { /*void exec_sll(vaddr_t *pc), funct3 == 001*/
+  
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* sll */
+                    rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(sll); 
+                    break;
+
+    default       : assert(0);
+  }
+
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(slt) { /*void exec_slt(vaddr_t *pc), funct3 == 010*/
+  
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* slt */
+                    rtl_li(&id_dest->val, interpret_relop(RELOP_LT, id_src->val, id_src2->val));
+                    print_asm_template3(slt);
+                    break;
+
+    default       : assert(0);
+  }
+   
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(sltu) { /*void exec_sltu(vaddr_t *pc), funct3 == 011*/
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* sltu */
+                    rtl_li(&id_dest->val, interpret_relop(RELOP_LTU, id_src->val, id_src2->val));
+                    print_asm_template3(sltu); 
+                    break;
+
+    default       : assert(0);
   } 
   rtl_sr(id_dest->reg, &id_dest->val, 4);
 }
 
+make_EHelper(xor) { /*void exec_xor(vaddr_t *pc), funct3 == 100*/
 
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* xor */
+                    rtl_xor(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(xor);
+                    break;
+
+    default       : assert(0);
+    
+  }
+
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(srl_sra) { /*void exec_srl_sra(vaddr_t *pc), funct3 == 101*/
+
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* srli */
+                    rtl_shr(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(srl); 
+                    break;
+    
+    case 0b0100000: /* srai */
+                    rtl_sar(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(sra);
+                    break;
+    default       : assert(0);
+  }
+  
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(or) { /*void exec_or(vaddr_t *pc), funct3 == 110*/
+  
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* or */
+                    rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(or);
+    
+    default       : assert(0);
+  }
+
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}
+
+make_EHelper(and) { /*void exec_and(vaddr_t *pc), funct3 == 111*/
+  
+  switch(decinfo.isa.instr.funct7) {
+    case 0b0000000: /* and */
+                    rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(and); 
+    default       : assert(0);
+  }
+  rtl_sr(id_dest->reg, &id_dest->val, 4);
+}

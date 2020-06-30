@@ -99,7 +99,7 @@ static make_EHelper(imm) { /* static void exec_imm(vaddr_t *pc) */
 
 
 static OpcodeEntry r_table [8] = {
-   EX(sub_add), EX(slli), EX(slti), EX(sltiu), EX(xori), EX(srli_srai), EX(ori), EX(andi)
+   EX(sub_add), EX(sll), EX(slt), EX(sltu), EX(xor), EX(srl_sra), EX(or), EX(and)
 };
 
 static make_EHelper(r) { /* static void exec_r(vaddr_t *pc) */
