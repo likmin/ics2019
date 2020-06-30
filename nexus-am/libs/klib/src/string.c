@@ -10,7 +10,7 @@ size_t strlen(const char *s) {
 
 char *strcpy(char* dst,const char* src) {
   size_t dstSize = strlen(dst);
-  strncpy(dst, src, dstSize);
+  return strncpy(dst, src, dstSize);
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
@@ -27,16 +27,16 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-  size_t dstSize = strlen(dst);
-  size_t srcSize = strlen(src);
-  
-  dst = (char *)realloc(dst, dstSize + srcSize + 1);
-  
-  uint32_t i = 0;
-  for (i = 0; i < srcSize; i++) {
-	dst[dstSize+i] = src[i];
-  }
-  dst[i] = '\0';
+//  size_t dstSize = strlen(dst);
+//  size_t srcSize = strlen(src);
+//  
+//  dst = (char *)realloc(dst, dstSize + srcSize + 1);
+//  
+//  uint32_t i = 0;
+//  for (i = 0; i < srcSize; i++) {
+//	dst[dstSize+i] = src[i];
+//  }
+//  dst[i] = '\0';
   return NULL;
 }
 
@@ -46,7 +46,8 @@ int strcmp(const char* s1, const char* s2) {
   
   size_t n = s1_size < s2_size ? s1_size : s2_size;
   
-  strncmp(s1, s2, n)
+  strncmp(s1, s2, n);
+  
   return 0;
 }
 
@@ -80,12 +81,16 @@ void* memcpy(void* out, const void* in, size_t n) {
 
   while (n--) *dst++ = *src++;
 
-  return dst;
+  return out;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
-  
-  return 0;
+  if(!n) return 0;
+  while(--n && *(char *)s1 == *(char *)s2) {
+	s1 = (char *)s1 + 1;
+	s2 = (char *)s2 + 1;
+  }
+  return (*((unsigned char *)s1) - *((unsigned char *)s2));
 }
 
 #endif
