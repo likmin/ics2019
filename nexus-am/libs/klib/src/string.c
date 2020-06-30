@@ -27,16 +27,7 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-//  size_t dstSize = strlen(dst);
-//  size_t srcSize = strlen(src);
-//  
-//  dst = (char *)realloc(dst, dstSize + srcSize + 1);
-//  
-//  uint32_t i = 0;
-//  for (i = 0; i < srcSize; i++) {
-//	dst[dstSize+i] = src[i];
-//  }
-//  dst[i] = '\0';
+  strcpy (dst + strlen(src), src);
   return NULL;
 }
 
