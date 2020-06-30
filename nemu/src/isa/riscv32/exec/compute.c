@@ -127,7 +127,9 @@ make_EHelper(sub_add) {
                     rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(sub);
                     break;
-
+    case 0b0000001: /* mul */
+                    rtl_mul_lo(&id_dest->val, id_src->val, id_src2->val);
+                    print_asm_template3(mul);
     default       : assert(0);
   } 
 
@@ -141,7 +143,9 @@ make_EHelper(sll) { /*void exec_sll(vaddr_t *pc), funct3 == 001*/
                     rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(sll); 
                     break;
-
+    case 0b0000001: /* mulh */
+                   // rtl_mul_hi(&id_dest->val, id_src->val, id_src2->val);
+                    print_asm_template3(mulh);
     default       : assert(0);
   }
 
