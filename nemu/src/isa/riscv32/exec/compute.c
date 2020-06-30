@@ -102,7 +102,7 @@ make_EHelper(srli_srai) { /*void exec_srli_srai(vaddr_t *pc), funct3 == 101*/
 make_EHelper(ori) { /*void exec_ori(vaddr_t *pc), funct3 == 110*/
   rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
   rtl_sr(id_dest->reg, &id_dest->val, 4);
-  print_asm_template2(ori) 
+  print_asm_template2(ori); 
 }
 
 make_EHelper(andi) { /*void exec_ori(vaddr_t *pc), funct3 == 111*/
@@ -116,9 +116,6 @@ make_EHelper(andi) { /*void exec_ori(vaddr_t *pc), funct3 == 111*/
 /* R-type */
 make_EHelper(sub_add) {           
  
- 
-  if(decinfo.isa.instr.funct7) {/* sub */
-  
   switch(decinfo.isa.instr.funct7) {
 
     case 0b0000000: /* add */
@@ -216,7 +213,7 @@ make_EHelper(or) { /*void exec_or(vaddr_t *pc), funct3 == 110*/
     case 0b0000000: /* or */
                     rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(or);
-    
+                    break; 
     default       : assert(0);
   }
 
@@ -229,6 +226,7 @@ make_EHelper(and) { /*void exec_and(vaddr_t *pc), funct3 == 111*/
     case 0b0000000: /* and */
                     rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(and); 
+                    break;
     default       : assert(0);
   }
   rtl_sr(id_dest->reg, &id_dest->val, 4);

@@ -42,4 +42,4 @@ make_EHelper(sltu);    /* 011 */
 make_EHelper(xor);     /* 100 */
 make_EHelper(srl_sra);/* 101 */
 make_EHelper(or);      /* 110 */
-make_EHelper(and);     /* 111 *
+make_EHelper(and);     /* 111 */
