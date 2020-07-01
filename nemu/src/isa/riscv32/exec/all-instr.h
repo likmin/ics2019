@@ -19,7 +19,7 @@ make_EHelper(br);
 
 /* load instruction */
 make_EHelper(ld);
-
+make_EHelper(lh_lb);
 /* store instruction */
 make_EHelper(st);
 

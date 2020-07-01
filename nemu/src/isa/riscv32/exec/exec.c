@@ -28,7 +28,7 @@ static OpcodeEntry load_table [8] = {
    *  {decode, execute, width}
    *    
    */
-  EXW(ld, 1), EXW(ld, 2), EXW(ld, 4), EMPTY, EXW(ld, 1), EXW(ld, 2), EMPTY, EMPTY
+  EXW(lh_lb, 1), EXW(lh_lb, 2), EXW(ld, 4), EMPTY, EXW(ld, 1), EXW(ld, 2), EMPTY, EMPTY
 
   //EMPTY, EMPTY, EXW(ld, 4),  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY
 };
