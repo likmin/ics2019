@@ -1,6 +1,6 @@
 #include "nemu.h"
 #include "device/map.h"
-
+/* 128MB */
 uint8_t pmem[PMEM_SIZE] PG_ALIGN = {};
 
 static IOMap pmem_map = {
