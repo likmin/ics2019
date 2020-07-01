@@ -11,6 +11,7 @@
 #define c_sar(a, b) ((int32_t)(a) >> (b))
 #define c_mul_lo(a, b) ((a) * (b))
 #define c_mul_hi(a, b) (((uint64_t)(a) * (uint64_t)(b)) >> 32)
+#define c_mul_hsu(a, b) (((int64_t)(a) * (uint64_t)(b)) >> 32) /*for RV32M mulhsu*/
 #define c_imul_lo(a, b) ((int32_t)(a) * (int32_t)(b))
 #define c_imul_hi(a, b) (((int64_t)(int32_t)(a) * (int64_t)(int32_t)(b)) >> 32)
 #define c_div_q(a, b) ((a) / (b))

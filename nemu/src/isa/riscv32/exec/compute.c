@@ -127,9 +127,12 @@ make_EHelper(sub_add) {
                     rtl_sub(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(sub);
                     break;
+
     case 0b0000001: /* mul */
-                    rtl_mul_lo(&id_dest->val, id_src->val, id_src2->val);
+                    rtl_imul_lo(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(mul);
+                    break;
+
     default       : assert(0);
   } 
 
@@ -143,9 +146,14 @@ make_EHelper(sll) { /*void exec_sll(vaddr_t *pc), funct3 == 001*/
                     rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(sll); 
                     break;
-    case 0b0000001: /* mulh */
-                   // rtl_mul_hi(&id_dest->val, id_src->val, id_src2->val);
+
+    case 0b0000001: /* mulh, x[rd] = (x[rs1]s *s x[rs2]) >>s XLEN, 
+                     * 因为使有符号乘法，所以选择imul_hi
+                     */
+                    rtl_imul_hi(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(mulh);
+                    break;
+
     default       : assert(0);
   }
 
@@ -160,6 +168,11 @@ make_EHelper(slt) { /*void exec_slt(vaddr_t *pc), funct3 == 010*/
                     print_asm_template3(slt);
                     break;
 
+    case 0b0000001: /* mulhsu */
+                    rtl_mul_hsu(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(mulhsu);
+                    break;
+
     default       : assert(0);
   }
    
@@ -171,6 +184,11 @@ make_EHelper(sltu) { /*void exec_sltu(vaddr_t *pc), funct3 == 011*/
     case 0b0000000: /* sltu */
                     rtl_li(&id_dest->val, interpret_relop(RELOP_LTU, id_src->val, id_src2->val));
                     print_asm_template3(sltu); 
+                    break;
+    
+    case 0b0000001: /* mulhu */
+                    rtl_mul_hi(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(mulhu);
                     break;
 
     default       : assert(0);
@@ -184,6 +202,11 @@ make_EHelper(xor) { /*void exec_xor(vaddr_t *pc), funct3 == 100*/
     case 0b0000000: /* xor */
                     rtl_xor(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(xor);
+                    break;
+
+    case 0b0000001: /* div */
+                    rtl_idiv_q(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(div);   
                     break;
 
     default       : assert(0);
@@ -205,6 +228,12 @@ make_EHelper(srl_sra) { /*void exec_srl_sra(vaddr_t *pc), funct3 == 101*/
                     rtl_sar(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(sra);
                     break;
+
+    case 0b0000001: /* divu */
+                    rtl_div_q(&id_dest->val, &id_src->val, &id_src2->val);                
+                    print_asm_template3(divu);
+                    break;
+
     default       : assert(0);
   }
   
@@ -218,6 +247,12 @@ make_EHelper(or) { /*void exec_or(vaddr_t *pc), funct3 == 110*/
                     rtl_or(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(or);
                     break; 
+
+    case 0b0000001: /* rem */
+                    rtl_idiv_r(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(rem); 
+                    break;
+
     default       : assert(0);
   }
 
@@ -231,7 +266,14 @@ make_EHelper(and) { /*void exec_and(vaddr_t *pc), funct3 == 111*/
                     rtl_and(&id_dest->val, &id_src->val, &id_src2->val);
                     print_asm_template3(and); 
                     break;
+
+    case 0b0000001: /* remu */
+                    rtl_div_r(&id_dest->val, &id_src->val, &id_src2->val);
+                    print_asm_template3(remu);
+                    break;
+
     default       : assert(0);
   }
+
   rtl_sr(id_dest->reg, &id_dest->val, 4);
 }
