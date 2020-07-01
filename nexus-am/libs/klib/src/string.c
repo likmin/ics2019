@@ -15,6 +15,7 @@ char *strcpy(char* dst,const char* src) {
 
 char* strncpy(char* dst, const char* src, size_t n) {
   size_t srcSize = strlen(src) + 1; // for '\0'
+  char *d = dst;
   if(n > srcSize) n = srcSize;
 
   uint32_t i;
@@ -22,13 +23,13 @@ char* strncpy(char* dst, const char* src, size_t n) {
 	dst[i] = src[i];
   }
 
-  dst[i] = '0';
-  return dst;
+  dst[i] = '\0';
+  return d;
 }
 
 char* strcat(char* dst, const char* src) {
   strcpy (dst + strlen(src), src);
-  return NULL;
+  return dst;
 }
 
 int strcmp(const char* s1, const char* s2) {
@@ -37,9 +38,8 @@ int strcmp(const char* s1, const char* s2) {
   
   size_t n = s1_size < s2_size ? s1_size : s2_size;
   
-  strncmp(s1, s2, n);
+  return strncmp(s1, s2, n);
   
-  return 0;
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
@@ -51,8 +51,8 @@ int strncmp(const char* s1, const char* s2, size_t n) {
   
   uint32_t i = 0;
   for (i = 0; i < n; i++) {
-	int D_value = s1[i] - s2[i];
-	if (D_value) return D_value;
+  	int D_value = s1[i] - s2[i];
+  	if (D_value) return D_value;
   }
 
   return 0;
