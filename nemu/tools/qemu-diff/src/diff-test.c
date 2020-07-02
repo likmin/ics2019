@@ -12,17 +12,20 @@ void gdb_exit(void);
 
 void init_isa(void);
 
+/* 从DUT host memory的'src'处拷贝'n'字节到REF guest memory的'dest'处 */
 void difftest_memcpy_from_dut(paddr_t dest, void *src, size_t n) {
   bool ok = gdb_memcpy_to_qemu(dest, src, n);
   assert(ok == 1);
 }
 
+/* 获取REF的寄存器状态到'r' */
 void difftest_getregs(void *r) {
   union isa_gdb_regs qemu_r;
   gdb_getregs(&qemu_r);
   memcpy(r, &qemu_r, DIFFTEST_REG_SIZE);
 }
 
+/* 设置REF的寄存器状态为'r' */
 void difftest_setregs(const void *r) {
   union isa_gdb_regs qemu_r;
   gdb_getregs(&qemu_r);
@@ -30,10 +33,12 @@ void difftest_setregs(const void *r) {
   gdb_setregs(&qemu_r);
 }
 
+/* 让REF执行'n'条指令 */
 void difftest_exec(uint64_t n) {
   while (n --) gdb_si();
 }
 
+/* 初始化REF的DiffTest功能 */
 void difftest_init(void) {
   int ppid_before_fork = getpid();
   int pid = fork();
