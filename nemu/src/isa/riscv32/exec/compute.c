@@ -16,7 +16,7 @@ make_EHelper(lui) { /* void exec_lui(vaddr_t *pc) */
    * 
    */
 
-  //rtl_sr(id_dest->reg, &id_src->val, 4); 
+  //TODO: rtl_sr(id_dest->reg, &id_src->val, 4); 
   rtl_sr(id_src->reg, &id_src->val, 4); 
 
   /* print the asm */

@@ -127,7 +127,7 @@ static OpcodeEntry opcode_table [32] = {
    *        so the decode of 'imm' is 'decode_ld', which is located in 
    *        'nemu/src/isa/riscv32/decode.c'
    * 
-   *      - 
+   *       
    */
 
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
