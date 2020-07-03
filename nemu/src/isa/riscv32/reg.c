@@ -15,7 +15,7 @@ char *reg_sl(uint32_t i) {
 void isa_reg_display() {
   int i;
   for (i = 0; i < 32; i++) {
-    printf("%s = 0x%08X\t", regsl[i], reg_l(i));
+    printf("%s = 0x%08X  ", regsl[i], reg_l(i));
     if ((i + 1) % 8 != 0) printf(", "); else printf("\n");
   }
 
