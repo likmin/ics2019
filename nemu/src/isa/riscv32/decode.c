@@ -127,6 +127,7 @@ make_DHelper(st) { /*void decode_st (vaddr_t *pc), use to decode S-type instruct
 make_DHelper(B) { /* void decode_B (vaddr_t *pc), use to decode B-type instruction  */
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+
   t0 = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
        (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1);
  
@@ -141,10 +142,7 @@ make_DHelper(B) { /* void decode_B (vaddr_t *pc), use to decode B-type instructi
  *       print_Dop() -> snprintf()
  */
 make_DHelper(U) { /* void decode_U (vaddr_t *pc), use to decode U-type instruction  */
-  t0 = decinfo.isa.instr.imm31_12;
-  sext(&t0, 12);
-  //printf("t0 = %x\n", t0);
-  decode_op_i(id_src, t0, true);
+  decode_op_i(id_src, decinfo.isa.instr.imm31_12 << 12, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.imm31_12);
