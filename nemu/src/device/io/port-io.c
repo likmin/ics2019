@@ -1,13 +1,17 @@
 #include "common.h"
 #include "device/map.h"
 
+/* 端口映射IO的模拟 */
+
 #define PORT_IO_SPACE_MAX 65535
 
 #define NR_MAP 8
 static IOMap maps[NR_MAP] = {};
 static int nr_map = 0;
 
-/* device interface */
+/* device interface 
+ * 用于为设备的初始化注册一个端口映射I/O的映射关系
+ */
 void add_pio_map(char *name, ioaddr_t addr, uint8_t *space, int len, io_callback_t callback) {
   assert(nr_map < NR_MAP);
   assert(addr + len <= PORT_IO_SPACE_MAX);
@@ -32,7 +36,10 @@ static inline void pio_write_common(ioaddr_t addr, uint32_t data, int len) {
   map_write(addr, data, len, &maps[mapid]);
 }
 
-/* CPU interface */
+/* CPU interface 
+ * 面向CPU的端口I/O读写接口，他们最终会调用map_read()和map_write(),
+ * 对通过add_pio_map()注册的I/O空间进行访问
+ */
 uint32_t pio_read_l(ioaddr_t addr) { return pio_read_common(addr, 4); }
 uint32_t pio_read_w(ioaddr_t addr) { return pio_read_common(addr, 2); }
 uint32_t pio_read_b(ioaddr_t addr) { return pio_read_common(addr, 1); }
