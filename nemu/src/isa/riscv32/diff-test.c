@@ -13,7 +13,7 @@ void difftest_regs_display(CPU_state *ref_r, vaddr_t pc) {
 
   int i;
   for (i = 0; i < 32; i++) {
-    printf("%s = %#X\t", reg_sl[i], ref_r->gpr[i]._32);
+    printf("%s = 0x%8X\t", reg_sl[i], ref_r->gpr[i]._32);
     if ((i + 1) % 8 != 0) printf(", "); else printf("\n");
   }
 
