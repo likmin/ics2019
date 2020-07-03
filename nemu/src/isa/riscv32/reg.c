@@ -7,6 +7,11 @@ const char *regsl[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+/*
+char *reg_sl(uint32_t i) {
+	return regsl[i];
+}
+*/
 void isa_reg_display() {
   int i;
   for (i = 0; i < 32; i++) {
