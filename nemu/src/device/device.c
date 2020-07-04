@@ -28,7 +28,7 @@ static void timer_sig_handler(int signum) {
   int ret = setitimer(ITIMER_VIRTUAL, &it, NULL);
   Assert(ret == 0, "Can not set timer");
 }
-
+/* 检测是否有按键按下/释放，以及是否点击率窗口的X按钮 */
 void device_update() {
   if (!device_update_flag) {
     return;

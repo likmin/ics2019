@@ -22,6 +22,7 @@ static inline void check_bound(IOMap *map, paddr_t addr) {
       addr, (map ? map->name : "???"), (map ? map->low : 0), (map ? map->high : 0), cpu.pc);
 }
 
+/* 对设备和目标空间的状态进行更新,每次进行I/O读写的时候才会调用设备提供的回调函数 */
 static inline void invoke_callback(io_callback_t c, uint32_t offset, int len, bool is_write) {
   if (c != NULL) { c(offset, len, is_write); }
 }
