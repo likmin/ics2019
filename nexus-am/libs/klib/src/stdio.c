@@ -9,11 +9,11 @@ int printf(const char *fmt, ...) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  *out = *fmt;
   return 0;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
+  *out = *fmt;
   return 0;
 }
 
