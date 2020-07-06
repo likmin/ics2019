@@ -12,11 +12,11 @@ struct param {
 	unsigned int base;	/* number base, e.g 8, 10, 16*/
 	char *bf;			/* buffer for output */
 };
-void chartobuf(char *p, char c) {
+static inline void chartobuf(char *p, char c) {
 	*p = c;
 	p++;
 }
-void strtobuf(char *p, char *str) {
+static inline void strtobuf(char *p, char *str) {
 	while(str){
 		*p = *str;
 		p++; str++;
@@ -73,7 +73,7 @@ int printf(const char *fmt, ...) {
 int vsprintf(char *out, const char *fmt, va_list ap) {
 	char ch;
   	struct param p;
-	char bf[12];
+	char bf[12]; /*for 32bit number is enough*/
 	p.bf = bf;
 
 	while((ch = *(fmt++))) {
