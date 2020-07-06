@@ -74,17 +74,22 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 	char ch;
   	struct param p;
 	char bf[12]; /*for 32bit number is enough*/
+	
 	p.bf = bf;
+	p.base = 10;
+	p.uc = 0;
 
 	while((ch = *(fmt++))) {
 		if (ch != '%') {
 			chartobuf(out, ch);
 		} else {
+			ch = *(fmt++);
 			switch(ch) {
 				case 's':
 					strtobuf(out, va_arg(ap, char *));						
 					break;
 				case 'd':
+					p.base = 10;
 					i2a(va_arg(ap, int), &p);				    
 					strtobuf(out, p.bf);
 			 		break;	
