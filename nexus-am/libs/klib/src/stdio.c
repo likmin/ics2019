@@ -55,6 +55,13 @@ static void i2a(int num, struct param *p)
 
 int printf(const char *fmt, ...) {
   //for (; *fmt; fmt ++) _putc(*fmt);
+  char p[128]; 
+  va_list va;
+  va_start(va, fmt);
+  vsprintf(p, fmt, va);
+  va_end(va);
+  int i;
+  for (i = 0; p[i] != '\0'; i++) _putc(*(p));
   return 0;
 }
 
