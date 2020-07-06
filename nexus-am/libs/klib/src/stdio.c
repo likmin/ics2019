@@ -89,7 +89,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 					strtobuf(out, va_arg(ap, char *));						
 					break;
 				case 'd':
-					p.base = 10;
 					i2a(va_arg(ap, int), &p);				    
 					strtobuf(out, p.bf);
 			 		break;	
