@@ -61,7 +61,7 @@ int printf(const char *fmt, ...) {
   vsprintf(p, fmt, va);
   va_end(va);
   int i;
-  for (i = 0; p[i] != '\0'; i++) _putc(*(p));
+  for (i = 0; p[i] != '\0'; i++) _putc(p[i]);
   return 0;
 }
 
