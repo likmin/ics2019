@@ -60,18 +60,19 @@ static void i2a(int num, struct param *p)
 int printf(const char *fmt, ...) {
   //for (; *fmt; fmt ++) _putc(*fmt);
   char p[128]; 
+  
   va_list va;
   va_start(va, fmt);
   vsprintf(p, fmt, va);
   va_end(va);
-  putstr(p);
+
+  putstr(fmt);
   return 0;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  char ch;
-	
-	struct param p;
+	char ch;
+  	struct param p;
 	char bf[12];
 	p.bf = bf;
 
