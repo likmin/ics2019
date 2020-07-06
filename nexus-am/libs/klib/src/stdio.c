@@ -66,7 +66,7 @@ int printf(const char *fmt, ...) {
   vsprintf(p, fmt, va);
   va_end(va);
 
-  putstr(fmt);
+  putstr(p);
   return 0;
 }
 
@@ -102,7 +102,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 int sprintf(char *out, const char *fmt, ...) {
   
-  va_list aptr;
+    va_list aptr;
 	int ret;
 	
 	va_start(aptr, fmt);
