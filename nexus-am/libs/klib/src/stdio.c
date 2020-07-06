@@ -23,6 +23,10 @@ void strtobuf(char *p, char *str) {
 	}
 }
 
+static inline void putstr(const char *s) {
+  for (; *s; s ++) _putc(*s);
+}
+
 static void ui2a(unsigned int num, struct param *p)
 {
     int n = 0;
@@ -60,8 +64,7 @@ int printf(const char *fmt, ...) {
   va_start(va, fmt);
   vsprintf(p, fmt, va);
   va_end(va);
-  int i;
-  for (i = 0; p[i] != '\0'; i++) _putc(p[i]);
+  putstr(p);
   return 0;
 }
 
