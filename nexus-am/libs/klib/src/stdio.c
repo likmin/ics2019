@@ -99,7 +99,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 static inline void _putstr(char *s) {
   char *p = s;
-  for (; *p;  p++) _putc(*p);
+  while (p) _putc(*(p++));
+ //	: for (; *p;  p++) _putc(*p);
 }
 
 int sprintf(char *out, const char *fmt, ...) {
