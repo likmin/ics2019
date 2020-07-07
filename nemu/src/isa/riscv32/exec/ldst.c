@@ -16,7 +16,7 @@ make_EHelper(ld) { /* void exec_ld(vaddr_t *pc) */
   switch (decinfo.width) {
     case 4: print_asm_template2(lw); break;
     case 2: print_asm_template2(lhu); break;
-    case 1: print_asm_template2(lbu); break;
+    case 1:  print_asm_template2(lbu); break;
     default: assert(0);
   }
 }
