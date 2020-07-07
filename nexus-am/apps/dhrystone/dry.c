@@ -806,8 +806,10 @@ int main ()
       Int_1_Loc = 2;
       Int_2_Loc = 3;
       strcpy (Str_2_Loc, "DHRYSTONE PROGRAM, 2'ND STRING");
+      printf("str_2_Loc is ok\n");
       Enum_Loc = Ident_2;
       Bool_Glob = ! Func_2 (Str_1_Loc, Str_2_Loc);
+      printf("Func_2 is ok\n");
 	/* Bool_Glob == 1 */
       while (Int_1_Loc < Int_2_Loc)  /* loop body executed once */
       {
