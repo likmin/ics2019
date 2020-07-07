@@ -97,8 +97,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 	return data.num_chars;
 }
-static inline void putstr(const char *s) {
-  for (; *s; s ++) _putc(*s);
+static inline void _putstr(char *s) {
+  char *p = s;
+  for (; *p;  p++) _putc(*p);
 }
 
 int sprintf(char *out, const char *fmt, ...) {
@@ -120,7 +121,7 @@ int printf(const char *fmt, ...) {
 	int ret = vsprintf(buf, fmt, ap);
 	va_end(ap);
 
-	putstr(buf);
+	_putstr(buf);
 	return ret;
 }
 /* snprintf()用于将格式化的数据写入字符串 
