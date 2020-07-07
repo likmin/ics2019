@@ -47,7 +47,7 @@ static void ui2a(unsigned int num, struct param *p) {
 	*bf = 0;
 }
 static void i2a (int num, struct param *p) {
-	printf("num = %d\n", num);
+	//printf("num = %d\n", num);
 	if (num < 0) {
 		num = -num;
 		p->sign = '-';
