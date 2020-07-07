@@ -5,9 +5,11 @@ static inline void putstr(const char *s) {
 }
 
 void hello() {
+  char *str = "everyone";
   for (int i = 0; i < 10; i ++) {
     //putstr("Hello, AM World @ " __ISA__ "\n");
     printf("Hello, AM World @ " __ISA__ "%d \n", i);
+    printf("hello , %s %d \n",str, i);
    // printf("Hello World\n");
   }
 }
