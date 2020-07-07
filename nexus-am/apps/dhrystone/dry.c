@@ -798,9 +798,10 @@ int main ()
 
     for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
     {
+      printf("Run_Index = %d\n", Run_Index);
       Proc_5();
       Proc_4();
-      printf("Run_Index = %d\n", Run_Index);
+      printf("proc_4 is ok\n");
 	/* Ch_1_Glob == 'A', Ch_2_Glob == 'B', Bool_Glob == true */
       Int_1_Loc = 2;
       Int_2_Loc = 3;
@@ -810,6 +811,7 @@ int main ()
 	/* Bool_Glob == 1 */
       while (Int_1_Loc < Int_2_Loc)  /* loop body executed once */
       {
+      printf("Int_1_Loc = %d, Int_2_Loc = %d\n", Int_1_Loc, Int_2_Loc);  
 	Int_3_Loc = 5 * Int_1_Loc - Int_2_Loc;
 	  /* Int_3_Loc == 7 */
 	Proc_7 (Int_1_Loc, Int_2_Loc, &Int_3_Loc);
