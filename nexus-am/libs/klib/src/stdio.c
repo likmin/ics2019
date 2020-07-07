@@ -73,13 +73,13 @@ void my_format(void *putp, putcf putf, const char *fmt, va_list va) {
 					p.uc = 0;
 					i2a(va_arg(va, int), &p);
 					putchw(putp, putf, &p);
-					break;
+					continue;
 
 				case 's':
 					p.bf = va_arg(va, char *);
 					putchw(putp, putf, &p);
 					// p.bf = bf; //???
-					break;
+					continue;
 				default : break;
 			}
 		}
