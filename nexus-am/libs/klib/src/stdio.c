@@ -119,7 +119,8 @@ int printf(const char *fmt, ...) {
 	int ret = vsprintf(buf, fmt, ap);
 	va_end(ap);
 
-	_putstr(buf);
+	int i;
+	for (i = 0; buf[i]!='\0'; i++) _putc(buf[i]);
 	return ret;
 }
 /* snprintf()用于将格式化的数据写入字符串 
