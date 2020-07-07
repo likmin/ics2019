@@ -3,145 +3,118 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-char* get_ch(char *dest, int num, int n) {
-	char number[20];
-	for (int j=0;j<10;j++) {number[j]=j+'0';}
-	number[10] = 'a'; number[11] = 'b'; number[12] = 'c'; number[13] = 'd'; number[14] = 'e'; number[15] = 'f';
-	int l=0;
-	int flag=0;
-	if(num==0) {
-		dest[0]='0';
-		dest[1]='\0';
-		return dest;
-	}
-	if(num<0) {
-		flag=1;
-		l++;
-		num=-num;
-	}
-	int temp=num;
-	while(temp>0) {
-		l++;
-		temp=temp/n;
-	}
-	for (int a=0; a<l; a++) {
-		int x=num%n;
-		assert(x<16);
-		dest[l-a-1]=number[x];
-		num=num/n;
-	}
-	if(flag) {dest[0]='-';}
-	dest[l]='\0';
-	return dest;
+struct param {
+	char uc:1;
+	char sign;			/* '-' 				 */
+	unsigned int base;	/* number base, e.g 8, 10, 16*/
+	char *bf;			/* buffer for output */
+};
+typedef void (*putcf) (void *, char);
+
+struct _vsprintf_putcf_data {
+	char *dest;
+	size_t num_chars;
+};
+
+static void _vsprintf_putcf(void *p, char c) {
+	struct _vsprintf_putcf_data *data = (struct _vsprintf_putcf_data *)p;
+	data->dest[data->num_chars ++] = c;
 }
 
-int printf(const char *fmt, ...) {
-	va_list ap;
-  	va_start(ap,fmt);
-  	int sum=0;
-  	int i=0;
-  	int len=strlen(fmt);
-	while(i<len) {
-    if(fmt[i]=='%') {
-      int num=0;
-      char ls[50]="";
-      switch(fmt[i+1]) {
-        case 'd': {
-	  		num=va_arg(ap,int);
-	  		get_ch(ls, num, 10);
-	  		for(int j = 0; j < strlen(ls); j++) {_putc(ls[j]);}
-	  		sum += strlen(ls);	
-			i+=2;
-        } break;
-		case 's': {
-	  		strcpy(ls,va_arg(ap, char*));
-	  		for(int j = 0; j < strlen(ls); j++) _putc(ls[j]);
-	  		sum += strlen(ls);
-			i+=2;
-		} break;
-		case '0': {
-			num=va_arg(ap,int);
-	  		get_ch(ls, num, 10);
-			int width = fmt[i+2]-'0';
-			for(int i = strlen(ls); i < width; i++) {
-				sum++;
-				_putc('0');
-			}
-	  		for(int j = 0; j < strlen(ls); j++) {_putc(ls[j]);}
-	  		sum += strlen(ls);	
-			i+=4;
-		} break;
-		case 'p': {
-				num=va_arg(ap, int);
-				get_ch(ls, num, 16);
-				_putc('0'); _putc('x');
-				sum += 2;
-				for(int j = 0; j < strlen(ls); j++) _putc(ls[j]);
-				sum+=strlen(ls);
-				i += 2;
-		} break;
-		default: {
-			i = len;
-		}
-	  } 
-	}
-    else {
-      	_putc(fmt[i]);
-		sum++;  	
-      	i++;
-  	}
- }
-  va_end(ap);
-  return sum; 
+static void putchw(void *putp, putcf putf, struct param *p) {
+	char ch;
+	char *bf = p->bf;
+	while((ch = *bf++)) 
+		putf(putp, ch);
 }
+
+static void ui2a(unsigned int num, struct param *p) {
+	int n = 0;
+	unsigned int d = 1;
+	char *bf = p->bf;
+	while (num / d >= p->base)
+		d = d * p->base;
+
+	while (d != 0) {
+		int dgt = num /d;
+		num = num % d;
+		d = d / p->base;
+		if (n || dgt > 0 || d == 0) {
+			*bf++ = dgt + (dgt < 10 ? '0' : (p->uc ? 'A' : 'a') - 10);
+			++n;
+		}
+	}
+	*bf = 0;
+}
+static void i2a (int num, struct param *p) {
+	printf("num = %d\n", num);
+	if (num < 0) {
+		num = -num;
+		p->sign = '-';
+	}
+	ui2a(num, p);
+}
+
+
+void my_format(void *putp, putcf putf, const char *fmt, va_list va) {
+	struct param p;
+	char bf[12];	/* int = 32b */
+	char ch;
+	p.bf = bf;
+
+	while ((ch = *(fmt++))) {
+		if (ch != '%') {
+			putf(putp, ch);
+		} else {
+			ch = *(fmt++);
+			switch (ch) {
+				case 'd':
+					p.base = 10;
+					p.uc = 0;
+					i2a(va_arg(va, int), &p);
+					putchw(putp, putf, &p);
+					break;
+
+				case 's':
+					p.bf = va_arg(va, char *);
+					putchw(putp, putf, &p);
+					// p.bf = bf; //???
+					break;
+				default : break;
+			}
+		}
+
+	}
+}
+
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  return 0;
-}
+	struct _vsprintf_putcf_data data;
+	data.dest = out;
+	data.num_chars = 0;
+	my_format(&data, _vsprintf_putcf, fmt, ap);
+	data.dest[data.num_chars] = '\0';
 
+	return data.num_chars;
+}
+static inline void putstr(const char *s) {
+  for (; *s; s ++) _putc(*s);
+}
 
 int sprintf(char *out, const char *fmt, ...) {
-  va_list ap;
-  va_start(ap,fmt);
-  int sum=0;
-  int i=0;
-  int len=strlen(fmt);
-  out[0]='\0';
-  while(i<len) {
-    if(fmt[i]=='%') {
-      int num=0;
-      char ls[50]="";
-      switch(fmt[i+1]) {
-        case 'd': {
-	  		num=va_arg(ap,int);
-	  		get_ch(ls, num, 10);
-	  		strcat(out,ls);
-	  		sum+=strlen(ls);	
-        } break;
-		case 's': {
-	  		strcpy(ls,va_arg(ap, char*));
-	  		strcat(out,ls);
-	  		sum += strlen(ls);
-		} break;
-		default: {
-			printf("sprintf fault \n");
-		}
-	  } 
-      i+=2;
-	}
-    else {
-      	sum++;
-      	char s[2];
-      	s[0]=fmt[i];
-      	s[1]='\0';
-      	strcat(out,s);
-      	i++;
-  	}
- }
-  va_end(ap);
-  return sum; 
+	va_list ap;
+	int ret;
+	
+	va_start(ap, fmt);
+	ret = vsprintf(out, fmt, ap);
+	va_end(ap);
+
+	return ret;
 }
 
+int printf(const char *fmt,...) {
+	return 0;
+}
 /* snprintf()用于将格式化的数据写入字符串 
  * out: 为要写入的字符串
  * n  : 要写入的字符的最大数据，超过n会被截断
