@@ -112,8 +112,16 @@ int sprintf(char *out, const char *fmt, ...) {
 	return ret;
 }
 
-int printf(const char *fmt,...) {
-	return 0;
+int printf(const char *fmt, ...) {
+	char buf[128];
+	va_list ap;
+		
+	va_start(ap, fmt);
+	int ret = vsprintf(buf, fmt, ap);
+	va_end(ap);
+
+	putstr(buf);
+	return ret;
 }
 /* snprintf()用于将格式化的数据写入字符串 
  * out: 为要写入的字符串
