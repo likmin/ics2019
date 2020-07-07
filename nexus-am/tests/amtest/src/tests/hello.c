@@ -10,7 +10,7 @@ void hello() {
     //putstr("Hello, AM World @ " __ISA__ "\n");
     printf("Hello, AM World @ " __ISA__ ",%d, %s \n", i, str);
     //printf("hello , %s, %d \n",str, i);
-    printf("%s", str);
+    printf("%s\n", str);
    // printf("Hello World\n");
   }
 }
