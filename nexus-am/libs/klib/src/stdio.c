@@ -120,7 +120,7 @@ int printf(const char *fmt, ...) {
 	int ret = vsprintf(buf, fmt, ap);
 	va_end(ap);
 
-	putstr(buf);
+	//putstr(buf);
 	return ret;
 }
 /* snprintf()用于将格式化的数据写入字符串 
