@@ -134,7 +134,7 @@ make_DHelper(B) { /* void decode_B (vaddr_t *pc), use to decode B-type instructi
   sext(&t0, 19);
   
   rtl_add(&decinfo.jmp_pc, &t0, &cpu.pc);
-  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
+  print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
 }
 
 /*
