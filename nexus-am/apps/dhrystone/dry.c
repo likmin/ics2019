@@ -798,7 +798,7 @@ int main ()
 
     for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
     {
-
+      printf("Run_Index = %d\n", Run_Index);
       Proc_5();
       Proc_4();
 	/* Ch_1_Glob == 'A', Ch_2_Glob == 'B', Bool_Glob == true */
