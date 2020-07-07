@@ -98,9 +98,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 	return data.num_chars;
 }
 static inline void _putstr(char *s) {
-  char *p = s;
-  while (*p) { _putc(*p); p++;}
- //for (; *p;  p++) _putc(*p);
 }
 
 int sprintf(char *out, const char *fmt, ...) {
