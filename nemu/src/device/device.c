@@ -65,7 +65,12 @@ void sdl_clear_event_queue() {
 void init_device() {
   init_serial();
   init_timer();
-  init_vga();
+  init_vga();     /* 初始化VGA，同时还会进行一些和SDL相关的初始化工作，
+                   * 包括创建窗口，设置显示模式，最后还会注册一些100Hz
+                   * 的定时器，每隔0.01秒就会调用一次device_update()
+                   * 函数，该函数用于检测是否有按键按下/释放。以及是否
+                   * 点击了窗口X按钮。
+                   */
   init_i8042();
 
   struct sigaction s;
