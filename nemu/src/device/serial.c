@@ -3,8 +3,13 @@
 
 /* http://en.wikibooks.org/wiki/Serial_Programming/8250_UART_Programming */
 
+/* 串口初始化时会分别注册一个`0x3F8`处长度为1个字节的端口，
+ * 以及`0xa10003F8` 处长度为1字节的MMIO空间
+ */
 #define SERIAL_PORT 0x3F8 
 #define SERIAL_MMIO 0xa10003F8
+
+
 #define CH_OFFSET 0
 
 static uint8_t *serial_ch_base = NULL;

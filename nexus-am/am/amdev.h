@@ -63,6 +63,8 @@ _AM_DEVREG(SERIAL, RECV,   1, uint8_t data);
 _AM_DEVREG(SERIAL, SEND,   2, uint8_t data);
 _AM_DEVREG(SERIAL, STAT,   3, uint8_t data);
 _AM_DEVREG(SERIAL, CTRL,   4, uint8_t data);
+
+
 #define _DEVREG_PCICONF(bus, slot, func, offset) \
   ((uint32_t)(   1) << 31) | ((uint32_t)( bus) << 16) | \
   ((uint32_t)(slot) << 11) | ((uint32_t)(func) <<  8) | (offset)
