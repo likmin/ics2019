@@ -91,6 +91,15 @@ enum {
   _KEYS(_KEY_NAME)
 };
 
+uint32_t uptime();
+void get_timeofday(void *rtc);
+int read_key();
+void draw_rect(uint32_t *pixels, int x, int y, int w, int h);
+void draw_sync();
+int screen_width();
+int screen_height();
+
+
 #ifdef __cplusplus
 }
 #endif
