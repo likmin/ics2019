@@ -23,11 +23,42 @@ extern "C" {
 
 // ================= Device Register Specifications ==================
 
+/* enum { _DEVREG_INPUT_KBD = 1}; 
+ * typedef struct {int keydown, keycode;} __attribute__((packed)) _DEV_INPUT_KBD_t;
+ */
 _AM_DEVREG(INPUT,  KBD,    1, int keydown, keycode);
+
+/* enum { _DEVREG_TIMER_UPTIME = 1}; 
+ * typedef struct {uint32_t hi, lo;} __attribute__((packed)) _DEV_TIMER_UPTIME_t;
+ *
+ * enum { _DEVREG_TIMER_DATE = 2}; 
+ * typedef struct {int year, month, day, hour, minute, second;} __attribute__((packed)) _DEV_TIMER_DATE_t;
+ */
+
 _AM_DEVREG(TIMER,  UPTIME, 1, uint32_t hi, lo);
 _AM_DEVREG(TIMER,  DATE,   2, int year, month, day, hour, minute, second);
+
+/* enum { _DEVREG_VIDEO_INFO = 1}; 
+ * typedef struct {int width, height;} __attribute__((packed)) _DEV_VIDEO_INFO_t;
+ * 
+ * enum { _DEVREG_VIDEO_FBCTL = 2}; 
+ * typedef struct {int x, y; uint32_t *pixels; int w, h, sync; } __attribute__((packed)) _DEV_VIDEO_FBCTL_t;
+ */
 _AM_DEVREG(VIDEO,  INFO,   1, int width, height);
 _AM_DEVREG(VIDEO,  FBCTL,  2, int x, y; uint32_t *pixels; int w, h, sync);
+
+/* enum { _DEVREG_SERIAL_RECV = 1}; 
+ * typedef struct {uint data;} __attribute__((packed)) _DEV_SERIAL_RECV_t;
+ * 
+ * enum { _DEVREG_SERIAL_SEND = 2}; 
+ * typedef struct {uint data;} __attribute__((packed)) _DEV_SERIAL_SEND_t;
+ *
+ * enum { _DEVREG_SERIAL_STAT = 3}; 
+ * typedef struct {uint data;} __attribute__((packed)) _DEV_SERIAL_STAT_t;
+ * 
+ * enum { _DEVREG_SERIAL_CRTL = 4}; 
+ * typedef struct {uint data;} __attribute__((packed)) _DEV_SERIAL_STAT_t;
+ */
 _AM_DEVREG(SERIAL, RECV,   1, uint8_t data);
 _AM_DEVREG(SERIAL, SEND,   2, uint8_t data);
 _AM_DEVREG(SERIAL, STAT,   3, uint8_t data);
