@@ -28,9 +28,9 @@ int main(const char *args) {
     default:
       printf("Usage: make run mainargs=*\n");
       for (int ch = 0; ch < 9; ch++) {
-        if (tests[ch]) {
+        //if (tests[ch]) {
           printf("  %c: %s\n", ch, tests[ch]);
-        }
+        //}
       }
   }
   return 0;
