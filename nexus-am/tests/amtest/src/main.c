@@ -27,7 +27,7 @@ int main(const char *args) {
     case 'H':
     default:
       printf("Usage: make run mainargs=*\n");
-      for (int ch = 0; ch < 256; ch++) {
+      for (int ch = 0; ch < 9; ch++) {
         if (tests[ch]) {
           printf("  %c: %s\n", ch, tests[ch]);
         }
