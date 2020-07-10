@@ -39,6 +39,11 @@ void draw_sync() {
   ctl.x = ctl.y = ctl.w = ctl.h = 0;
   ctl.sync = 1;
   _io_write(_DEV_VIDEO, _DEVREG_VIDEO_FBCTL, &ctl, sizeof(ctl));
+  /* io_write(_DEV_VIDEO, _DEVREG_VIDEO_FBCTL, &ctl, sizeof(ctl))
+   *                                  |         |           |              
+   *      __am_video_write(uintptr_t reg, void *buf, size_t size)
+   *        
+   */
 }
 
 // 返回屏幕的宽度
