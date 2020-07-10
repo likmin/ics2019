@@ -87,5 +87,6 @@ void init_vga() {
 
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
+
 }
 #endif	/* HAS_IOE */
