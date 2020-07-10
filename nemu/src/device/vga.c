@@ -21,13 +21,21 @@ static SDL_Texture *texture = NULL;
 static uint32_t (*vmem) [SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
 
+/*update the given texture rectangle with new pixel data
+  int SDL_UpdateTexture(
+    SDL_Texture*    texture, 
+    const SDL_Rect* rect,   // representing the area to update, or NULL to update the entire texture
+    const void*     pixels, // the raw pixel data in the format of the texture
+    int             pitch)  // the number of bytes in a row of pixel data, including padding between lines
+ */
 static inline void update_screen() {
-  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0])); 
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
 }
 
+/*vga 的callback函数*/
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
   // TODO: call `update_screen()` when writing to the sync register
   // TODO();

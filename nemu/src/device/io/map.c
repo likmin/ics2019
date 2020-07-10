@@ -16,6 +16,7 @@ uint8_t* new_space(int size) {
   return p;
 }
 
+/* TODO: 在nexus-am/tests/amtest中，mainargs=H会触发该出异常 */
 static inline void check_bound(IOMap *map, paddr_t addr) {
   Assert(map != NULL && addr <= map->high && addr >= map->low,
       "address (0x%08x) is out of bound {%s} [0x%08x, 0x%08x] at pc = 0x%08x",
@@ -27,14 +28,26 @@ static inline void invoke_callback(io_callback_t c, uint32_t offset, int len, bo
   if (c != NULL) { c(offset, len, is_write); }
 }
 
+/*
+                    port_io.c                                   mmio.c
+
+          pio_read_[l,w,b], pio_write_[l,w,b]                     
+                  |                |  
+           pio_read_common    pio_write_common
+                  |                |
+map.c        map_read          map_write
+                                    
+
+
+ */
+
 uint32_t map_read(paddr_t addr, int len, IOMap *map) {
-//  printf("[map_read] len = %d\n", len);
   assert(len >= 1 && len <= 4);
   check_bound(map, addr);
   uint32_t offset = addr - map->low;
   invoke_callback(map->callback, offset, len, false); // prepare data to read
 
-  uint32_t data = *(uint32_t *)(map->space + offset) & (~0u >> ((4 - len) << 3));
+  uint32_t data = *(uint32_t *)(map->space + offset) & (~0u >> ((4 - len) << 3)); //??? 
   return data;
 }
 
