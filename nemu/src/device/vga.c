@@ -52,7 +52,7 @@ void init_vga() {
   sprintf(title, "%s-NEMU", str(__ISA__));
 
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
+  SDL_CreateWindowAndRenderer(SCREEN_W * 4, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
       SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
