@@ -49,9 +49,9 @@ static inline void update_screen() {
    *  4.将新获得的renderer显示出来
    * TODO: 屏幕一片黑，是不是vmem没有数据？
    */
-  int i;
-  for (i = 0; i < SCREEN_H; i++)
-    memset(vmem[i], SCREEN_W, 0xFFFFFFFF);
+  //int i;
+  //for (i = 0; i < SCREEN_H; i++)
+    //memset(vmem[i], SCREEN_W, 0xFFFFFFFF);
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0])); 
   SDL_RenderClear(renderer);    /* clear the current rendering target with drawing color */
   SDL_RenderCopy(renderer, texture, NULL, NULL);  /* copy a portion of the texture to the current rendering target */
@@ -67,6 +67,7 @@ static void vga_io_handler(uint32_t offset, int len, bool is_write) {
   //   //case 4: if(is_write) update_screen(); break;
   //   default:assert(0);
   // }
+  if(offset == 4 && is_write) update_screen();
 }
 
 
