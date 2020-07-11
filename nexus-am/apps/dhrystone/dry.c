@@ -798,18 +798,18 @@ int main ()
 
     for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
     {
-      printf("Run_Index = %d\n", Run_Index);
+      //printf("Run_Index = %d\n", Run_Index);
       Proc_5();
       Proc_4();
-      printf("proc_4 is ok\n");
+      //printf("proc_4 is ok\n");
 	/* Ch_1_Glob == 'A', Ch_2_Glob == 'B', Bool_Glob == true */
       Int_1_Loc = 2;
       Int_2_Loc = 3;
       strcpy (Str_2_Loc, "DHRYSTONE PROGRAM, 2'ND STRING");
-      printf("str_2_Loc is ok\n");
+      //printf("str_2_Loc is ok\n");
       Enum_Loc = Ident_2;
       Bool_Glob = ! Func_2 (Str_1_Loc, Str_2_Loc);
-      printf("Func_2 is ok\n");
+      //printf("Func_2 is ok\n");
 	/* Bool_Glob == 1 */
       while (Int_1_Loc < Int_2_Loc)  /* loop body executed once */
       {
