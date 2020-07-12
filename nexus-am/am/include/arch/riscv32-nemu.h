@@ -1,7 +1,7 @@
 #ifndef __ARCH_H__
 #define __ARCH_H__
 
-struct _Context {
+struct _Context { /* riscv32 上下文信息 */
   uintptr_t epc, cause, gpr[32], status;
   struct _AddressSpace *as;
 };
