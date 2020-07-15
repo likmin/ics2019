@@ -5,12 +5,12 @@
 
 #define PC_START (0x80000000u + IMAGE_START)
 
-#define SSTATUS_NO 0x100
-#define STVEC_NO   0x105
-#define SEPC_NO    0x141
-#define SCAUSE_NO  0x142
+#define SSTATUS 0x100
+#define STVEC   0x105
+#define SEPC    0x141
+#define SCAUSE  0x142
 
-
+//extern CPU_STATE cpu;
 
 typedef struct {
   struct {
@@ -71,31 +71,9 @@ static inline const char* reg_name(int index, int width) {
   return regsl[index];
 }
 
-static inline void check_csr_index(int index) {
-  assert(index >= 0 && index <= 0xfff);
-}
+rtlreg_t csr_read(int index);
+void csr_write(int index, rtlreg_t val);
 
-inline rtlreg_t csr_read(int index) {
-  check_csr_index(index);
-  switch(index) {
-    case SSTATUS_NO: return cpu.csr.sstatus;
-    case STVEC_NO  : return cpu.csr.stvec;
-    case SEPC_NO   : return cpu.csr.sepc;
-    case SCAUSE_NO : return cpu.csr.scause;
-    default: return;
-  }
-}
-
-inline void csr_write(int index, rtlreg_t val) {
-  check_csr_index(index);
-  switch(index) {
-    case SSTATUS_NO: cpu.csr.sstatus = val; return;
-    case STVEC_NO  : cpu.csr.stvec   = val; return;
-    case SEPC_NO   : cpu.csr.sepc    = val; return;
-    case SCAUSE_NO : cpu.csr.scause  = val; return;
-    default   : assert(0);
-  }
-}
 //#define REG_REGEX "^\\$0$|^\\$ra$|^\\$[sgt]p$|^\\$t[0-6]$|^\\$s[0-9]$|^\\$s1[01]$|^\\$a[0-7]$|^\\$pc$"  
 
 #define REG_REGEX "^\\$0|^\\$ra|^\\$[sgt]p|^\\$t[0-6]|^\\$s[0-9]|^\\$s1[01]|^\\$a[0-7]|^\\$pc"  

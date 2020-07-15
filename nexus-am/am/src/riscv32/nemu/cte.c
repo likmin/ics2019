@@ -1,6 +1,7 @@
 #include <am.h>
 #include <riscv32.h>
 
+/* 上下文管理 ConText Extension */
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
@@ -36,6 +37,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
   return NULL;
 }
 
+/* 进行自陷操作，会触发一个编号为_EVENT_YIELD事件 */
 void _yield() {
   asm volatile("li a7, -1; ecall");
 }

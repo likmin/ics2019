@@ -43,3 +43,11 @@ make_EHelper(xor);     /* 100 */
 make_EHelper(srl_sra);/* 101 */
 make_EHelper(or);      /* 110 */
 make_EHelper(and);     /* 111 */
+
+make_EHelper(ECALL_EBREAK);
+make_EHelper(CSRRW);
+make_EHelper(CSRRS);
+make_EHelper(CSRRC);
+make_EHelper(CSRRWI);
+make_EHelper(CSRRSI);
+make_EHelper(CSRRCI);
