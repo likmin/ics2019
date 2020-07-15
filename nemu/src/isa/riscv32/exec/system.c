@@ -7,7 +7,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
       decinfo.isa.instr.rs1 == 0b00000) {
 
         switch (decinfo.isa.instr.imm11_0) {
-          case 0b000000000000: /* ECALL */ raise_intr();break;
+          case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc);break;
           case 0b000000000001: /* EBREAK */ TODO(); break;
           default: assert(0);
         }
