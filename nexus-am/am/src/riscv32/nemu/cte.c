@@ -1,11 +1,13 @@
 #include <am.h>
 #include <riscv32.h>
 
+
 /* 上下文管理 ConText Extension */
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
+ // Log("epc = %d, cause = %d, status = %d\n", c->epc, c->cause, c->status);
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
