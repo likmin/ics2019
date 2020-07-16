@@ -19,10 +19,10 @@ rtlreg_t csr_read(int index) {
 void csr_write(int index, rtlreg_t val) {
   check_csr_index(index);
   switch(index) {
-    // case SSTATUS_NO: cpu.csr.sstatus = val; break;
-    // case STVEC_NO  : cpu.csr.stvec   = val; break;
-    // case SEPC_NO   : cpu.csr.sepc    = val; break;
-    // case SCAUSE_NO : cpu.csr.scause  = val; break;
+    case SSTATUS: cpu.csr.sstatus = val; break;
+    case STVEC  : cpu.csr.stvec   = val; break;
+    case SEPC   : cpu.csr.sepc    = val; break;
+    case SCAUSE : cpu.csr.scause  = val; break;
     default   : assert(0);
   }
 }
