@@ -120,8 +120,6 @@ static make_EHelper(system) { /* static void exec_system(vaddr_T *pc) */
   //decinfo.width = system_table[decinfo.isa.instr.funct3].width;
   idex(pc, &system_table[decinfo.isa.instr.funct3]);
 
-
-  
 }
 /*
  * opcode_table, 译码查找表
