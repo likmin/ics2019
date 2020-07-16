@@ -9,6 +9,7 @@ _Context* __am_irq_handle(_Context *c) {
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
+      case 9: ev.event = _EVENT_YIELD; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
@@ -40,7 +41,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
 
 /* 进行自陷操作，会触发一个编号为_EVENT_YIELD事件 */
 void _yield() {
-  //asm volatile("li a7, -1; ecall");
+  asm volatile("li a7, -1; ecall");
 }
 
 int _intr_read() {
