@@ -22,7 +22,7 @@ void csr_write(int index, rtlreg_t val) {
     case SSTATUS: cpu.csr.sstatus = val; break;
     case STVEC  : cpu.csr.stvec   = val; break;
     case SEPC   : cpu.csr.sepc    = val; break;
-    case SCAUSE : cpu.csr.scause  = val; break;
+    case SCAUSE : cpu.csr.scause  = val; printf("scause = 0x%08x\n", cpu.csr.scause);break;
     default   : assert(0);
   }
 }
