@@ -35,6 +35,7 @@ int main() {
 #ifdef HAS_CTE
   _yield();
 #endif
-
+  Log("Finish _yield initialization");
+  
   panic("Should not reach here");
 }

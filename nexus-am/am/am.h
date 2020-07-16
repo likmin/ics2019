@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 // ===================== Constants and Structs =======================
-/* 统一的时间编号 */
+/* 统一的事件编号 */
 enum {
   _EVENT_NULL = 0,
   _EVENT_ERROR,
