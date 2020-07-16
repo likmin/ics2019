@@ -23,6 +23,7 @@ _Context* __am_irq_handle(_Context *c) {
 
 extern void __am_asm_trap(void);
 
+/* 直接将异常入口地址设置到stvec寄存器中 */
 int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   // initialize exception entry
   asm volatile("csrw stvec, %0" : : "r"(__am_asm_trap));
