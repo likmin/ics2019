@@ -8,10 +8,10 @@ static inline void check_csr_index(int index) {
 rtlreg_t csr_read(int index) {
   check_csr_index(index);
   switch(index) {
-    case SSTATUS: return cpu.pc;
-//    case STVEC_NO  : return cpu.csr.stvec;
-//    case SEPC_NO   : return cpu.csr.sepc;
-//    case SCAUSE_NO : return cpu.csr.scause;
+    case SSTATUS: return cpu.csr.sstatus;
+    case STVEC  : return cpu.csr.stvec;
+    case SEPC   : return cpu.csr.sepc;
+    case SCAUSE : return cpu.csr.scause;
     default: assert(0);
   }
 }
