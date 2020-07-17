@@ -32,11 +32,11 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
     if (decinfo.isa.instr.rd == 0b00000 && decinfo.isa.instr.rs1 == 0b00000) {
         
-        printf("simm11_0 = %d",decinfo.isa.instr.simm11_0);
+        printf("simm11_0 = %d\n",decinfo.isa.instr.simm11_0);
         
         switch (decinfo.isa.instr.simm11_0) {
-          case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc);break;
-          case 0b000000000001: /* EBREAK */ TODO(); break;
+          case 0: /* ECALL */ raise_intr(9, cpu.pc);break;
+          case 1: /* EBREAK */ TODO(); break;
           default:assert(0);
         }
 
