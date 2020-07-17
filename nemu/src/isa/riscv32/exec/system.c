@@ -36,6 +36,7 @@ static inline void SRET(){
    * 5.CSRs[sstatus].SPP = 0
    */
    t0 = csr_read(SEPC);
+   printf("[SRET] t0 = 0x%08x\n", t0);
    cpu.csr.sstatus_32.SIE = cpu.csr.sstatus_32.SPIE;
    cpu.csr.sstatus_32.SPIE = 1;
    cpu.csr.sstatus_32.SPP = 0;
