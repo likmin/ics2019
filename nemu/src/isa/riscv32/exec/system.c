@@ -52,7 +52,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         switch (decinfo.isa.instr.simm11_0) {
           case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
           case 0b000000000001: /* EBREAK*/ TODO(); break;
-          case 0b000100000010: /* SRET  */ SRET(); break;
+          case 0b000100000010: /* SRET  */ SRET(); print_asm_template3(sret); break;
           default:assert(0);
         }
 
@@ -69,7 +69,7 @@ make_EHelper(CSRRW) {
   t0 = csr_read(id_src2->val);
   csr_write(id_src2->val, id_src->val);
   rtl_sr(id_dest->reg, &t0, 4);
-
+  print_asm_template3(csrrw);
 }
 
 make_EHelper(CSRRS) {
@@ -81,6 +81,7 @@ make_EHelper(CSRRS) {
   rtl_or(&t1, &t0, &id_src->val);
   csr_write(id_src2->val, t1);
   rtl_sr(id_dest->reg, &t0, 4);
+  print_asm_template3(csrrs);
 }
 
 make_EHelper(CSRRC) {
@@ -93,6 +94,7 @@ make_EHelper(CSRRC) {
   rtl_and(&t1, &t0, &s0);      /* t1 = t0 | s0  */
   csr_write(id_src2->val, t1); /* CSR[csr] = t1 */
   rtl_sr(id_dest->reg, &t0, 4);/* x[rd] = t0    */
+  print_asm_template3(csrrc);
 }
 
 make_EHelper(CSRRWI) {
@@ -103,6 +105,7 @@ make_EHelper(CSRRWI) {
   t0 = csr_read(id_src2->val);
   rtl_sr(id_dest->reg, &t0, 4);        /* x[rd] = CSR[csr] */
   csr_write(id_src2->val, id_src->reg); /* CSR[csr] = zimm  */
+  print_asm_template3(csrrwi);
 }
 
 make_EHelper(CSRRSI) {
