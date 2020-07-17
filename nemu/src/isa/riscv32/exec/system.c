@@ -44,10 +44,10 @@ static inline void SRET(){
 }
 make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
-    printf("rd = %d, rs1 = %d\n", decinfo.isa.instr.rd, decinfo.isa.instr.rs1); 
+    //printf("rd = %d, rs1 = %d\n", decinfo.isa.instr.rd, decinfo.isa.instr.rs1); 
     if (decinfo.isa.instr.rd == 0 && decinfo.isa.instr.rs1 == 0) {
         
-        printf("simm11_0 = %d, pc=0x%08x\n", decinfo.isa.instr.simm11_0, decinfo.seq_pc);
+        //printf("simm11_0 = %d, pc=0x%08x\n", decinfo.isa.instr.simm11_0, decinfo.seq_pc);
         
         switch (decinfo.isa.instr.simm11_0) {
           case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
