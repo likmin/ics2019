@@ -5,13 +5,19 @@
 /* 上下文管理 ConText Extension */
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
+
+/* 将执行流切换的原因打包成事件，然后调用在`_cte_init()`中注册的事件处理回调函数， 
+ * 将事件交给Nanos-lite处理。
+ * 
+ * 在回调函数`nanos-lite/src/irq.c`中的`do_event()`函数会根据事件类型再次进行分发
+ */
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
  // Log("epc = %d, cause = %d, status = %d\n", c->epc, c->cause, c->status);
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
-      //case 9 : ev.event = _EVENT_YIELD; break;
+      case 9 : ev.event = _EVENT_YIELD; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
