@@ -57,6 +57,20 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         }
 
     } else assert(0);
+
+    /* ecall执行顺序：
+     *  1.raise_intr(),设置scause，sstatus，sepc及stvec，并跳到陷入程序，即__am_asm_trap（nexus-am/am/src/riscv32/nemu/trap.S）
+     *  
+     *  2.__am_asm_trap会做三件事：
+     *    2.1 保留上下文，即_Context,这里需要根据__am_asm_trap中的指令执行顺序对_Context中的顺序进行更改，否则会驴唇不对马嘴
+     *    2.2 跳转至真正的异常处理程序，即__am_irq_handle（nexus-am/am/src/riscv32/nemu/cte.c)
+     *    2.3 恢复上下文
+     *
+     *  3.异常处理程序__am_irq_handle要做什么呢？
+     *    3.1 根据上下文中的cause，确定_Event类型，ecall确定为_EVENT_YIELD, 接下来就交给操作系统来处理了
+     *    3.2 nanos-lite/src/irq.c中的do_event()函数会根据_Event类型决定怎么处理，这里只输出`self int`
+     *    
+     */
 }
 /* NOTE: 
  *      1.system instruction is I-type, so 'csr' has been transform to id_src2->val
