@@ -29,8 +29,17 @@ void csr_write(int index, rtlreg_t val) {
 
 /* SRET */ 
 static inline void SRET(){
-  /*  
+  /* 1.设置pc为CSRs[sepc]
+   * 2.权限模式位CSRs[sstatus].SPP, 0代表用户模式，1表示其他模式，pa中一直在S模式，所以不用切换
+   * 3.CSRs[sstatus].SIE = CSRs[sstatus].SPIE
+   * 4.CSRs[sstatus].SPIE = 1
+   * 5.CSRs[sstatus].SPP = 0
    */
+   t0 = csr_read(SEPC);
+   cpu.csr.sstatus_32.SIE = cpu.csr.sstatus_32.SPIE;
+   cpu.csr.sstatus_32.SPIE = 1;
+   cpu.csr.sstatus_32.SPP = 0;
+   interpret_rtl_j(t0);
 }
 make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
@@ -42,7 +51,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         switch (decinfo.isa.instr.simm11_0) {
           case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
           case 0b000000000001: /* EBREAK*/ TODO(); break;
-          case 0b000100000010: /* SRET  */ break;
+          case 0b000100000010: /* SRET  */ SRET(); break;
           default:assert(0);
         }
 
