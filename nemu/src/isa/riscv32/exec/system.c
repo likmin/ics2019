@@ -67,7 +67,7 @@ make_EHelper(CSRRW) {
    * x[rd]    = t
    */
   t0 = csr_read(id_src2->val);
- // csr_write(id_src2->val, id_src->val);
+  csr_write(id_src2->val, id_src->val);
   rtl_sr(id_dest->reg, &t0, 4);
   print_asm_template3(csrrw);
 }
@@ -79,7 +79,7 @@ make_EHelper(CSRRS) {
    */
   t0 = csr_read(id_src2->val);
   rtl_or(&t1, &t0, &id_src->val);
-  csr_write(id_src2->val, t1);
+ // csr_write(id_src2->val, t1);
   rtl_sr(id_dest->reg, &t0, 4);
   print_asm_template3(csrrs);
 }
