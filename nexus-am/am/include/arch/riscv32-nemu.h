@@ -2,7 +2,7 @@
 #define __ARCH_H__
 
 struct _Context { /* riscv32 上下文信息 */
-  uintptr_t sepc, scause, gpr[32], sstatus;
+  uintptr_t gpr[32], scause, sstatus, sepc;
   struct _AddressSpace *as;
 };
 
