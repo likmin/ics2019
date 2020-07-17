@@ -22,11 +22,16 @@ void csr_write(int index, rtlreg_t val) {
     case SSTATUS: cpu.csr.sstatus = val; break;
     case STVEC  : cpu.csr.stvec   = val; break;
     case SEPC   : cpu.csr.sepc    = val; break;
-    case SCAUSE : cpu.csr.scause  = val; printf("scause = 0x%08x\n", cpu.csr.scause);break;
+    case SCAUSE : cpu.csr.scause  = val; break;
     default   : assert(0);
   }
 }
 
+/* SRET */ 
+static inline void SRET(){
+  /*  
+   */
+}
 make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
     printf("rd = %d, rs1 = %d\n", decinfo.isa.instr.rd, decinfo.isa.instr.rs1); 
@@ -35,8 +40,9 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         printf("simm11_0 = %d, pc=0x%08x\n", decinfo.isa.instr.simm11_0, decinfo.seq_pc);
         
         switch (decinfo.isa.instr.simm11_0) {
-          case 0: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
-          case 1: /* EBREAK */ TODO(); break;
+          case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
+          case 0b000000000001: /* EBREAK*/ TODO(); break;
+          case 0b000100000010: /* SRET  */ break;
           default:assert(0);
         }
 
