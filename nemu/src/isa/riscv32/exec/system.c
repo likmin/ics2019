@@ -32,7 +32,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
     if (decinfo.isa.instr.rd == 0b00000 && decinfo.isa.instr.rs1 == 0b00000) {
         
-        printf("simm11_0 = %d\n",decinfo.isa.instr.simm11_0);
+        printf("simm11_0 = %d, pc=0x%08x\n", decinfo.isa.instr.simm11_0, decinfo.seq_pc);
         
         switch (decinfo.isa.instr.simm11_0) {
           case 0: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
