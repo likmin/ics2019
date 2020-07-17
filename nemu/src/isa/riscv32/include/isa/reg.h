@@ -37,7 +37,7 @@ typedef struct {
         uint32_t sstatus_4_2  : 3;	
         uint32_t SIE          : 1;	
         uint32_t sstatus_0    : 1;
-      };
+      } status;
       rtlreg_t sstatus;
     };
     
