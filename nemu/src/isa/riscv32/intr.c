@@ -12,7 +12,7 @@ void raise_intr(uint32_t NO, vaddr_t epc) {
    */
 
   csr_write(SEPC, epc);  /* 1.save the pc to epc                */
- // csr_write(SCAUSE, NO); /* 2.set the exception code to scause  */
+  csr_write(SCAUSE, NO); /* 2.set the exception code to scause  */
   t0 = csr_read(STVEC);  /* 3.get the exception entry address from stvec register */ 
   interpret_rtl_jr(&t0); /* 4.jump to exception entry address   */
 }
