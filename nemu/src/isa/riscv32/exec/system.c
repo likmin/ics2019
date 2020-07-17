@@ -35,7 +35,7 @@ static inline void SRET(){
    * 4.CSRs[sstatus].SPIE = 1
    * 5.CSRs[sstatus].SPP = 0
    */
-   t0 = csr_read(SEPC);
+   t0 = csr_read(SEPC) + 4;
    printf("[SRET] t0 = 0x%08x\n", t0);
    cpu.csr.sstatus_32.SIE = cpu.csr.sstatus_32.SPIE;
    cpu.csr.sstatus_32.SPIE = 1;
@@ -50,7 +50,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         printf("simm11_0 = %d, pc=0x%08x\n", decinfo.isa.instr.simm11_0, decinfo.seq_pc);
         
         switch (decinfo.isa.instr.simm11_0) {
-          case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc+4); print_asm_template1(ecall); break;
+          case 0b000000000000: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
           case 0b000000000001: /* EBREAK*/ TODO(); break;
           case 0b000100000010: /* SRET  */ SRET(); break;
           default:assert(0);
