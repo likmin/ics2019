@@ -35,7 +35,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         printf("simm11_0 = %d\n",decinfo.isa.instr.simm11_0);
         
         switch (decinfo.isa.instr.simm11_0) {
-          case 0: /* ECALL */ raise_intr(9, cpu.pc);break;
+          case 0: /* ECALL */ raise_intr(9, cpu.pc); print_asm_template1(ecall); break;
           case 1: /* EBREAK */ TODO(); break;
           default:assert(0);
         }
