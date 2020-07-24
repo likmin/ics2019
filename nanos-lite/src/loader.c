@@ -83,7 +83,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   /* 4.装载程序头表中的每一项 */
   eph = ph + elf->e_phnum;
-   
+  Log("Load ELF Program header"); 
   for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
   Log("start for ");
     if (ph->p_type == PT_LOAD) {
