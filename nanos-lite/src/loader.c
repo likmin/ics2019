@@ -76,7 +76,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   #endif
   
   /* 2.程序入口地址 */
-  volatile uint32_t entry = elf->e_entry;
+ // volatile uint32_t entry = elf->e_entry;
   Log("2.ELF Entry address");
   /* 3.定位程序头表 */
   ph = (void *)elf + elf->e_phoff;
@@ -101,7 +101,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   }
 
   /* 5.return 程序入口地址*/
-  return entry;
+  return elf->e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
