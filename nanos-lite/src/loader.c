@@ -83,7 +83,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   /* 4.装载程序头表中的每一项 */
   eph = ph + elf->e_phnum;
-  
+   
   for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
     if (ph->p_type == PT_LOAD) {
       /* 
@@ -93,9 +93,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       void *memp = (void *)(ph->p_vaddr);
       ramdisk_read(memp, ph->p_offset, ph->p_filesz);
 
-      if(ph->p_filesz < ph->p_memsz) 
+      /*if(ph->p_filesz < ph->p_memsz) 
         memset((void *)(ph->p_offset + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
-      
+*/      
     }
   }
 
