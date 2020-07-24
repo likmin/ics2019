@@ -80,7 +80,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   /* 3.定位程序头表 */
   ph = (void *)elf + elf->e_phoff;
-
+  Log("3. Located The ELF Program header table");
   /* 4.装载程序头表中的每一项 */
   eph = ph + elf->e_phnum;
   Log("Load ELF Program header"); 
