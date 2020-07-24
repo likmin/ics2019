@@ -65,43 +65,75 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
    *    end for
    * 5. return 程序入口地址
    */
-  Elf_Ehdr *elf; 
-  Elf_Phdr *ph, *eph; 
+  // Elf_Ehdr *elf; 
+  // Elf_Phdr *ph, *eph; 
 
-  /* 1.读入程序入口地址 */
-  #ifdef HAS_DEVICE_IDE
-  #else
-    elf = (void *)0x83000000; //模拟内存0x0处是RAM Disk, 存放的是ELF
-    Log("ELF loading from ram disk.");
-  #endif
+  // elf = malloc(52); 
+  // ramdisk_read(elf, 0, 52); 
+  // Log("1. read the Elf header from ramdisk");
   
-  /* 2.程序入口地址 */
-  volatile uint32_t entry = elf->e_entry;
-  Log("2. ELF Entry address");
-  /* 3.定位程序头表 */
-  ph = (void *)elf + elf->e_phoff;
-  Log("3. Located The ELF Program header table");
-  /* 4.装载程序头表中的每一项 */
-  eph = ph + elf->e_phnum;
-  Log("4. Load ELF Program header"); 
-  for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
-    Log("start for ");
-    if (ph->p_type == PT_LOAD) {
-      /* 
-       * 1. 将文件中从Offset开始位置，连续FileSiz个字节的数据，装载到内存中从VirtAddr开始，连续MemSiz个字节的区域中.
-       * 2. 如果MemSiz > FileSiz, 把内存中VirtAddr + [FileSiz, MemSiz]的区域清理
-       */
-      void *memp = (void *)(ph->p_vaddr);
-      ramdisk_read(memp, ph->p_offset, ph->p_filesz);
+  // /* 2.程序入口地址 */
+  // volatile uint32_t entry = elf->e_entry;
+  // Log("2. ELF Entry address");
+  // /* 3.定位程序头表 */
+  // ph = (void *)elf + elf->e_phoff;
+  // Log("3. Located The ELF Program header table");
+  // /* 4.装载程序头表中的每一项 */
+  // eph = ph + elf->e_phnum;
+  // Log("4. Load ELF Program header"); 
+  // for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
+  //   Log("start for ");
+  //   if (ph->p_type == PT_LOAD) {
+  //     /* 
+  //      * 1. 将文件中从Offset开始位置，连续FileSiz个字节的数据，装载到内存中从VirtAddr开始，连续MemSiz个字节的区域中.
+  //      * 2. 如果MemSiz > FileSiz, 把内存中VirtAddr + [FileSiz, MemSiz]的区域清理
+  //      */
+  //     void *memp = (void *)(ph->p_vaddr);
+  //     ramdisk_read(memp, ph->p_offset, ph->p_filesz);
 
-      if(ph->p_filesz < ph->p_memsz) 
-        memset((void *)(ph->p_offset + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
+  //     if(ph->p_filesz < ph->p_memsz) 
+  //       memset((void *)(ph->p_offset + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
    
+  //   }
+  // }
+
+  // /* 5.return 程序入口地址*/
+  // return entry;
+
+  Elf_Ehdr elfheader;
+  Elf_Phdr programheader;
+
+  ramdisk_read(&elfheader,0,sizeof(Elf_Ehdr));
+  for(uint16_t i=0;i<elfheader.e_phnum;i++){
+    ramdisk_read(&programheader,elfheader.e_phoff+i*elfheader.e_phentsize,sizeof(Elf_Phdr));
+    if(programheader.p_type == PT_LOAD){
+      uint8_t buf[programheader.p_filesz];
+      ramdisk_read(&buf,programheader.p_offset,programheader.p_filesz);
+     // vaddr_write(programheader.p_vaddr,&buf,programheader.p_filesz);
+      memcpy((void*)programheader.p_vaddr,&buf,programheader.p_filesz);
+      memset((void*)(programheader.p_vaddr+programheader.p_filesz),0,(programheader.p_memsz-programheader.p_filesz));
+    }
+  }
+  ramdisk_read(&programheader,elfheader.e_phoff,sizeof(Elf_Phdr));
+  
+  uint16_t num = elfheader.e_phnum;
+  uint32_t offset= elfheader.e_phoff;
+  uint16_t size=elfheader.e_phentsize;
+  //uintptr_t  addr= elfheader.e_entry;
+  printf("%x\n",offset);
+  printf("%x\n",size);
+  printf("%x\n",num);
+  printf("%x\n",get_ramdisk_size());
+  while(num--){
+    ramdisk_read(&programheader,offset,size);
+    if(programheader.p_type==PT_LOAD){
+      uint32_t data;
+      ramdisk_read(&data,programheader.p_offset,programheader.p_filesz);
+      offset+=size;
     }
   }
 
-  /* 5.return 程序入口地址*/
-  return entry;
+  return elfheader.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
