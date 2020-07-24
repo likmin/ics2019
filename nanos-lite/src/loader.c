@@ -91,12 +91,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
        * 1. 将文件中从Offset开始位置，连续FileSiz个字节的数据，装载到内存中从VirtAddr开始，连续MemSiz个字节的区域中.
        * 2. 如果MemSiz > FileSiz, 把内存中VirtAddr + [FileSiz, MemSiz]的区域清理
        */
-      //void *memp = (void *)(ph->p_vaddr);
-      //ramdisk_read(memp, ph->p_offset, ph->p_filesz);
+      void *memp = (void *)(ph->p_vaddr);
+      ramdisk_read(memp, ph->p_offset, ph->p_filesz);
 
-      /*if(ph->p_filesz < ph->p_memsz) 
+      if(ph->p_filesz < ph->p_memsz) 
         memset((void *)(ph->p_offset + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
-*/      
+   
     }
   }
 
