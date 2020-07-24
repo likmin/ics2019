@@ -85,7 +85,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   eph = ph + elf->e_phnum;
   Log("4. Load ELF Program header"); 
   for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
-  Log("start for ");
+    Log("start for ");
     if (ph->p_type == PT_LOAD) {
       /* 
        * 1. 将文件中从Offset开始位置，连续FileSiz个字节的数据，装载到内存中从VirtAddr开始，连续MemSiz个字节的区域中.
