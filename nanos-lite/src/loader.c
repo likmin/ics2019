@@ -77,7 +77,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   /* 2.程序入口地址 */
   volatile uint32_t entry = elf->e_entry;
-
+  Log("2.ELF Entry address");
   /* 3.定位程序头表 */
   ph = (void *)elf + elf->e_phoff;
   Log("3. Located The ELF Program header table");
