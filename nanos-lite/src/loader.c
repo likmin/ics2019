@@ -71,12 +71,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   /* 1.读入程序入口地址 */
   #ifdef HAS_DEVICE_IDE
   #else
-    elf = (void *)0x0; //模拟内存0x0处是RAM Disk, 存放的是ELF
+    elf = (void *)0x83000000; //模拟内存0x0处是RAM Disk, 存放的是ELF
     Log("ELF loading from ram disk.");
   #endif
   
   /* 2.程序入口地址 */
- // volatile uint32_t entry = elf->e_entry;
+  volatile uint32_t entry = elf->e_entry;
   Log("2.ELF Entry address");
   /* 3.定位程序头表 */
   ph = (void *)elf + elf->e_phoff;
@@ -101,7 +101,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   }
 
   /* 5.return 程序入口地址*/
-  return elf->e_entry;
+  return entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
