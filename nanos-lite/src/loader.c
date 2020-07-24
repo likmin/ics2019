@@ -77,13 +77,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   /* 2.程序入口地址 */
   volatile uint32_t entry = elf->e_entry;
-  Log("2.ELF Entry address");
+  Log("2. ELF Entry address");
   /* 3.定位程序头表 */
   ph = (void *)elf + elf->e_phoff;
   Log("3. Located The ELF Program header table");
   /* 4.装载程序头表中的每一项 */
   eph = ph + elf->e_phnum;
-  Log("Load ELF Program header"); 
+  Log("4. Load ELF Program header"); 
   for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
   Log("start for ");
     if (ph->p_type == PT_LOAD) {
