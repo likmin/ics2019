@@ -121,6 +121,10 @@ int printf(const char *fmt, ...) {
 
 	int i;
 	for (i = 0; buf[i]!='\0'; i++) _putc(buf[i]);
+	/*
+		0x3F8 
+		printf -> _putc(ch) -> putchar(0x3F8, ch) -> outb(addr, ch) -> *addr = ch
+	 */
 	return ret;
 }
 /* snprintf()用于将格式化的数据写入字符串 
