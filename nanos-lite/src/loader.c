@@ -77,8 +77,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   size_t ret = ramdisk_read(&elf, 0, PHOFF);
   assert(ret == PHOFF);
-  //printf("ramdisk_size = %d\n", get_ramdisk_size());
-  /* 2.程序入口地址 */
+
   volatile uint32_t entry = elf.e_entry;
   printf("entry = %x\n", entry);
   printf("phoff = %x\n", elf.e_phoff);
@@ -92,33 +91,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     memset((void *)(ph.p_vaddr + ph.p_filesz), 0, ph.p_memsz - ph.p_filesz);
   }
 
-
- // Log("2. ELF Entry address");
-  // /* 3.定位程序头表 */
-  // ph = (void *)elf + elf->e_phoff;
-  // Log("3. Located The ELF Program header table");
-  // /* 4.装载程序头表中的每一项 */
-  // eph = ph + elf->e_phnum;
-  // Log("4. Load ELF Program header"); 
-  // for (; ph < eph; ph++) {  //扫描程序头表中的各个表项
-  //   Log("start for ");
-  //   if (ph->p_type == PT_LOAD) {
-  //     /* 
-  //      * 1. 将文件中从Offset开始位置，连续FileSiz个字节的数据，装载到内存中从VirtAddr开始，连续MemSiz个字节的区域中.
-  //      * 2. 如果MemSiz > FileSiz, 把内存中VirtAddr + [FileSiz, MemSiz]的区域清理
-  //      */
-  //     void *memp = (void *)(ph->p_vaddr);
-  //     ramdisk_read(memp, ph->p_offset, ph->p_filesz);
-
-  //     if(ph->p_filesz < ph->p_memsz) 
-  //       memset((void *)(ph->p_offset + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
-   
-  //   }
-  // }
-
-  /* 5.return 程序入口地址*/
   return entry;
-
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
