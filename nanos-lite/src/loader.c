@@ -65,16 +65,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
    *    end for
    * 5. return 程序入口地址
    */
-  // Elf_Ehdr *elf; 
-  // Elf_Phdr *ph, *eph; 
+  Elf_Ehdr elf; 
+  Elf_Phdr *ph __attribute__((unused)), *eph __attribute__((unused)); 
 
-  // elf = malloc(52); 
-  // ramdisk_read(elf, 0, 52); 
-  // Log("1. read the Elf header from ramdisk");
-  
-  // /* 2.程序入口地址 */
-  // volatile uint32_t entry = elf->e_entry;
-  // Log("2. ELF Entry address");
+  ramdisk_read(&elf, 0, 52);
+
+  /* 2.程序入口地址 */
+  volatile uint32_t entry = elf.e_entry;
+  printf("entry = %u\n", entry);
+  Log("2. ELF Entry address");
   // /* 3.定位程序头表 */
   // ph = (void *)elf + elf->e_phoff;
   // Log("3. Located The ELF Program header table");
@@ -97,8 +96,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   //   }
   // }
 
-  // /* 5.return 程序入口地址*/
-  // return entry;
+  /* 5.return 程序入口地址*/
+  return entry;
 
 }
 
