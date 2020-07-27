@@ -71,7 +71,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf; 
   Elf_Phdr *ph __attribute__((unused)), *eph __attribute__((unused)); 
 
-  ramdisk_read(&elf, ramdisk_start, 52);
+  ramdisk_read(&elf, (unsigned int)(&ramdisk_start), 52);
   //printf("ramdisk_size = %d\n", get_ramdisk_size());
   /* 2.程序入口地址 */
   volatile uint32_t entry = elf.e_entry;
