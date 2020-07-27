@@ -48,7 +48,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args) {
   char *arg = strtok(NULL, " ");
   uint64_t n = 1; /* the default value of n is 1 */ 
-  if(arg) n = strtoull(arg, NULL, 10);  
+  if(arg) n = strtoull(arg, NULL, 0);  
   /*
    * strtoull(str, endptr,base)
    * interpret the string to unsigned long long int, which is also named uint64_t
