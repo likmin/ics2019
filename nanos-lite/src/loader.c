@@ -4,9 +4,11 @@
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
+# define PHOFF 64
 #else
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
+# define PHOFF 52
 #endif
 
 /* Elf_Ehdr -  ELF Header的信息，以struct结构体形式呈现
@@ -53,8 +55,8 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
 
-// extern uint8_t ramdisk_start;
-// extern uint8_t ramdisk_end;
+extern uint8_t ramdisk_start;
+extern uint8_t ramdisk_end;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
@@ -68,14 +70,29 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
    *    end for
    * 5. return 程序入口地址
    */
- // Elf_Ehdr elf; 
-  //Elf_Phdr *ph __attribute__((unused)), *eph __attribute__((unused)); 
+  
+  Elf_Ehdr elf;
+  Elf_Phdr ph;
+  //eph __attribute__((unused)); 
 
- // ramdisk_read(&elf, (unsigned int)(&ramdisk_start), 52);
+  size_t ret = ramdisk_read(&elf, 0, PHOFF);
+  assert(ret == PHOFF);
   //printf("ramdisk_size = %d\n", get_ramdisk_size());
   /* 2.程序入口地址 */
-//  volatile uint32_t entry = elf.e_entry;
-  //printf("entry = %u\n", entry);
+  volatile uint32_t entry = elf.e_entry;
+  printf("entry = %x\n", entry);
+  printf("phoff = %x\n", elf.e_phoff);
+  printf("phnum = %x\n", elf.e_phnum);
+
+  for(int i = 0; i < elf.e_phnum; i++){
+    ramdisk_read(&ph, elf.e_phoff * (i + 1),sizeof(Elf_Phdr)); 
+    printf("offset = %x,  vaddr = %x, paddr = %x, filesz = %d, memsz = %d\n",ph.p_offset, ph.p_vaddr, ph.p_paddr, ph.p_filesz, ph.p_memsz);
+    if (ph.p_type != PT_LOAD) continue;
+    ramdisk_read((void *)ph.p_vaddr, ph.p_offset, ph.p_filesz);
+    memset((void *)(ph.p_vaddr + ph.p_filesz), 0, ph.p_memsz - ph.p_filesz);
+  }
+
+
  // Log("2. ELF Entry address");
   // /* 3.定位程序头表 */
   // ph = (void *)elf + elf->e_phoff;
@@ -100,7 +117,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // }
 
   /* 5.return 程序入口地址*/
-  return 0;
+  return entry;
 
 }
 
