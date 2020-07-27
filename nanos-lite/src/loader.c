@@ -69,7 +69,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr *ph __attribute__((unused)), *eph __attribute__((unused)); 
 
   ramdisk_read(&elf, 0, 52);
-
+  printf("ramdisk_size = %d", get_ramdisk_size());
   /* 2.程序入口地址 */
   volatile uint32_t entry = elf.e_entry;
   printf("entry = %u\n", entry);
