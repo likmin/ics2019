@@ -261,7 +261,7 @@ uint32_t eval(uint32_t p, uint32_t q) {
 		 return value;
 
 	} else if (check_parenteses(p, q) == true) {
-		printf("check parenteses is true, p = %u, q = %u\n", p, q);	
+		//printf("check parenteses is true, p = %u, q = %u\n", p, q);	
 		return eval(p + 1, q - 1);
 	
 	} else {
