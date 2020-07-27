@@ -54,6 +54,7 @@ static int cmd_si(char *args) {
    * interpret the string to unsigned long long int, which is also named uint64_t
    * 
    */
+   printf("n = %ld", n);
   cpu_exec(n); 
 
   return 0;
