@@ -53,6 +53,9 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t get_ramdisk_size();
 
+extern uint8_t ramdisk_start;
+extern uint8_t ramdisk_end;
+
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
   /* 1. 读入ELF header
@@ -68,8 +71,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf; 
   Elf_Phdr *ph __attribute__((unused)), *eph __attribute__((unused)); 
 
-  ramdisk_read(&elf, 0, 52);
-  printf("ramdisk_size = %d\n", get_ramdisk_size());
+  ramdisk_read(&elf, ramdisk_start, 52);
+  //printf("ramdisk_size = %d\n", get_ramdisk_size());
   /* 2.程序入口地址 */
   volatile uint32_t entry = elf.e_entry;
   printf("entry = %u\n", entry);
