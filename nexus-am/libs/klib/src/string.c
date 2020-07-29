@@ -32,15 +32,15 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-  strcpy (dst + strlen(src), src);
-  return dst;
-  // char *str=dst;
-  // assert(dst!=NULL &&src!=NULL);
-  // while(*dst!='\0') {
-  //   dst++;
-  // }
-  // while((*dst++=*src++) != '\0');
-  // return str;
+  // strcpy (dst + strlen(src), src);
+  // return dst;
+  char *str=dst;
+  assert(dst!=NULL &&src!=NULL);
+  while(*dst!='\0') {
+    dst++;
+  }
+  while((*dst++=*src++) != '\0');
+  return str;
 }
 
 int strcmp(const char* s1, const char* s2) {
