@@ -42,15 +42,20 @@ int strcmp(const char* s1, const char* s2) {
 
 int strncmp(const char* s1, const char* s2, size_t n) {
   
-  int D_value = 0;
-  uint32_t  i = 0;
+  // int D_value = 0;
+  // uint32_t  i = 0;
   
-  for (i = 0; *s1 && *s2 && i < n && D_value != 0; i++) {
-    s1++; s2++;
-  	D_value = *s1 - *s2;
-  }
+  // for (i = 0; *s1 && *s2 && i < n && D_value != 0; i++) {
+  //   s1++; s2++;
+  // 	D_value = *s1 - *s2;
+  // }
 
-  return D_value;
+  // return D_value;
+   int res=0;
+  while(n-- && *s1 && *s2 && (res=(*s1-*s2))==0) {
+    s1++,s2++;
+  }
+  return res
 }
 
 void* memset(void* v,int c,size_t n) {
