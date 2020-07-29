@@ -1,5 +1,5 @@
 #include "klib.h"
-
+ 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 /* dhrystone 原来一直测试过不去，一直死循环，通过一些替换，发现是strcpy的锅
  * 参考了https://github.com/CX-514/ics2019.git，
