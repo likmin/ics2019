@@ -15,16 +15,16 @@ char *strcpy(char* dst,const char* src) {
 
 char* strncpy(char* dst, const char* src, size_t n) {
   size_t srcSize = strlen(src) + 1; // for '\0'
-  char *d = dst;
+  
   if(n > srcSize) n = srcSize;
 
   uint32_t i;
   for (i = 0; i < n; i++) {
-	dst[i] = src[i];
+	  dst[i] = src[i];
   }
 
   dst[i] = '\0';
-  return d;
+  return dst;
 }
 
 char* strcat(char* dst, const char* src) {
@@ -43,32 +43,29 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
-  size_t s1_size = strlen(s1);
-  size_t s2_size = strlen(s2);
   
-  if (s1_size < n) n = s1_size;
-  if (s2_size < n) n = s2_size;
+  int D_value = 0;
+  uint32_t  i = 0;
   
-  uint32_t i = 0;
-  for (i = 0; i < n; i++) {
-  	int D_value = s1[i] - s2[i];
-  	if (D_value) return D_value;
+  for (i = 0; *s1 && *s2 && i < n && D_value != 0; i++) {
+    s1++; s2++;
+  	D_value = *s1 - *s2;
   }
 
-  return 0;
+  return D_value;
 }
 
 void* memset(void* v,int c,size_t n) {
   const unsigned char uc = c; /* only cat the lowest c */
-  unsigned char *vu;
-  for (vu = v; 0 < n; ++vu, --n)
+  unsigned char *vu = v;
+  for (; n > 0; ++vu, --n)
 	  *vu = uc;
   return v;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
-  const char *src = in;
-  char *dst = out;
+  const char *src = (char *)in;
+  char *dst = (char *)out;
 
   while (n--) *dst++ = *src++;
 
@@ -78,8 +75,8 @@ void* memcpy(void* out, const void* in, size_t n) {
 int memcmp(const void* s1, const void* s2, size_t n){
   if(!n) return 0;
   while(--n && *(char *)s1 == *(char *)s2) {
-	s1 = (char *)s1 + 1;
-	s2 = (char *)s2 + 1;
+	  s1 = (char *)s1 + 1;
+	  s2 = (char *)s2 + 1;
   }
   return (*((unsigned char *)s1) - *((unsigned char *)s2));
 }
