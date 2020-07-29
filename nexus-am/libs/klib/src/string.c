@@ -39,7 +39,6 @@ char* strcat(char* dst, const char* src) {
   /* 虽然这种方法也可以通过，但是性能非常非常的低下
    * strcpy (dst + strlen(src), src);
    * return dst;
-   *
    */
   
   char *str=dst;
@@ -64,6 +63,8 @@ int strcmp(const char* s1, const char* s2) {
 }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
+  
+  /* 虽然可以通过测试，但是性能太低了
   // size_t s1_size = strlen(s1);
   // size_t s2_size = strlen(s2);
   
@@ -76,9 +77,9 @@ int strncmp(const char* s1, const char* s2, size_t n) {
   // 	if (D_value) return D_value;
   // }
   // return 0;
-
+  */
   int D_value = 0;
-  uint32_t  i = 0;
+  size_t i    = 0;
   
   for (i = 0; *s1 && *s2 && i < n && D_value != 0; i++) {
     s1++; s2++;
