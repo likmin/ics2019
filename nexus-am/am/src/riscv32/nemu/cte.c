@@ -6,11 +6,12 @@
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 
-/* 将执行流切换的原因打包成事件，然后调用在`_cte_init()`中注册的事件处理回调函数， 
+/* 将执行流切换的原因打包成事件，然后调用在`_cte_init()`中注册的事件处理回调函数 - do_event()， 
  * 将事件交给Nanos-lite处理。
  * 
  * 在回调函数`nanos-lite/src/irq.c`中的`do_event()`函数会根据事件类型再次进行分发
  */
+
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
  // Log("epc = %d, cause = %d, status = %d\n", c->epc, c->cause, c->status);
@@ -21,7 +22,7 @@ _Context* __am_irq_handle(_Context *c) {
       default: ev.event = _EVENT_ERROR; break;
     }
 
-    next = user_handler(ev, c);
+    next = user_handler(ev, c);// do_event(ev, c)
     if (next == NULL) {
       next = c;
     }

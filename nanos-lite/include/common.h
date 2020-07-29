@@ -2,7 +2,7 @@
 #define __COMMON_H__
 
 /* Uncomment these macros to enable corresponding functionality. */
-/* 定义了HAS_CTE后
+/* 定义了HAS_CTE后, 开启上下文管理
  * init_irq() -> _cte_init(): 
  *  1.设置异常入口地址。
  *  2.注册一个时间处理回调函数 

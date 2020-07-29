@@ -14,7 +14,7 @@ _Area _heap = {
 /* 用于输出一个字符,通过串口输出的
  */
 void _putc(char ch) {
-  outb(SERIAL_PORT, ch); /* outb(0x3F8, ch);*/
+  outb(SERIAL_PORT, ch); /* outb(0xa10003F8, ch);*/
 }
 
 /* 用于结束程序的运行 */

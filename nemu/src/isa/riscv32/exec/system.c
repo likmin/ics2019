@@ -42,6 +42,8 @@ static inline void SRET(){
    cpu.csr.sstatus_32.SPP = 0;
    interpret_rtl_jr(&t0);
 }
+
+/* ECALL EBREAK */
 make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
     
     //printf("rd = %d, rs1 = %d\n", decinfo.isa.instr.rd, decinfo.isa.instr.rs1); 

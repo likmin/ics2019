@@ -17,13 +17,13 @@ extern "C" {
 // ===================== Constants and Structs =======================
 /* 统一的事件编号 */
 enum {
-  _EVENT_NULL = 0,
-  _EVENT_ERROR,
-  _EVENT_IRQ_TIMER,
-  _EVENT_IRQ_IODEV,
-  _EVENT_PAGEFAULT,
-  _EVENT_YIELD,
-  _EVENT_SYSCALL,
+  _EVENT_NULL = 0,  // 0
+  _EVENT_ERROR,     // 1  
+  _EVENT_IRQ_TIMER, // 2
+  _EVENT_IRQ_IODEV, // 3
+  _EVENT_PAGEFAULT, // 4
+  _EVENT_YIELD,     // 5
+  _EVENT_SYSCALL,   // 6
 };
 
 enum {
@@ -75,7 +75,7 @@ size_t _io_write(uint32_t dev, uintptr_t reg, void *buf, size_t size);
  * 进行后续处理。
  */
 int _cte_init(_Context *(*handler)(_Event ev, _Context *ctx));
-void _yield();  /* 进行自陷操作，会触发编号为——EVENT——YOELD事件 */
+void _yield();    /* 进行自陷操作，会触发编号为_EVENT_YIELD事件 */
 int _intr_read();
 void _intr_write(int enable);
 _Context *_kcontext(_Area kstack, void (*entry)(void *), void *arg);
