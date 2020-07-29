@@ -2,6 +2,8 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 /* dhrystone 原来一直测试过不去，一直死循环，通过一些替换，发现是strcpy的锅
+ * 参考了https://github.com/CX-514/ics2019.git，
+ *
  */
 size_t strlen(const char *s) {
   size_t i = 0;
@@ -10,12 +12,15 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char* dst,const char* src) {
-  size_t i;
-  for(i=0;src[i]!='\0';i++) 
-    dst[i]=src[i];
   
-  dst[i]='\0';
-  return dst;
+  size_t dstSize = strlen(dst);
+  return strncpy(dst, src, dstSize);
+  // size_t i;
+  // for(i=0;src[i]!='\0';i++) 
+  //   dst[i]=src[i];
+  
+  // dst[i]='\0';
+  // return dst;
 }
 
 char *strncpy(char* dst, const char* src, size_t n) {
@@ -26,6 +31,13 @@ char *strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
+  
+  /* 虽然这种方法也可以通过，但是性能非常非常的低下
+   * strcpy (dst + strlen(src), src);
+   * return dst;
+   *
+   */
+  
   char *str=dst;
   assert(dst!=NULL && src!=NULL);
   while(*dst!='\0') {
