@@ -3,142 +3,288 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-struct param {
-	char uc:1;
-	char sign;			/* '-' 				 */
-	unsigned int base;	/* number base, e.g 8, 10, 16*/
-	char *bf;			/* buffer for output */
-};
-typedef void (*putcf) (void *, char);
-
-struct _vsprintf_putcf_data {
-	char *dest;
-	size_t num_chars;
-};
-
-static void _vsprintf_putcf(void *p, char c) {
-	struct _vsprintf_putcf_data *data = (struct _vsprintf_putcf_data *)p;
-	data->dest[data->num_chars ++] = c;
+#define bool int
+#define true 1
+#define false 0
+#define ZEROPAD 1		//Pad with zero
+#define SIGN		2		//Unsigned/signed long
+#define PLUS		4		//Show plus
+#define SPACE		8		//Space if plus
+#define LEFT		16	//Left justified
+#define SPECIAL 32	//0x
+#define LARGE		64	//Use 'ABCD' instead of 'abcd'
+static char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+static inline int is_space(int ch){
+	return (unsigned long)(ch - 9) < 5u || ' '==ch;
+}
+static inline int is_digit(int ch){
+	return ch >= '0' && ch <= '9';
 }
 
-static void putchw(void *putp, putcf putf, struct param *p) {
-	char ch;
-	char *bf = p->bf;
-	while((ch = *bf++)) 
-		putf(putp, ch);
+static int skip_atoi(const char **s){
+	int i = 0;
+	while(is_digit(**s)){
+		i = i*10 + *((*s)++) - '0';
+	}
+	return i;
 }
 
-static void ui2a(unsigned int num, struct param *p) {
-	int n = 0;
-	unsigned int d = 1;
-	char *bf = p->bf;
-	while (num / d >= p->base)
-		d = d * p->base;
+static char * number(char *str, long num, int base, int size, int precision, int type)
+{
+	char c, sign, tmp[66];
+	char *dig = digits;
+	int i;
 
-	while (d != 0) {
-		int dgt = num /d;
-		num = num % d;
-		d = d / p->base;
-		if (n || dgt > 0 || d == 0) {
-			*bf++ = dgt + (dgt < 10 ? '0' : (p->uc ? 'A' : 'a') - 10);
-			++n;
+	if(type & LARGE) dig = upper_digits;
+	if(type & LEFT) type &= ~ZEROPAD;
+	if(base < 2 || base > 36)	return 0;
+
+	c = (type & ZEROPAD) ? '0' : ' ';
+	sign = 0;
+	if(type & SIGN){
+		if(num < 0){
+			sign = '-';
+			num = -num;
+			size--;
+		}
+		else if(type & PLUS){
+			sign = '+';
+			size--;
+		}
+		else if(type & SPACE){
+			sign = ' ';
+			size--;
 		}
 	}
-	*bf = 0;
-}
-static void i2a (int num, struct param *p) {
-	//printf("num = %d\n", num);
-	if (num < 0) {
-		num = -num;
-		p->sign = '-';
+
+	if(type & SPECIAL){
+		if(16 == base)
+			size -= 2;
+		else if(8==base)
+			size--;
 	}
-	ui2a(num, p);
-}
 
+	i = 0;
 
-void my_format(void *putp, putcf putf, const char *fmt, va_list va) {
-	struct param p;
-	char bf[12];	/* int = 32b */
-	char ch;
-	p.bf = bf;
-
-	while ((ch = *(fmt++))) {
-		if (ch != '%') {
-			putf(putp, ch);
-		} else {
-			ch = *(fmt++);
-			switch (ch) {
-				case 'd':
-					p.base = 10;
-					p.uc = 0;
-					i2a(va_arg(va, int), &p);
-					putchw(putp, putf, &p);
-					break;
-				case 'x' :
-					p.base = 16;
-					p.uc = 0;
-					i2a(va_arg(va, int), &p);
-					putchw(putp, putf, &p);
-					break;
-				case 's':
-					p.bf = va_arg(va, char *);
-					putchw(putp, putf, &p);
-				    p.bf = bf; //???
-					break;
-				default : break;
-			}
+	if(0 == num){
+		tmp[i++] = '0';
+	}
+	else{
+		while(num != 0){
+			tmp[i++] = dig[((unsigned long) num) % (unsigned) base];
+            if(base == 16)
+                num = (unsigned)num >> 4;
+            else
+			    num = ((unsigned long) num) / (unsigned) base;
 		}
-
 	}
-}
 
+	if(i > precision)	precision = i;
+	size -= precision;
+	if(!(type & (ZEROPAD | LEFT))){
+		while(size-- > 0)	*str++ = ' ';
+	}
+	if(sign) *str++ = sign;
 
-int vsprintf(char *out, const char *fmt, va_list ap) {
-	struct _vsprintf_putcf_data data;
-	data.dest = out;
-	data.num_chars = 0;
-	my_format(&data, _vsprintf_putcf, fmt, ap);
-	data.dest[data.num_chars] = '\0';
+	if(type & SPECIAL){
+		if(8 == base){
+			*str++ = '0';
+		}
+		else if(16 == base){
+			*str++ = '0';
+			*str++ = digits[33];
+		}
+	}
 
-	return data.num_chars;
-}
-static inline void _putstr(char *s) {
-}
+	if(!(type & LEFT)){
+		while(size-- > 0)	*str++ = c;
+	}
+	while(i < precision--)	*str++ = '0';
+	while(i-- > 0)	*str++ = tmp[i];
+	while(size-- > 0)	*str++ = ' ';
 
-int sprintf(char *out, const char *fmt, ...) {
-	va_list ap;
-	int ret;
-	
-	va_start(ap, fmt);
-	ret = vsprintf(out, fmt, ap);
-	va_end(ap);
-
-	return ret;
+	return str;
 }
 
 int printf(const char *fmt, ...) {
+  //for(size_t i=0;i<strlen(fmt);i++){
+	//	_putc(fmt[i]);
+	//}
 	char buf[128];
-	va_list ap;
-		
-	va_start(ap, fmt);
-	int ret = vsprintf(buf, fmt, ap);
-	va_end(ap);
+	 
+	va_list args;
+	int n;
 
-	int i;
-	for (i = 0; buf[i]!='\0'; i++) _putc(buf[i]);
+	va_start(args, fmt);
+	n = vsprintf(buf, fmt, args);
+	for(size_t i=0;i<128;i++){
+		if(buf[i]=='\0')	break;
+		else							_putc(buf[i]);
+	}
+	va_end(args);
+	return n;
 	/*
-		0x3F8 
-		printf -> _putc(ch) -> putchar(0x3F8, ch) -> outb(addr, ch) -> *addr = ch
-	 */
-	return ret;
+	char buf[128] = {'\0'};
+	va_list Argv;
+	va_start(Argv, fmt);
+	sprintf(buf, fmt, Argv);
+	va_end(Argv);
+	for(size_t i=0;i<64;i++){
+		if(buf[i]=='\0')	break;
+		else							_putc(buf[i]);
+	}
+	//_putc('\n'); no need
+	*/
+	return 0;
 }
-/* snprintf()用于将格式化的数据写入字符串 
- * out: 为要写入的字符串
- * n  : 要写入的字符的最大数据，超过n会被截断
- * fmt: 格式化字符串
- */
-int snprintf(char *out, size_t n, const char *fmt, ...) {
 
+int vsprintf(char *buf, const char *fmt, va_list args) {
+
+	char *str;
+	int field_width;	/*width of output field*/
+
+	for(str=buf;*fmt;fmt++){
+		unsigned long num;
+		int base = 10;
+		int flags = 0;
+		int qualifier = -1;
+		int precision = -1;
+		bool bFmt = true;
+		if(*fmt != '%'){
+			*str++ = *fmt;
+			continue;
+		}
+
+		bFmt = true;
+		while(bFmt){
+			fmt++;/*This also skips first '%'*/
+			switch(*fmt){
+				case '0':	flags |= ZEROPAD;break;
+				case '-':
+				case '+':
+				case ' ':
+				case '#':
+									_putc('$');break;
+				default:	bFmt = false;break;
+			}
+		}
+
+		/*Get field width*/
+		field_width = -1;
+		if(is_digit(*fmt)){
+			field_width = skip_atoi(&fmt);
+		}else if('*'==*fmt){
+			fmt++;
+			field_width = va_arg(args, int);
+			if(field_width<0){
+				field_width = -field_width;
+				flags |= LEFT;
+			}
+		}
+
+		/*Get the precision*/
+		precision = -1;
+		if('.' == *fmt){
+			_putc('$');
+		}
+		/*Get the conversion qualifier*/
+		qualifier = -1;
+		if('h' == *fmt || 'l' == *fmt || 'L' == *fmt){
+			qualifier = *fmt;
+			fmt++;
+		}
+
+		/*Default base*/
+		base = 10;
+		switch(*fmt){
+			case 'c':
+				{
+					if(!(flags & LEFT))	while(--field_width > 0) *str++ = ' ';
+					*str++ = (unsigned char) va_arg(args, int);
+					while(--field_width > 0) *str++ = ' ';
+					continue;
+				}
+			case 's':
+				{
+					int len;
+					char *s = va_arg(args, char *);
+					if(!s) s = "<NULL>";
+					len = strlen(s);
+					if(!(flags & LEFT))	while(len < field_width--) *str++ = ' ';
+					for(int i = 0; i < len; ++i)	*str++ = *s++;
+					while(len < field_width--) *str++ = ' ';
+					continue;
+				}
+			case 'p':
+			case 'n':
+			case 'A':
+			case 'a':
+			case 'o':
+			case 'X':
+				_putc('$');break;
+			case 'x':
+				{
+					base = 16;
+					break;
+				}
+			case 'd':
+			case 'i':
+				{
+					flags |= SIGN;/*no break*/
+				}
+			case 'u':
+				{
+					break;
+				}
+			default:
+				{
+					if(*fmt != '%')	*str++ = '%';
+
+					if(*fmt){
+						*str++ = *fmt;
+					}else{
+						--fmt;
+					}
+					continue;
+				}
+		}/*end of switch(*fmt)*/
+
+		if(qualifier == 'l'){
+			num = va_arg(args, unsigned long);
+		}
+		else if(qualifier == 'h'){
+			if(flags & SIGN)
+				num = va_arg(args, int);
+			else
+				num = va_arg(args, unsigned);
+		}
+		else if(flags & SIGN){
+			num = va_arg(args, int);
+		}
+		else{
+			num = va_arg(args, unsigned long);
+		}
+
+		str = number(str, num, base, field_width, precision, flags);
+	}/* end of for (str = buf; *fmt; fmt++) */
+	*str = '\0';
+	return str - buf;
+}
+
+int sprintf(char *buf, const char *fmt, ...) {
+  //strcpy(out, fmt);
+	va_list args;
+	int n;
+
+	va_start(args, fmt);
+	n = vsprintf(buf, fmt, args);
+	va_end(args);
+
+	return n;
+}
+
+int snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
 }
 

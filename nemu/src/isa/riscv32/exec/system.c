@@ -39,7 +39,7 @@ static inline void SRET(){
    printf("[SRET] t0 = 0x%08x\n", t0);
    cpu.csr.sstatus_32.SIE  = cpu.csr.sstatus_32.SPIE;
    cpu.csr.sstatus_32.SPIE = 1;
-   cpu.csr.sstatus_32.SPP  = 1 ;
+   cpu.csr.sstatus_32.SPP  = 0;
    interpret_rtl_jr(&t0);
 }
 

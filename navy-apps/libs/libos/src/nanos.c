@@ -38,6 +38,7 @@
 #error syscall is not supported
 #endif
 
+/* 系统调用接口 */
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
