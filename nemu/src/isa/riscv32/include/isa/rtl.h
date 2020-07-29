@@ -9,7 +9,8 @@ static inline void rtl_lr(rtlreg_t* dest, int r, int width) {
 }
 
 static inline void rtl_sr(int r, const rtlreg_t *src1, int width) {
-  assert((*src1 !=  0x6d305b1b) && cpu.pc);
+  if(*src1 ==  0x6d305b1b)printf("cpu.pc = %d\n",cpu.pc);
+  assert((*src1 !=  0x6d305b1b));
   if (r != 0) { rtl_mv(&reg_l(r), src1); }
 }
 
