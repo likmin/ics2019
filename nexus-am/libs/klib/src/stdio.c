@@ -112,7 +112,7 @@ int printf(const char *fmt, ...) {
 	//	_putc(fmt[i]);
 	//}
 	char buf[128];
-	 
+	memset(buf, '\0', 128);
 	va_list args;
 	int n;
 
