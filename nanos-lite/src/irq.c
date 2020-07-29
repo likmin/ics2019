@@ -1,9 +1,11 @@
 #include "common.h"
 
+_Context* do_syscall(_Context *c);
 static _Context* do_event(_Event e, _Context* c) {
  // printf("[irq] c.scause = %d, c.sstatus = %d, c.sepc=%d\n", c->scause, c->sstatus, c->sepc);
   switch (e.event) {
-    case _EVENT_YIELD: printf("self int\n"); break;
+    case _EVENT_YIELD   : printf("self int\n"); break;
+    case _EVENT_SYSCALL : do_syscall(c);         break;
     default: panic("Unhandled event ID = %d", e.event);
   }
 
