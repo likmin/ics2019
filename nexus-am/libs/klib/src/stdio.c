@@ -21,6 +21,10 @@ static void _vsprintf_putcf(void *p, char c) {
 	data->dest[data->num_chars ++] = c;
 }
 
+static void _printf_putc(void *p, char c) {  
+	_putc(c);
+}
+
 static void putchw(void *putp, putcf putf, struct param *p) {
 	char ch;
 	char *bf = p->bf;
@@ -74,7 +78,12 @@ void my_format(void *putp, putcf putf, const char *fmt, va_list va) {
 					i2a(va_arg(va, int), &p);
 					putchw(putp, putf, &p);
 					break;
-
+				case 'x' :
+					p.base = 16;
+					p.uc = 0;
+					i2a(va_arg(va, int), &p);
+					putchw(putp, putf, &p);
+					break;
 				case 's':
 					p.bf = va_arg(va, char *);
 					putchw(putp, putf, &p);
@@ -112,16 +121,16 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int printf(const char *fmt, ...) {
-	char buf[128];
 	va_list ap;
-		
 	va_start(ap, fmt);
-	int ret = vsprintf(buf, fmt, ap);
+	my_format(NULL, _printf_putc, fmt, ap);
 	va_end(ap);
 
-	int i;
-	for (i = 0; buf[i]!='\0'; i++) _putc(buf[i]);
-	return ret;
+	/*
+		0x3F8 
+		printf -> _putc(ch) -> putchar(0x3F8, ch) -> outb(addr, ch) -> *addr = ch
+	 */
+	return 0;
 }
 /* snprintf()用于将格式化的数据写入字符串 
  * out: 为要写入的字符串
@@ -133,4 +142,4 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
 }
 
-#endif
+#endi
