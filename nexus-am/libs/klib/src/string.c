@@ -1,7 +1,8 @@
 #include "klib.h"
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
-
+/* dhrystone 原来一直测试过不去，一直死循环，通过一些替换，发现是strcpy的锅
+ */
 size_t strlen(const char *s) {
   size_t i = 0;
   while(s[i] && s[i] != '\0') i++;
@@ -10,25 +11,18 @@ size_t strlen(const char *s) {
 
 char *strcpy(char* dst,const char* src) {
   size_t i;
-  for(i=0;src[i]!='\0';i++) {
+  for(i=0;src[i]!='\0';i++) 
     dst[i]=src[i];
-  }
+  
   dst[i]='\0';
   return dst;
 }
 
-char* strncpy(char* dst, const char* src, size_t n) {
-  size_t srcSize = strlen(src) + 1; // for '\0'
-  char *d = dst;
-  if(n > srcSize) n = srcSize;
-
-  uint32_t i;
-  for (i = 0; i < n; i++) {
-	dst[i] = src[i];
-  }
-
-  dst[i] = '\0';
-  return d;
+char *strncpy(char* dst, const char* src, size_t n) {
+  size_t i;
+  for (i = 0; i < n && src[i]!= '\0'; i++) dst[i] = src[i];
+  for (; i < n; i++) dst[i] = '\0';
+  return dst;
 }
 
 char* strcat(char* dst, const char* src) {
