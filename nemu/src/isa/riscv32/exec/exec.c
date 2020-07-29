@@ -93,7 +93,7 @@ static OpcodeEntry imm_table [8] = {
 };
 
 static make_EHelper(imm) { /* static void exec_imm(vaddr_t *pc) */
-  //decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
+  decinfo.width = imm_table[decinfo.isa.instr.funct3].width;
   idex(pc, &imm_table[decinfo.isa.instr.funct3]);
 }
 
@@ -103,23 +103,10 @@ static OpcodeEntry r_table [8] = {
 };
 
 static make_EHelper(r) { /* static void exec_r(vaddr_t *pc) */
-  //decinfo.width = r_table[decinfo.isa.instr.funct3].width;
+  decinfo.width = r_table[decinfo.isa.instr.funct3].width;
   idex(pc, &r_table[decinfo.isa.instr.funct3]);
 }
 
-/* system_opcode, use to decode the following instruction
- *  funct3  instruction
- *  000      ECALL, EBREAK
- * 
- */
-static OpcodeEntry system_table[8] = {
-  EX(ECALL_EBREAK), EX(CSRRW), EX(CSRRS), EX(CSRRC), EMPTY, EX(CSRRWI), EX(CSRRSI), EX(CSRRCI)
-};
-
-static make_EHelper(system) { /* static void exec_system(vaddr_T *pc) */
-  //decinfo.width = system_table[decinfo.isa.instr.funct3].width;
-  idex(pc, &system_table[decinfo.isa.instr.funct3]);
-}
 /*
  * opcode_table, 译码查找表
  */
@@ -146,10 +133,11 @@ static OpcodeEntry opcode_table [32] = {
   /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(I, imm), IDEX(U, auipc), EMPTY,EMPTY,
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, IDEX(R, r), IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-  /* b11 */ IDEX(B, br), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal), IDEX(I, system), EMPTY, EMPTY, EMPTY,
+  /* b11 */ IDEX(B, br), IDEX(I, jalr), EX(nemu_trap), IDEX(J, jal),/* IDEX(I, system)*/ EMPTY, EMPTY, EMPTY, EMPTY,
 };
 
 void isa_exec(vaddr_t *pc) {
+  assert(*pc !=  0x6d305b1b);
   decinfo.isa.instr.val = instr_fetch(pc, 4);
   //printf("[isa_exec] instr = 0x%08x\n", decinfo.isa.instr.val);
   if(decinfo.isa.instr.opcode1_0 != 0x3) printf("0x%08x\n", *pc);
