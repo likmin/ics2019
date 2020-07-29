@@ -21,7 +21,7 @@ static void _vsprintf_putcf(void *p, char c) {
 	data->dest[data->num_chars ++] = c;
 }
 
-static void _printf_putc(void *p, char c) {
+static void _printf_putc(void *p, char c) {  
 	_putc(c);
 }
 
