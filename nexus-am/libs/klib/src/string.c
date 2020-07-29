@@ -2,6 +2,9 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+/* dhrystone原来一直死循环
+ * 参考：https://github.com/CX-514/ics2019.git
+ */
 size_t strlen(const char *s) {
   size_t i = 0;
   while(s[i] != '\0') i++;
@@ -9,14 +12,14 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char* dst,const char* src) {
-  // size_t dstSize = strlen(dst);
-  // return strncpy(dst, src, dstSize);
-  size_t i;
-  for(i=0;src[i]!='\0';i++) {
-    dst[i]=src[i];
-  }
-  dst[i]='\0';
-  return dst;
+
+  // size_t i;
+  // for(i=0;src[i]!='\0';i++) {
+  //   dst[i]=src[i];
+  // }
+  // dst[i]='\0';
+  // return dst;
+  return strncpy(dst, src, strlen(dst));
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
@@ -35,11 +38,11 @@ char* strcat(char* dst, const char* src) {
   // strcpy (dst + strlen(src), src);
   // return dst;
   char *str=dst;
-  assert(dst!=NULL &&src!=NULL);
+  assert(dst!=NULL && src!=NULL);
   while(*dst!='\0') {
     dst++;
   }
-  while((*dst++=*src++) != '\0');
+  while((*dst++ = *src++) != '\0');
   return str;
 }
 
