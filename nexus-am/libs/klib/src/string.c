@@ -14,7 +14,7 @@ size_t strlen(const char *s) {
 char *strcpy(char* dst,const char* src) {
   
   size_t dstSize = strlen(dst);
-  return strncpy(dst, src, dstSize);
+  return strncpy(dst, src, dstSize + 1);
   // size_t i;
   // for(i=0;src[i]!='\0';i++) 
   //   dst[i]=src[i];
