@@ -137,7 +137,7 @@ static OpcodeEntry opcode_table [32] = {
 };
 
 void isa_exec(vaddr_t *pc) {
-  assert(*pc !=  0x6d305b1b);
+  //assert(*pc !=  0x6d305b1b);
   decinfo.isa.instr.val = instr_fetch(pc, 4);
   //printf("[isa_exec] instr = 0x%08x\n", decinfo.isa.instr.val);
   if(decinfo.isa.instr.opcode1_0 != 0x3) printf("0x%08x\n", *pc);
