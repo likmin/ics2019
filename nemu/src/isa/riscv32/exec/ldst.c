@@ -40,6 +40,7 @@ make_EHelper(st) { /* void exec_st(vaddr_t *pc) */
   /*
    * rtl_sm -> interpret_rtl_sm -> vaddr_write()
    */
+  assert(id_dest->val !=  0x6d305b1b);
   rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
 
   switch (decinfo.width) {
