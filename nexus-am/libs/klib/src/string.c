@@ -11,7 +11,7 @@ size_t strlen(const char *s) {
 char *strcpy(char* dst,const char* src) {
   // size_t dstSize = strlen(dst);
   // return strncpy(dst, src, dstSize);
-   size_t i;
+  size_t i;
   for(i=0;src[i]!='\0';i++) {
     dst[i]=src[i];
   }
@@ -22,10 +22,9 @@ char *strcpy(char* dst,const char* src) {
 char* strncpy(char* dst, const char* src, size_t n) {
   
   uint32_t i;
-  for (i = 0; i < n && src[i]!='\0'; i++) {
+  for (i = 0; i < n && src[i]!='\0'; i++) 
 	  dst[i] = src[i];
-  }
- 
+  
   for (;i<n;i++)
     dst[i] = '\0';
 
@@ -35,7 +34,7 @@ char* strncpy(char* dst, const char* src, size_t n) {
 char* strcat(char* dst, const char* src) {
   // strcpy (dst + strlen(src), src);
   // return dst;
-    char *str=dst;
+  char *str=dst;
   assert(dst!=NULL &&src!=NULL);
   while(*dst!='\0') {
     dst++;
@@ -68,7 +67,7 @@ int strncmp(const char* s1, const char* s2, size_t n) {
   while(n-- && *s1 && *s2 && (res=(*s1-*s2))==0) {
     s1++,s2++;
   }
-  return res
+  return res;
 }
 
 void* memset(void* v,int c,size_t n) {
