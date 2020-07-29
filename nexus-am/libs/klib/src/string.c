@@ -9,8 +9,14 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char* dst,const char* src) {
-  size_t dstSize = strlen(dst);
-  return strncpy(dst, src, dstSize);
+  // size_t dstSize = strlen(dst);
+  // return strncpy(dst, src, dstSize);
+   size_t i;
+  for(i=0;src[i]!='\0';i++) {
+    dst[i]=src[i];
+  }
+  dst[i]='\0';
+  return dst;
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
@@ -27,8 +33,15 @@ char* strncpy(char* dst, const char* src, size_t n) {
 }
 
 char* strcat(char* dst, const char* src) {
-  strcpy (dst + strlen(src), src);
-  return dst;
+  // strcpy (dst + strlen(src), src);
+  // return dst;
+    char *str=dst;
+  assert(dst!=NULL &&src!=NULL);
+  while(*dst!='\0') {
+    dst++;
+  }
+  while((*dst++=*src++) != '\0');
+  return str;
 }
 
 int strcmp(const char* s1, const char* s2) {
@@ -51,7 +64,7 @@ int strncmp(const char* s1, const char* s2, size_t n) {
   // }
 
   // return D_value;
-   int res=0;
+  int res=0;
   while(n-- && *s1 && *s2 && (res=(*s1-*s2))==0) {
     s1++,s2++;
   }
