@@ -10,7 +10,7 @@ _Context* __am_irq_handle(_Context *c) {
     _Event ev = {0};
     /* 1.记录上下文切换的原因 */
     switch (c->cause) {
-      case -1: ev.event = _EVENT_YIELD; break;
+      case 9: ev.event = _EVENT_YIELD; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
