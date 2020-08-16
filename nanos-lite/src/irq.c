@@ -2,7 +2,7 @@
 
 _Context* do_syscall(_Context *c);
 static _Context* do_event(_Event e, _Context* c) {
-  printf("[irq] c.scause = %d, c.sstatus = %d, c.sepc=%d, e.event = %d\n", c->cause, c->status, c->epc, e.event);
+  //printf("[irq] c.scause = %d, c.sstatus = %d, c.sepc=%d, e.event = %d\n", c->cause, c->status, c->epc, e.event);
   switch (e.event) {
     case _EVENT_YIELD   : printf("self int\n");  break;
     case _EVENT_SYSCALL : do_syscall(c);         break;
