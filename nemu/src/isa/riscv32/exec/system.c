@@ -55,7 +55,7 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
           case 0b000000000000: /* ECALL */ 
           
             raise_intr(9, cpu.pc); 
-            printf("cpu.pc = %8x, decinfo.seq_pc = %8x\n", cpu.pc, decinfo.seq_pc);
+            //printf("cpu.pc = %8x, decinfo.seq_pc = %8x\n", cpu.pc, decinfo.seq_pc);
             print_asm_template1(ecall); 
             break;
           case 0b000000000001: /* EBREAK*/ TODO(); break;
