@@ -79,13 +79,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(ret == PHOFF);
 
   volatile uint32_t entry = elf.e_entry;
-  printf("entry = %x\n", entry);
-  printf("phoff = %x\n", elf.e_phoff);
-  printf("phnum = %x\n", elf.e_phnum);
+  // printf("entry = %x\n", entry);
+  // printf("phoff = %x\n", elf.e_phoff);
+  // printf("phnum = %x\n", elf.e_phnum);
 
   for(int i = 0; i < elf.e_phnum; i++){
     ramdisk_read(&ph, elf.e_phoff * (i + 1),sizeof(Elf_Phdr)); 
-    printf("offset = %x,  vaddr = %x, paddr = %x, filesz = %d, memsz = %d\n",ph.p_offset, ph.p_vaddr, ph.p_paddr, ph.p_filesz, ph.p_memsz);
+    //printf("offset = %x,  vaddr = %x, paddr = %x, filesz = %d, memsz = %d\n",ph.p_offset, ph.p_vaddr, ph.p_paddr, ph.p_filesz, ph.p_memsz);
     if (ph.p_type != PT_LOAD) continue;
     ramdisk_read((void *)ph.p_vaddr, ph.p_offset, ph.p_filesz);
     memset((void *)(ph.p_vaddr + ph.p_filesz), 0, ph.p_memsz - ph.p_filesz);
