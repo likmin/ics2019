@@ -36,14 +36,14 @@ int main() {
 #ifdef HAS_CTE
   /* nanos-lite/src/main.c _yield()
    *              |
-   * nexus-am/am/src/riscv32/nemu/cte.c _yield() // 执行ecall
+   * nexus-am/am/src/riscv32/nemu/cte.c _yield() // 执行ecall指令
    *              |
-   *        经过一系列解码
+   *        nemu中经过一系列解码
    *              |
    * nemu/src/isa/riscv32/exec/system.c make_EHelper(ECALL_EBREAK) 
    *      raise_intr(9, cpu.pc)
    *              |
-   * nemu/src/isa/riscv32/intr.c  void raise_intr(uint32_t NO, vaddr_t epc                
+   * nemu/src/isa/riscv32/intr.c  void raise_intr(uint32_t NO, vaddr_t epc)                
    *        1. save the pc to epc
    *        2. set the exception code to scause
    *        3. get the exception entry address from stvec register
@@ -68,5 +68,5 @@ int main() {
 #endif
   
   
-  //panic("Should not reach here");
+  panic("Should not reach here");
 }
