@@ -65,6 +65,7 @@ int main() {
    *                 继续执行下一条指令
    */
   _yield();
+  printf("main\n");
 #endif
   
   
