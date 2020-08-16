@@ -4,9 +4,9 @@
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
-
+  printf("do_syscall\n");
   switch (a[0]) {
-    case SYS_yield: printf("do_syscall\n"); _yield();c->GPRx = 0; break;
+    case SYS_yield:  _yield();c->GPRx = 0; break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
