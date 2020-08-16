@@ -5,13 +5,17 @@ static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
+
   if (user_handler) {
     _Event ev = {0};
+    /* 1.记录上下文切换的原因 */
     switch (c->cause) {
-      
+      case 9 : ev.event = _EVENT_YIELD; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
+    /* 2.处理上下文，将`上下文切换的原因`以及`上下文内容`传递给上下文处理程序
+     */
     next = user_handler(ev, c);
     if (next == NULL) {
       next = c;
