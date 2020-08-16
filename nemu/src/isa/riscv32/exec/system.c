@@ -54,7 +54,8 @@ make_EHelper(ECALL_EBREAK) { /* void exec_ECALL_EBREAK */
         switch (decinfo.isa.instr.simm11_0) {
           case 0b000000000000: /* ECALL */ 
           
-          raise_intr(reg_l(17), cpu.pc + 4); print_asm_template1(ecall); 
+            raise_intr(reg_l(17), cpu.pc + 4); 
+            print_asm_template1(ecall); 
             break;
           case 0b000000000001: /* EBREAK*/ TODO(); break;
           case 0b000100000010: /* SRET  */ SRET(); print_asm_template3(sret); break;
