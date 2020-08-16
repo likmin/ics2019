@@ -35,11 +35,11 @@ static inline void SRET(){
    * 4.CSRs[sstatus].SPIE = 1
    * 5.CSRs[sstatus].SPP = 0
    */
-   t0 = csr_read(SEPC);
+   t0 = csr_read(SEPC) + 4;
    printf("[SRET] t0 = 0x%08x\n", t0);
-   cpu.csr.sstatus_32.SIE  = cpu.csr.sstatus_32.SPIE;
-   cpu.csr.sstatus_32.SPIE = 1;
-   cpu.csr.sstatus_32.SPP  = 0;
+  //  cpu.csr.sstatus_32.SIE  = cpu.csr.sstatus_32.SPIE;
+  //  cpu.csr.sstatus_32.SPIE = 1;
+  //  cpu.csr.sstatus_32.SPP  = 0;
    interpret_rtl_jr(&t0);
 }
 
