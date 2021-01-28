@@ -5,9 +5,14 @@ This project is the programming assignment of the class ICS(Introduction to Comp
 For the guide of this programming assignment,
 refer to http://nju-ics.gitbooks.io/ics2019-programming-assignment/content/
 
+To install the tools, run
+```bash
+bash instools.sh
+```
+
 To initialize, run
 ```bash
-bash init.sh
+bash reinit.sh
 ```
 
 The following subprojects/components are included. Some of them are not fully implemented.
